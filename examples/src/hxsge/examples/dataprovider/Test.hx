@@ -11,6 +11,7 @@ class Test {
 
 	public static function main() {
 		Log.addLogger(new TraceLogger());
+		
 		Log.log("begin: data provider example.");
 		DataProviderManager.add(new BaseDataProviderProxy());
 		Log.log("end: data provider example.");
