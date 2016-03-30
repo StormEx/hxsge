@@ -17,11 +17,7 @@ class Error implements IError {
 		this.info = info;
 	}
 
-	inline function checkError():Bool {
-		return _isError;
-	}
-
 	inline function get_isError():Bool {
-		return checkError();
+		return _isError;
 	}
 }

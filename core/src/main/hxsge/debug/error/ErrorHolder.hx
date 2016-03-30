@@ -17,9 +17,13 @@ class ErrorHolder implements IError {
 	}
 
 	inline function checkError():Bool {
+		var error:Bool = false;
+
 		for(e in errors) {
 			if(e.isError) {
-				return true;
+				error = true;
+
+				break;
 			}
 		}
 
