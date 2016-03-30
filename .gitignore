@@ -1,6 +1,7 @@
 # Builds
 bin/
 export*/
+build/
 
 # IntelliJ IDEA
 .idea/
