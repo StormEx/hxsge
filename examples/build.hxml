@@ -1,5 +1,9 @@
 -main hxsge.examples.dataprovider.Test
 
+-lib msignal
+
 -cp src
+-cp ../dataprovider/src/main
+-cp ../core/src/main
 
 -debug
