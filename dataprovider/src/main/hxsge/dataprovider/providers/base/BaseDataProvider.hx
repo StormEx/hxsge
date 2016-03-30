@@ -1,5 +1,6 @@
 package hxsge.dataprovider.providers.base;
 
+import hxsge.log.Log;
 import hxsge.debug.error.ErrorHolder;
 import msignal.Signal;
 
@@ -11,7 +12,7 @@ class BaseDataProvider implements IDataProvider {
 	public var finished(default, null):Signal1<IDataProvider>;
 
 	public function new(info:DataProviderInfo) {
-		trace("base data provider created");
+		Log.log("base data provider created");
 	}
 
 	public function check(info:DataProviderInfo):Bool {
