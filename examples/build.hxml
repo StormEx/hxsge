@@ -1,0 +1,5 @@
+-main hxsge.examples.dataprovider.Test
+
+-cp src
+
+-debug
