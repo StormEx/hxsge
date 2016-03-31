@@ -1,5 +1,7 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.core.batch.IBatchable;
+import hxsge.core.batch.Batch;
 import hxsge.dataprovider.providers.base.BaseDataProvider;
 import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.core.memory.Memory;
@@ -9,6 +11,30 @@ import hxsge.core.log.TraceLogger;
 import hxsge.core.log.Log;
 import hxsge.dataprovider.providers.base.BaseDataProviderProxy;
 import hxsge.dataprovider.DataProviderManager;
+import msignal.Signal;
+
+class BB implements IBatchable {
+	public var isSuccess(get, null):Bool;
+
+	public var finished(default, null):Signal1<IBatchable>;
+
+	public function new() {
+		finished = new Signal1();
+	}
+
+	public function dispose() {
+
+	}
+
+	public function handle() {
+		Log.log("bb handle");
+		finished.dispatch(this);
+	}
+
+	function get_isSuccess():Bool {
+		return true;
+	}
+}
 
 class Test {
 	public function new() {
@@ -33,6 +59,12 @@ class Test {
 		var b:String = "boo";
 		var c:DataProviderInfo = new DataProviderInfo("");
 		myMacro("foo", a, b, c);
+
+		Log.log("batch test");
+		var batch:Batch<BB> = new Batch();
+		batch.add(new BB());
+		batch.add(new BB());
+		batch.handle();
 	}
 
 	macro static function myMacro(e1:Expr, extra:Array<Expr>) {
@@ -53,4 +85,12 @@ class Test {
 	static function call(a:Int, b:String, c:DataProviderInfo) {
 		Log.log("call");
 	}
+
+//	macro static function generateClass<T>(name:String) {
+//		var c = macro class BatchableExtends extends T {
+//			public function new() {
+//
+//			}
+//		}
+//	}
 }
