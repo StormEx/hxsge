@@ -2,6 +2,7 @@
 bin/
 export*/
 build/
+dump/
 
 # IntelliJ IDEA
 .idea/
