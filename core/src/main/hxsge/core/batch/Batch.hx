@@ -1,5 +1,6 @@
 package hxsge.core.batch;
 
+import hxsge.core.debug.Debug;
 import hxsge.core.memory.Memory;
 import msignal.Signal;
 
@@ -39,13 +40,13 @@ class Batch<T:IBatchable> implements IDisposable {
 	}
 
 	public function add(item:T) {
-//		Debug.assert(item != null);
+		Debug.assert(item != null);
 
 		items.push(item);
 	}
 
 	public function handle() {
-//		Debug.assert(items != null);
+		Debug.assert(items != null);
 
 		if(isCompleted || isLoading) {
 			finished.dispatch(this);
