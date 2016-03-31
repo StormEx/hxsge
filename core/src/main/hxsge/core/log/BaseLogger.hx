@@ -1,4 +1,4 @@
-package hxsge.log;
+package hxsge.core.log;
 
 class BaseLogger implements ILogger {
 	var _filter:Int = LogLevelType.ALL;
@@ -17,6 +17,6 @@ class BaseLogger implements ILogger {
 	}
 
 	function handleLog(info:String, level:LogLevelType) {
-
+		throw("need to override");
 	}
 }

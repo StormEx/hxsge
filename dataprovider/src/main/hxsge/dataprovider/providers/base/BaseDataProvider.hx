@@ -1,7 +1,7 @@
 package hxsge.dataprovider.providers.base;
 
-import hxsge.log.Log;
-import hxsge.debug.error.ErrorHolder;
+import hxsge.core.log.Log;
+import hxsge.core.debug.error.ErrorHolder;
 import msignal.Signal;
 
 class BaseDataProvider implements IDataProvider {

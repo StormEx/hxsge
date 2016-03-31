@@ -1,4 +1,4 @@
-package hxsge.log;
+package hxsge.core.log;
 
 class Log {
 	static var _logs:Array<ILogger> = [];

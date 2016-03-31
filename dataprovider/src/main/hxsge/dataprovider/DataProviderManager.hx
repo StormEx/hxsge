@@ -1,6 +1,6 @@
 package hxsge.dataprovider;
 
-import hxsge.log.Log;
+import hxsge.core.log.Log;
 import hxsge.dataprovider.providers.base.IDataProviderProxy;
 import hxsge.dataprovider.providers.base.IDataProvider;
 
@@ -20,7 +20,7 @@ class DataProviderManager {
 		Log.log("registered proxy for provider: " + proxy.type);
 	}
 
-	public function new() {
+	function new() {
 	}
 
 	public function get(info:DataProviderInfo):IDataProvider {

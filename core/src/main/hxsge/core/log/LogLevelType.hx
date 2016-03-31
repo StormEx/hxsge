@@ -1,4 +1,4 @@
-package hxsge.log;
+package hxsge.core.log;
 
 @:enum abstract LogLevelType(Int) from Int to Int {
 	var ASSERT = 1;

@@ -1,6 +1,6 @@
 package hxsge.dataprovider.providers.base;
 
-import hxsge.debug.error.ErrorHolder;
+import hxsge.core.debug.error.ErrorHolder;
 
 interface IDataProvider {
 	public var info(default, null):DataProviderInfo;

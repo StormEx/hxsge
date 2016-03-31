@@ -1,7 +1,7 @@
 package hxsge.examples.dataprovider;
 
-import hxsge.log.TraceLogger;
-import hxsge.log.Log;
+import hxsge.core.log.TraceLogger;
+import hxsge.core.log.Log;
 import hxsge.dataprovider.providers.base.BaseDataProviderProxy;
 import hxsge.dataprovider.DataProviderManager;
 

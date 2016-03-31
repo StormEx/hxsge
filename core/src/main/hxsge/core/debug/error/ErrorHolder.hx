@@ -1,4 +1,4 @@
-package hxsge.debug.error;
+package hxsge.core.debug.error;
 
 class ErrorHolder implements IError {
 	public var errors(default, null):Array<Error> = [];

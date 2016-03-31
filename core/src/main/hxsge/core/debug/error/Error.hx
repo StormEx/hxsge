@@ -1,4 +1,4 @@
-package hxsge.debug.error;
+package hxsge.core.debug.error;
 
 class Error implements IError {
 	public var info(default, null):String;
