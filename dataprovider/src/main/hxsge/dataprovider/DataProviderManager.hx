@@ -20,10 +20,7 @@ class DataProviderManager {
 		Log.log("registered proxy for provider: " + proxy.type);
 	}
 
-	function new() {
-	}
-
-	public function get(info:DataProviderInfo):IDataProvider {
+	public static function get(info:DataProviderInfo):IDataProvider {
 		for(p in _proxies) {
 			if(p.check(info)) {
 				return p.create(info);
@@ -31,5 +28,8 @@ class DataProviderManager {
 		}
 
 		return null;
+	}
+
+	function new() {
 	}
 }

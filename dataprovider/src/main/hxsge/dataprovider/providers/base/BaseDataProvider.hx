@@ -12,7 +12,12 @@ class BaseDataProvider implements IDataProvider {
 	public var finished(default, null):Signal1<IDataProvider>;
 
 	public function new(info:DataProviderInfo) {
+		finished = new Signal1();
 		Log.log("base data provider created");
+	}
+
+	public function dispose() {
+		finished = null;
 	}
 
 	public function check(info:DataProviderInfo):Bool {
