@@ -1,6 +1,6 @@
 package hxsge.dataprovider.providers.base;
 
-import hxsge.dataprovider.data.DataProviderInfo;
+import hxsge.dataprovider.data.IDataProviderInfo;
 import haxe.io.Path;
 
 class BaseDataProviderProxy implements IDataProviderProxy {
@@ -10,13 +10,13 @@ class BaseDataProviderProxy implements IDataProviderProxy {
 		this.type = type;
 	}
 
-	public function check(info:DataProviderInfo):Bool {
+	public function check(info:IDataProviderInfo):Bool {
 		var ext:String = Path.extension(info.url);
 
 		return ext == type;
 	}
 
-	public function create(info:DataProviderInfo):IDataProvider {
+	public function create(info:IDataProviderInfo):IDataProvider {
 		return new BaseDataProvider(info);
 	}
 }

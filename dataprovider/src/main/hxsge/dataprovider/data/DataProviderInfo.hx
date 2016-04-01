@@ -4,7 +4,7 @@ import haxe.io.Path;
 
 using hxsge.core.utils.StringTools;
 
-class DataProviderInfo {
+class DataProviderInfo implements IDataProviderInfo {
 	public var url(default, null):String;
 	public var data(default, null):Dynamic;
 
