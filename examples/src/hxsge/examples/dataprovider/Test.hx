@@ -1,5 +1,6 @@
 package hxsge.examples.dataprovider;
 
+import haxe.macro.Compiler;
 import hxsge.core.macro.Macro;
 import hxsge.core.batch.IBatchable;
 import hxsge.core.batch.Batch;
@@ -14,6 +15,8 @@ import hxsge.core.log.Log;
 import hxsge.dataprovider.providers.base.BaseDataProviderProxy;
 import hxsge.dataprovider.DataProviderManager;
 import msignal.Signal;
+
+using hxsge.core.utils.ArrayTools;
 
 class BB implements IBatchable {
 	public var isSuccess(get, null):Bool;
@@ -69,10 +72,17 @@ class Test {
 		batch.handle();
 
 		Log.log("error test");
-		var err1:hxsge.core.debug.error.Error = new hxsge.core.debug.error.Error("some error", Macro.fileInfo());
+		var err1:hxsge.core.debug.error.Error = hxsge.core.debug.error.Error.create("some error");
 		var err2:hxsge.core.debug.error.Error = hxsge.core.debug.error.Error.create("some error");
 		Log.log(err1.info);
 		Log.log(err2.info);
+
+		Log.log("test dispose");
+		var arr:Array<BB> = [];
+		arr.push(new BB());
+		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));
+		Memory.disposeArray(arr);
+		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));
 	}
 
 	macro static function myMacro(e1:Expr, extra:Array<Expr>) {

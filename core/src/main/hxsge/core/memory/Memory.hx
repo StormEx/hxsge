@@ -14,4 +14,16 @@ class Memory {
 			}
 		};
 	}
+
+	macro public static function disposeArray(val:Expr) {
+		return macro {
+			if($val != null) {
+				for(i in $val) {
+					i.dispose();
+					i = null;
+				}
+				$val = null;
+			}
+		};
+	}
 }

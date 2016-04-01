@@ -7,8 +7,8 @@ class Macro {
 	function new() {
 	}
 
-	macro static public function fileInfo():Expr {
-		var info:String = Std.string(Context.currentPos());
+	macro static public function fileInfo(e:Expr = null):Expr {
+		var info:String = Std.string(e.pos);
 		var beg:Int = info.indexOf("(") + 1;
 		info = "[" + info.substr(beg, info.indexOf(" ") - beg - 1) + "]";
 
