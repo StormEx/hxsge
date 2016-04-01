@@ -10,7 +10,7 @@ class Batch<T:IBatchable> implements IDisposable {
 	public var isLoading(default, null):Bool = false;
 	public var isCompleted(get, never):Bool;
 
-	public var itemFinished(default, null):Signal1<IBatchable>;
+	public var itemFinished(default, null):Signal1<IProccessable>;
 	public var finished(default, null):Signal1<Batch<T>>;
 
 	var _current:Int;
@@ -67,7 +67,7 @@ class Batch<T:IBatchable> implements IDisposable {
 		}
 	}
 
-	function onItemHandled(item:IBatchable) {
+	function onItemHandled(item:IProccessable) {
 		itemFinished.dispatch(item);
 		_current++;
 

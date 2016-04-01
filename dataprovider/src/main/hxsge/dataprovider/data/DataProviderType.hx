@@ -1,4 +1,4 @@
-package hxsge.dataprovider;
+package hxsge.dataprovider.data;
 
 class DataProviderType {
 	public var name(default, null):String = "UNKNOWN";

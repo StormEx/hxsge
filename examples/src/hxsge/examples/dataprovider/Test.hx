@@ -1,5 +1,6 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.core.IProccessable;
 import haxe.macro.Compiler;
 import hxsge.core.macro.Macro;
 import hxsge.core.batch.IBatchable;
@@ -8,7 +9,7 @@ import hxsge.core.debug.error.Error;
 import hxsge.dataprovider.providers.base.BaseDataProvider;
 import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.core.memory.Memory;
-import hxsge.dataprovider.DataProviderInfo;
+import hxsge.dataprovider.data.DataProviderInfo;
 import haxe.macro.Expr;
 import hxsge.core.log.TraceLogger;
 import hxsge.core.log.Log;
@@ -21,7 +22,7 @@ using hxsge.core.utils.ArrayTools;
 class BB implements IBatchable {
 	public var isSuccess(get, null):Bool;
 
-	public var finished(default, null):Signal1<IBatchable>;
+	public var finished(default, null):Signal1<IProccessable>;
 
 	public function new() {
 		finished = new Signal1();

@@ -1,5 +1,6 @@
 package hxsge.dataprovider.providers.base;
 
+import hxsge.dataprovider.data.DataProviderInfo;
 interface IDataProviderProxy {
 	public var type(default, null):String;
 

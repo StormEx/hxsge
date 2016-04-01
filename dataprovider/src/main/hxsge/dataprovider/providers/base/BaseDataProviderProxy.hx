@@ -1,5 +1,6 @@
 package hxsge.dataprovider.providers.base;
 
+import hxsge.dataprovider.data.DataProviderInfo;
 import haxe.io.Path;
 
 class BaseDataProviderProxy implements IDataProviderProxy {

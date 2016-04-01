@@ -1,5 +1,6 @@
 package hxsge.dataprovider;
 
+import hxsge.dataprovider.data.DataProviderInfo;
 import hxsge.core.log.Log;
 import hxsge.dataprovider.providers.base.IDataProviderProxy;
 import hxsge.dataprovider.providers.base.IDataProvider;
