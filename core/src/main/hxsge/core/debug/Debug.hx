@@ -4,9 +4,13 @@ class Debug {
 	function new() {
 	}
 
+	public static function error(message) {
+		throw message;
+	}
+
 	public static function assert(condition:Bool, message:String = "assert: condition failed") {
 		if(!condition) {
-			throw message;
+			error(message);
 		}
 	}
 }

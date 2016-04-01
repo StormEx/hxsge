@@ -11,7 +11,7 @@ class Error implements IError {
 
 	macro static public function create(e:Expr):Expr {
 		return macro {
-			@:privateAccess new hxsge.core.debug.error.Error($e, Macro.fileInfo($e));
+			@:privateAccess new hxsge.core.debug.error.Error($e, hxsge.core.macro.Macro.fileInfo($e));
 		}
 	}
 

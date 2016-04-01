@@ -1,10 +1,6 @@
 package hxsge.examples.dataprovider;
 
-import hxsge.core.IProccessable;
-import haxe.macro.Compiler;
-import hxsge.core.macro.Macro;
-import hxsge.core.batch.IBatchable;
-import hxsge.core.batch.Batch;
+import hxsge.dataprovider.providers.base.ProviderBatch;
 import hxsge.core.debug.error.Error;
 import hxsge.dataprovider.providers.base.BaseDataProvider;
 import hxsge.dataprovider.providers.base.IDataProvider;
@@ -18,29 +14,6 @@ import hxsge.dataprovider.DataProviderManager;
 import msignal.Signal;
 
 using hxsge.core.utils.ArrayTools;
-
-class BB implements IBatchable {
-	public var isSuccess(get, null):Bool;
-
-	public var finished(default, null):Signal1<IProccessable>;
-
-	public function new() {
-		finished = new Signal1();
-	}
-
-	public function dispose() {
-
-	}
-
-	public function handle() {
-		Log.log("bb handle");
-		finished.dispatch(this);
-	}
-
-	function get_isSuccess():Bool {
-		return true;
-	}
-}
 
 class Test {
 	public function new() {
@@ -67,9 +40,9 @@ class Test {
 		myMacro("foo", a, b, c);
 
 		Log.log("batch test");
-		var batch:Batch<BB> = new Batch();
-		batch.add(new BB());
-		batch.add(new BB());
+		var batch:ProviderBatch = new ProviderBatch();
+		batch.add(new BaseDataProvider(null));
+		batch.add(new BaseDataProvider(null));
 		batch.handle();
 
 		Log.log("error test");
@@ -79,8 +52,8 @@ class Test {
 		Log.log(err2.info);
 
 		Log.log("test dispose");
-		var arr:Array<BB> = [];
-		arr.push(new BB());
+		var arr:Array<BaseDataProvider> = [];
+		arr.push(new BaseDataProvider(null));
 		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));
 		Memory.disposeArray(arr);
 		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));

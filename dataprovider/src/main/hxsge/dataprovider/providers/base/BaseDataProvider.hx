@@ -1,7 +1,5 @@
 package hxsge.dataprovider.providers.base;
 
-import hxsge.core.IProccessable;
-import hxsge.core.batch.IBatchable;
 import hxsge.dataprovider.data.DataProviderInfo;
 import hxsge.core.debug.error.ErrorHolder;
 import msignal.Signal;
@@ -11,7 +9,7 @@ class BaseDataProvider implements IDataProvider {
 	public var errors(default, null):ErrorHolder;
 	public var isSuccess(get, null):Bool;
 
-	public var finished(default, null):Signal1<IProccessable>;
+	public var finished(default, null):Signal1<IDataProvider>;
 	public var dataNeeded(default, null):Signal2<IDataProvider, DataProviderInfo>;
 
 	public function new(info:DataProviderInfo) {
@@ -30,7 +28,7 @@ class BaseDataProvider implements IDataProvider {
 		}
 	}
 
-	public function handle() {
+	public function load() {
 		finished.dispatch(this);
 	}
 
