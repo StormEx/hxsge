@@ -17,7 +17,10 @@ class BaseDataProvider implements IDataProvider {
 	}
 
 	public function dispose() {
-		finished = null;
+		if(finished != null) {
+			finished.removeAll();
+			finished = null;
+		}
 	}
 
 	public function check(info:DataProviderInfo):Bool {

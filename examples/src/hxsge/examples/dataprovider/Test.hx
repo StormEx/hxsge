@@ -1,7 +1,9 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.core.macro.Macro;
 import hxsge.core.batch.IBatchable;
 import hxsge.core.batch.Batch;
+import hxsge.core.debug.error.Error;
 import hxsge.dataprovider.providers.base.BaseDataProvider;
 import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.core.memory.Memory;
@@ -65,6 +67,12 @@ class Test {
 		batch.add(new BB());
 		batch.add(new BB());
 		batch.handle();
+
+		Log.log("error test");
+		var err1:hxsge.core.debug.error.Error = new hxsge.core.debug.error.Error("some error", Macro.fileInfo());
+		var err2:hxsge.core.debug.error.Error = hxsge.core.debug.error.Error.create("some error");
+		Log.log(err1.info);
+		Log.log(err2.info);
 	}
 
 	macro static function myMacro(e1:Expr, extra:Array<Expr>) {
