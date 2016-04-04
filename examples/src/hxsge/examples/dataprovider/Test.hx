@@ -1,5 +1,7 @@
 package hxsge.examples.dataprovider;
 
+import haxe.io.Bytes;
+import hxsge.loaders.base.ILoader;
 import hxsge.core.macro.Macro;
 import hxsge.loaders.data.DataLoader;
 import hxsge.dataprovider.providers.base.ProviderBatch;
@@ -63,6 +65,20 @@ class Test {
 		Log.log("test loader");
 		Macro.defines();
 		var loader:DataLoader = new DataLoader("https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/paytable_1000.zip");
+		loader.finished.addOnce(onLoaded);
+		loader.load();
+	}
+
+	static function onLoaded(l:ILoader) {
+		if(l.isSuccess) {
+			var b:Bytes = l.getBytes();
+			if(b != null) {
+				Log.log("Info loaded successfuly: " + b.length);
+			}
+		}
+		else {
+			Log.log("Can't load data...");
+		}
 	}
 
 	macro static function myMacro(e1:Expr, extra:Array<Expr>) {

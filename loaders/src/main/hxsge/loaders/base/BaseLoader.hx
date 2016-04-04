@@ -1,5 +1,7 @@
 package hxsge.loaders.base;
 
+import haxe.io.Bytes;
+import hxsge.core.log.Log;
 import hxsge.core.debug.error.Error;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.core.debug.Debug;
@@ -61,8 +63,15 @@ class BaseLoader implements ILoader {
 		if(isSuccess && _content != null && Std.is(_content, type)) {
 			t = cast _content;
 		}
+		else {
+			Log.log("Can't convert to type.");
+		}
 
 		return t;
+	}
+
+	public function getBytes():Bytes {
+		return Bytes.ofData(_content);
 	}
 
 	inline function get_progress():Float {
@@ -80,6 +89,7 @@ class BaseLoader implements ILoader {
 	}
 
 	function performFail(message:String) {
+		isSuccess = false;
 		errors.addError(Error.create(message));
 
 		cancel();
@@ -88,6 +98,7 @@ class BaseLoader implements ILoader {
 	function performComplete() {
 		cleanup();
 
+		isSuccess = true;
 		if(finished != null) {
 			finished.dispatch(this);
 		}
