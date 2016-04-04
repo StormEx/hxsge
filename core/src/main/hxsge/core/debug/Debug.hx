@@ -4,7 +4,7 @@ class Debug {
 	function new() {
 	}
 
-	public static function error(message) {
+	public static function error(message:String) {
 		throw message;
 	}
 

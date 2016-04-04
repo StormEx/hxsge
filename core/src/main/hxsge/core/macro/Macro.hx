@@ -7,6 +7,13 @@ class Macro {
 	function new() {
 	}
 
+	macro static public function defines():Expr {
+		trace(Context.getDefines());
+		return macro {
+			null;
+		};
+	}
+
 	macro static public function fileInfo(e:Expr = null):Expr {
 		var info:String = Std.string(e.pos);
 		var beg:Int = info.indexOf("(") + 1;
