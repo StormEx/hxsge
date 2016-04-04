@@ -1,5 +1,7 @@
 package hxsge.loaders.data;
 
 #if js
-	typedef JsDataLoader = FlashDataLoader;
+import hxsge.loaders.base.BaseLoader;
+
+typedef JsDataLoader = BaseLoader;
 #end

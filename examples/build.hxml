@@ -4,6 +4,7 @@
 
 -cp src
 -cp ../dataprovider/src/main
+-cp ../loaders/src/main
 -cp ../core/src/main
 
 -debug

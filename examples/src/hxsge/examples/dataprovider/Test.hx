@@ -1,7 +1,7 @@
 package hxsge.examples.dataprovider;
 
 import hxsge.core.macro.Macro;
-//import hxsge.loaders.data.DataLoader;
+import hxsge.loaders.data.DataLoader;
 import hxsge.dataprovider.providers.base.ProviderBatch;
 import hxsge.core.debug.error.Error;
 import hxsge.dataprovider.providers.base.BaseDataProvider;
@@ -61,8 +61,8 @@ class Test {
 		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));
 
 		Log.log("test loader");
-		Log.log(Macro.defines());
-//		var loader:DataLoader = new DataLoader("https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/paytable_1000.zip");
+		Macro.defines();
+		var loader:DataLoader = new DataLoader("https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/paytable_1000.zip");
 	}
 
 	macro static function myMacro(e1:Expr, extra:Array<Expr>) {

@@ -3,6 +3,7 @@ package hxsge.loaders.base;
 import hxsge.core.debug.error.Error;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.core.debug.Debug;
+import msignal.Signal;
 
 using hxsge.core.utils.StringTools;
 
@@ -57,8 +58,8 @@ class BaseLoader implements ILoader {
 	public function getContent<T>(type:Class<T>):T {
 		var t:T = null;
 
-		if(isSuccess && _content != null && Std.is(type)) {
-			t = Std.instance(_content, type);
+		if(isSuccess && _content != null && Std.is(_content, type)) {
+			t = cast _content;
 		}
 
 		return t;
@@ -88,7 +89,7 @@ class BaseLoader implements ILoader {
 		cleanup();
 
 		if(finished != null) {
-			finished.emit(this);
+			finished.dispatch(this);
 		}
 	}
 
