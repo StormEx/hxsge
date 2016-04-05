@@ -28,6 +28,16 @@ class ErrorHolder implements IError {
 		errors.push(error);
 	}
 
+	inline public function toString():String {
+		var res:String = "";
+
+		for(err in errors) {
+			res += err.info + "\n";
+		}
+
+		return res;
+	}
+
 	inline function checkError():Bool {
 		return errors.length > 0;
 	}

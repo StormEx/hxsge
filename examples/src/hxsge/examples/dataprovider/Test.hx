@@ -82,7 +82,7 @@ class Test {
 			}
 		}
 		else {
-			Log.log("Can't load data: " + l.errors.errors[0].info);
+			Log.log("Can't load data: " + l.errors.toString());
 		}
 	}
 
