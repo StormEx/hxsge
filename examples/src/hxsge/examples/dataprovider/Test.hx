@@ -1,5 +1,7 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.loaders.base.LoaderStateType;
+import hxsge.loaders.data.NodeJsDataLoader;
 import haxe.io.BytesData;
 import haxe.io.Bytes;
 import haxe.io.Bytes;
@@ -20,6 +22,7 @@ import hxsge.dataprovider.DataProviderManager;
 import msignal.Signal;
 
 using hxsge.core.utils.ArrayTools;
+using hxsge.loaders.utils.LoaderTools;
 
 class Test {
 	public function new() {
@@ -43,7 +46,7 @@ class Test {
 		var a:Int = 0;
 		var b:String = "boo";
 		var c:DataProviderInfo = new DataProviderInfo("");
-		myMacro("foo", a, b, c);
+//		myMacro("foo", a, b, c);
 
 		Log.log("batch test");
 		var batch:ProviderBatch = new ProviderBatch();
@@ -72,14 +75,14 @@ class Test {
 	}
 
 	static function onLoaded(l:ILoader) {
-		if(l.isSuccess) {
+		if(l.isSuccess()) {
 			var b:Bytes = Bytes.ofData(l.content);
 			if(b != null) {
 				Log.log("Info loaded successfuly: " + b.length);
 			}
 		}
 		else {
-			Log.log("Can't load data...");
+			Log.log("Can't load data: " + l.errors.errors[0].info);
 		}
 	}
 

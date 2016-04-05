@@ -1,11 +1,14 @@
 package hxsge.loaders.data;
 
-#if hxnode
+#if hxnodejs
+import js.html.Uint8Array;
 import hxsge.loaders.base.BaseLoader;
 
 import js.node.Buffer;
 import js.node.Fs;
 import js.Error;
+
+using hxsge.loaders.utils.LoaderTools;
 
 class NodeJsDataLoader extends BaseLoader {
 	public function new(url:String) {
@@ -16,23 +19,23 @@ class NodeJsDataLoader extends BaseLoader {
 		try {
 			Fs.readFile(url, onFileReaded);
 		}
-		catch(e) {
+		catch(e:Dynamic) {
 			performFail("Can't load data...");
 		}
 	}
 
-	function onFileReaded(err:Error, buffer:Buffer) {
-		if(isCanceled) {
+	function onFileReaded(error:Error, buffer:Buffer) {
+		if(this.isFinished()) {
 			return;
 		}
 
-		if(err != null) {
-			performFail("[" + err.name + "]" + err.message);
+		if(error != null) {
+			performFail("[" + error.name + "]" + error.message);
 
 			return;
 		}
 
-		content = buffer.buffer;
+		content = new Uint8Array(untyped buffer).buffer;
 
 		performComplete();
 	}

@@ -11,8 +11,7 @@ class BaseLoader implements ILoader {
 	public var url(default, null):String;
 	public var errors(default, null):ErrorHolder;
 	public var finished(default, null):Signal1<ILoader>;
-	public var isCanceled(default, null):Bool;
-	public var isSuccess(default, null):Bool;
+	public var state(default, null):LoaderStateType;
 	public var progress(get, never):Float;
 	public var content(default, null):Dynamic;
 
@@ -21,8 +20,7 @@ class BaseLoader implements ILoader {
 
 		this.url = url;
 		errors = new ErrorHolder();
-		isCanceled = false;
-		isSuccess = false;
+		state = LoaderStateType.NONE;
 		finished = new Signal1();
 	}
 
@@ -40,6 +38,7 @@ class BaseLoader implements ILoader {
 	}
 
 	public function load() {
+		state = LoaderStateType.LOADING;
 		performLoad();
 	}
 
@@ -49,9 +48,12 @@ class BaseLoader implements ILoader {
 
 	public function cancel() {
 		performCancel();
+		cleanup();
 
-		isCanceled = true;
-		performComplete();
+		state = LoaderStateType.CANCEL;
+		if(finished != null) {
+			finished.dispatch(this);
+		}
 	}
 
 	inline function get_progress():Float {
@@ -69,7 +71,7 @@ class BaseLoader implements ILoader {
 	}
 
 	function performFail(message:String) {
-		isSuccess = false;
+		state = LoaderStateType.FAIL;
 		errors.addError(Error.create(message));
 
 		cancel();
@@ -78,7 +80,7 @@ class BaseLoader implements ILoader {
 	function performComplete() {
 		cleanup();
 
-		isSuccess = true;
+		state = LoaderStateType.SUCCESS;
 		if(finished != null) {
 			finished.dispatch(this);
 		}
