@@ -65,7 +65,7 @@ class FlashDataLoader extends BaseLoader {
 	}
 
 	function onComplete(e:Event) {
-		_content = _loader.data;
+		content = _loader.data;
 
 		performComplete();
 	}

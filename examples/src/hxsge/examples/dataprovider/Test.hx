@@ -1,5 +1,7 @@
 package hxsge.examples.dataprovider;
 
+import haxe.io.BytesData;
+import haxe.io.Bytes;
 import haxe.io.Bytes;
 import hxsge.loaders.base.ILoader;
 import hxsge.core.macro.Macro;
@@ -71,7 +73,7 @@ class Test {
 
 	static function onLoaded(l:ILoader) {
 		if(l.isSuccess) {
-			var b:Bytes = l.getBytes();
+			var b:Bytes = Bytes.ofData(l.content);
 			if(b != null) {
 				Log.log("Info loaded successfuly: " + b.length);
 			}

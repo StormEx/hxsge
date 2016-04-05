@@ -1,6 +1,5 @@
 package hxsge.loaders.base;
 
-import haxe.io.Bytes;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.core.IDisposable;
 import msignal.Signal;
@@ -12,9 +11,8 @@ interface ILoader extends IDisposable {
 	public var progress(get, never):Float;
 	public var isCanceled(default, null):Bool;
 	public var isSuccess(default, null):Bool;
+	public var content(default, null):Dynamic;
 
 	public function load():Void;
 	public function cancel():Void;
-	public function getContent<T>(type:Class<T>):T;
-	public function getBytes():Bytes;
 }

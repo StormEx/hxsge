@@ -1,7 +1,5 @@
 package hxsge.loaders.base;
 
-import haxe.io.Bytes;
-import hxsge.core.log.Log;
 import hxsge.core.debug.error.Error;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.core.debug.Debug;
@@ -16,8 +14,7 @@ class BaseLoader implements ILoader {
 	public var isCanceled(default, null):Bool;
 	public var isSuccess(default, null):Bool;
 	public var progress(get, never):Float;
-
-	var _content:Dynamic;
+	public var content(default, null):Dynamic;
 
 	public function new(url:String) {
 		Debug.assert(url.isNotEmpty());
@@ -34,7 +31,7 @@ class BaseLoader implements ILoader {
 		cleanup();
 		performDispose();
 
-		_content = null;
+		content = null;
 		errors = null;
 		if(finished != null) {
 			finished.removeAll();
@@ -55,23 +52,6 @@ class BaseLoader implements ILoader {
 
 		isCanceled = true;
 		performComplete();
-	}
-
-	public function getContent<T>(type:Class<T>):T {
-		var t:T = null;
-
-		if(isSuccess && _content != null && Std.is(_content, type)) {
-			t = cast _content;
-		}
-		else {
-			Log.log("Can't convert to type.");
-		}
-
-		return t;
-	}
-
-	public function getBytes():Bytes {
-		return Bytes.ofData(_content);
 	}
 
 	inline function get_progress():Float {
