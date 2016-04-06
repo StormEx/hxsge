@@ -1,5 +1,9 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.core.signal.Signal2;
+import hxsge.core.signal.Signal1;
+import hxsge.core.signal.Signal0;
+import haxe.crypto.Base64;
 import hxsge.loaders.base.LoaderStateType;
 import hxsge.loaders.data.NodeJsDataLoader;
 import haxe.io.BytesData;
@@ -19,10 +23,10 @@ import hxsge.core.log.TraceLogger;
 import hxsge.core.log.Log;
 import hxsge.dataprovider.providers.base.BaseDataProviderProxy;
 import hxsge.dataprovider.DataProviderManager;
-import msignal.Signal;
 
 using hxsge.core.utils.ArrayTools;
 using hxsge.loaders.utils.LoaderTools;
+using StringTools;
 
 class Test {
 	public function new() {
@@ -69,9 +73,23 @@ class Test {
 
 		Log.log("test loader");
 		Macro.defines();
-		var loader:DataLoader = new DataLoader("https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/paytable_1000.zip");
+//		var loader:DataLoader = new DataLoader("https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/paytable_1000.zip");
+		var loader:DataLoader = new DataLoader("c:/Downloads/horseshoe_feed.jpg");
 		loader.finished.addOnce(onLoaded);
 		loader.load();
+
+		Log.log("base 64");
+		var raw:String = "eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImV4cGlyZXMiOjE0NTk5NTEyMDAsImlzc3VlZF9hdCI6MTQ1OTk0NDI4Niwib2F1dGhfdG9rZW4iOiJDQUFXUVZ5bThWRU1CQU9EMjZtMzdlSmV6ZHcyZE5nQnNsWElEdllodEo2QnRqME5lV1AyWXB2RGpqSElzNG44S3dDSzNFc09FWFRKSEhaQWMzN0NOM2kwcldyNkFPNnFaQlI5NTJWWkNaQ09HOHc5aHlQR2ZybzdyS3JXRXdUWHZ5RlREMUtWakN2dkpLMVpCYUQyeUJyYm52OVpCRVBpOUdDWkFhdkloSU9wZlpBTmVKSGhzcWFycE54ZDljY0tCcWlaQ3hoUjliRlBscWNubGZ2T2E5SlFSWkEiLCJ0b2tlbl9mb3JfYnVzaW5lc3MiOiJBYndhdlpvTl85bS1JbG00IiwidXNlciI6eyJjb3VudHJ5IjoiYnkiLCJsb2NhbGUiOiJydV9SVSIsImFnZSI6eyJtaW4iOjIxfX0sInVzZXJfaWQiOiI4NDMxMzQ1MzkwOTUzMjMifQ";
+		raw = raw.replace("-", "+").replace("_", "/").trim();
+		var data:String = Base64.decode(raw).toString();
+		Log.log(data);
+
+		Log.log("signal test");
+		var signal0:Signal0 = new Signal0();
+		var signal1:Signal1<Int> = new Signal1();
+		signal1.addOnce(function(value:Int){Log.log("executed closure: " + value);});
+		signal1.emit(10);
+		var signal2:Signal2<Float, String> = new Signal2();
 	}
 
 	static function onLoaded(l:ILoader) {

@@ -1,9 +1,10 @@
 package hxsge.dataprovider.providers.base;
 
+import hxsge.core.signal.Signal2;
+import hxsge.core.signal.Signal1;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.core.IDisposable;
 import hxsge.core.debug.error.ErrorHolder;
-import msignal.Signal;
 
 interface IDataProvider extends IDisposable {
 	public var info(default, null):IDataProviderInfo;

@@ -1,8 +1,8 @@
 package hxsge.loaders.base;
 
+import hxsge.core.signal.Signal1;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.core.IDisposable;
-import msignal.Signal;
 
 interface ILoader extends IDisposable {
 	public var url(default, null):String;

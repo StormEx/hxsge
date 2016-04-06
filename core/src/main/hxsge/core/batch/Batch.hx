@@ -1,8 +1,8 @@
 package hxsge.core.batch;
 
+import hxsge.core.signal.Signal1;
 import hxsge.core.memory.Memory;
 import hxsge.core.debug.Debug;
-import msignal.Signal;
 
 class Batch<T:IDisposable> {
 	public var items:Array<T> = [];
@@ -24,14 +24,8 @@ class Batch<T:IDisposable> {
 	}
 
 	public function dispose(disposeItems:Bool = true) {
-		if(finished != null) {
-			finished.removeAll();
-			finished = null;
-		}
-		if(itemFinished != null) {
-			itemFinished.removeAll();
-			itemFinished = null;
-		}
+		Memory.dispose(finished);
+		Memory.dispose(itemFinished);
 
 		if(disposeItems) {
 			Memory.disposeArray(items);
@@ -53,7 +47,7 @@ class Batch<T:IDisposable> {
 
 	function handleItem() {
 		if(isCompleted) {
-			finished.dispatch(this);
+			finished.emit(this);
 
 			return;
 		}
@@ -66,7 +60,7 @@ class Batch<T:IDisposable> {
 	}
 
 	function onItemHandled(item:T) {
-		itemFinished.dispatch(item);
+		itemFinished.emit(item);
 		_index++;
 
 		handleItem();

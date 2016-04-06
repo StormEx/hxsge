@@ -1,9 +1,10 @@
 package hxsge.loaders.base;
 
+import hxsge.core.signal.SignalMacro;
+import hxsge.core.signal.Signal1;
 import hxsge.core.debug.error.Error;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.core.debug.Debug;
-import msignal.Signal;
 
 using hxsge.core.utils.StringTools;
 
@@ -51,9 +52,7 @@ class BaseLoader implements ILoader {
 		cleanup();
 
 		state = LoaderStateType.CANCEL;
-		if(finished != null) {
-			finished.dispatch(this);
-		}
+		SignalMacro.smartEmit(finished, this);
 	}
 
 	inline function get_progress():Float {
@@ -81,9 +80,7 @@ class BaseLoader implements ILoader {
 		cleanup();
 
 		state = LoaderStateType.SUCCESS;
-		if(finished != null) {
-			finished.dispatch(this);
-		}
+		SignalMacro.smartEmit(finished, this);
 	}
 
 	function performDispose() {

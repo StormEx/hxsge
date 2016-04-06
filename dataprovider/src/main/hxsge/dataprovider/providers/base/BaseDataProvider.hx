@@ -1,9 +1,11 @@
 package hxsge.dataprovider.providers.base;
 
+import hxsge.core.memory.Memory;
+import hxsge.core.signal.Signal2;
+import hxsge.core.signal.Signal1;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.core.debug.Debug;
 import hxsge.core.debug.error.ErrorHolder;
-import msignal.Signal;
 
 class BaseDataProvider implements IDataProvider {
 	public var info(default, null):IDataProviderInfo;
@@ -19,18 +21,12 @@ class BaseDataProvider implements IDataProvider {
 	}
 
 	public function dispose() {
-		if(finished != null) {
-			finished.removeAll();
-			finished = null;
-		}
-		if(dataNeeded != null) {
-			dataNeeded.removeAll();
-			dataNeeded = null;
-		}
+		Memory.dispose(finished);
+		Memory.dispose(dataNeeded);
 	}
 
 	public function load() {
-		finished.dispatch(this);
+		finished.emit(this);
 	}
 
 	public function provideRequestedData(provider:IDataProvider) {
