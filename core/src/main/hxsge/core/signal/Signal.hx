@@ -33,7 +33,7 @@ class Signal<T:Function> implements IDisposable {
 			_flags.push(type);
 		}
 		else {
-			Debug.trace("");
+			Debug.trace("try to add existing function...");
 		}
 	}
 
