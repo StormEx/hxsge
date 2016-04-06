@@ -1,5 +1,6 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.core.signal.SignalMacro;
 import hxsge.core.signal.Signal2;
 import hxsge.core.signal.Signal1;
 import hxsge.core.signal.Signal0;
@@ -86,10 +87,29 @@ class Test {
 
 		Log.log("signal test");
 		var signal0:Signal0 = new Signal0();
+		signal0.add(toSignal0);
+		SignalMacro.smartEmit(signal0);
+		SignalMacro.smartEmit(signal0);
+		Memory.dispose(signal0);
+		SignalMacro.smartEmit(signal0);
 		var signal1:Signal1<Int> = new Signal1();
 		signal1.addOnce(function(value:Int){Log.log("executed closure: " + value);});
 		signal1.emit(10);
+		signal1.emit(10);
 		var signal2:Signal2<Float, String> = new Signal2();
+		signal2.add(toSignal2);
+		signal2.addOnce(toSignal2);
+		signal2.emit(10, "cool");
+		signal2.emit(20, "cool");
+		Memory.dispose(signal2);
+	}
+
+	static function toSignal0() {
+		Log.log("for signal 0");
+	}
+
+	static function toSignal2(f:Float, s:String) {
+		Log.log(f + " : " + s);
 	}
 
 	static function onLoaded(l:ILoader) {
