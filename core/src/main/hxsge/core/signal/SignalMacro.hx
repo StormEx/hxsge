@@ -3,7 +3,7 @@ package hxsge.core.signal;
 import haxe.macro.Expr;
 
 class SignalMacro {
-	macro public static function smartEmit(signal:Expr, e:Array<Expr>):Expr {
+	macro public static function safeEmit(signal:Expr, e:Array<Expr>):Expr {
 		return macro {
 			if($signal != null) {
 				$signal.emit($a{e});

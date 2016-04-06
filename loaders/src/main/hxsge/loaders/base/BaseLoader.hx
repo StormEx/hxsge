@@ -52,7 +52,7 @@ class BaseLoader implements ILoader {
 		cleanup();
 
 		state = LoaderStateType.CANCEL;
-		SignalMacro.smartEmit(finished, this);
+		SignalMacro.safeEmit(finished, this);
 	}
 
 	inline function get_progress():Float {
@@ -80,7 +80,7 @@ class BaseLoader implements ILoader {
 		cleanup();
 
 		state = LoaderStateType.SUCCESS;
-		SignalMacro.smartEmit(finished, this);
+		SignalMacro.safeEmit(finished, this);
 	}
 
 	function performDispose() {

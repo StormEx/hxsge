@@ -88,10 +88,10 @@ class Test {
 		Log.log("signal test");
 		var signal0:Signal0 = new Signal0();
 		signal0.add(toSignal0);
-		SignalMacro.smartEmit(signal0);
-		SignalMacro.smartEmit(signal0);
+		SignalMacro.safeEmit(signal0);
+		SignalMacro.safeEmit(signal0);
 		Memory.dispose(signal0);
-		SignalMacro.smartEmit(signal0);
+		SignalMacro.safeEmit(signal0);
 		var signal1:Signal1<Int> = new Signal1();
 		signal1.addOnce(function(value:Int){Log.log("executed closure: " + value);});
 		signal1.emit(10);
