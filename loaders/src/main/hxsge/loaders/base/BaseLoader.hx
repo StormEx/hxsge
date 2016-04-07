@@ -26,16 +26,17 @@ class BaseLoader implements ILoader {
 	}
 
 	public function dispose() {
+		if(finished != null) {
+			finished.removeAll();
+			finished = null;
+		}
+
 		cancel();
 		cleanup();
 		performDispose();
 
 		content = null;
 		errors = null;
-		if(finished != null) {
-			finished.removeAll();
-			finished = null;
-		}
 	}
 
 	public function load() {
