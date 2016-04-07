@@ -1,6 +1,7 @@
 package hxsge.loaders.data;
 
 #if flash
+import hxsge.core.debug.Debug;
 import hxsge.loaders.base.BaseLoader;
 import flash.events.Event;
 import flash.events.ProgressEvent;
@@ -55,7 +56,12 @@ class FlashDataLoader extends BaseLoader {
 
 	override function performCancel() {
 		if(_loader != null) {
-			_loader.close();
+			try {
+				_loader.close();
+			}
+			catch(e:Dynamic) {
+				Debug.trace(e);
+			}
 		}
 	}
 
