@@ -1,5 +1,6 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.dataprovider.providers.images.ImageDataProviderProxy;
 import hxsge.dataprovider.DataProviderManager;
 import hxsge.dataprovider.providers.zip.ZipDataProvider;
 import hxsge.dataprovider.data.IDataProviderInfo;
@@ -53,14 +54,21 @@ class Test {
 		var zip_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/paytable_1000.zip";
 		var zip_file:String = "c:/Downloads/bundles/preloader/preloader.zip";
 		var jpg_file:String = "c:/Downloads/horseshoe_feed.jpg";
+		var jpg_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/common/img/og/jackpot/1029_jackpot.jpg";
+		var png_file:String = "c:/Downloads/logo_alt.png";
+		var png_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/common/img/og/jackpot/horseshoe_jackpot.png";
+		var jxr_file:String = "c:/Downloads/bundles/preloader/gfx/preloader.jxr";
+		var jxr_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/game/10Ten10.jxr";
 
 		Log.addLogger(new TraceLogger());
 
 		Log.log("==============================================================================");
 		Log.log("begin: data provider example.");
 		DataProviderManager.add(new ZipDataProviderProxy());
+		DataProviderManager.add(new ImageDataProviderProxy());
 		getDataProvider(new DataProviderInfo("111111111111111.base"));
 		getDataProvider(new DataProviderInfo("222222222222222.zip"));
+		getDataProvider(new DataProviderInfo(png_file));
 		Log.log("end: data provider example.");
 		Log.log("==============================================================================");
 
@@ -78,6 +86,10 @@ class Test {
 		batch.add(DataProviderManager.get(new DataProviderInfo(zip_url)));
 		batch.add(DataProviderManager.get(new DataProviderInfo(zip_file)));
 		batch.add(DataProviderManager.get(new DataProviderInfo(jpg_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(png_url)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(png_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(jxr_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(jxr_url)));
 		batch.itemFinished.add(function(data:IDataProvider){Log.log((data.errors.isError ? "error" : "success") + ": " + data.info.url);});
 		batch.finished.addOnce(function(_){Log.log("batch finished.");});
 		batch.handle();
