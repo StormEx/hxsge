@@ -1,9 +1,6 @@
 package hxsge.dataprovider.providers.images;
 
 import hxsge.dataprovider.providers.images.ImageDataProviderTypes;
-import hxsge.format.images.jxr.JxrImageReader;
-import hxsge.format.images.png.PngImageReader;
-import hxsge.format.images.ImageReader;
 import hxsge.dataprovider.providers.base.IDataProvider;
 import haxe.io.Path;
 import hxsge.dataprovider.data.IDataProviderInfo;
