@@ -1,8 +1,11 @@
 -main hxsge.examples.dataprovider.Test
 
+-lib format
+
 -cp src
 -cp ../dataprovider/src/main
 -cp ../loaders/src/main
+-cp ../format/src/main
 -cp ../core/src/main
 
 -debug
