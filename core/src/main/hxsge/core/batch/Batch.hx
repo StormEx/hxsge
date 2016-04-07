@@ -34,9 +34,12 @@ class Batch<T:IDisposable> {
 	}
 
 	public function add(item:T) {
-		Debug.assert(item != null);
-
-		items.push(item);
+		if(item != null) {
+			items.push(item);
+		}
+		else {
+			Debug.trace("skipped null item on adding to batch");
+		}
 	}
 
 	public function handle() {
