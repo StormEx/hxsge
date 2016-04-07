@@ -61,3 +61,33 @@ class Signal<T:Function> implements IDisposable {
 		_flags.splice(index, 1);
 	}
 }
+
+class Signal0 extends Signal<Void->Void> {
+	public function new() {
+		super();
+	}
+
+	inline public function emit() {
+		SignalMacro.emitBuild();
+	}
+}
+
+class Signal1<A> extends Signal<A->Void>{
+	public function new() {
+		super();
+	}
+
+	inline public function emit(a:A) {
+		SignalMacro.emitBuild(a);
+	}
+}
+
+class Signal2<A, B> extends Signal<A->B->Void> {
+	public function new() {
+		super();
+	}
+
+	inline public function emit(a:A, b:B) {
+		SignalMacro.emitBuild(a, b);
+	}
+}

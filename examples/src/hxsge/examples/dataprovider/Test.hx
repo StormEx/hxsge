@@ -1,9 +1,7 @@
 package hxsge.examples.dataprovider;
 
 import hxsge.core.signal.SignalMacro;
-import hxsge.core.signal.Signal2;
-import hxsge.core.signal.Signal1;
-import hxsge.core.signal.Signal0;
+import hxsge.core.signal.Signal;
 import haxe.crypto.Base64;
 import hxsge.loaders.base.LoaderStateType;
 import hxsge.loaders.data.NodeJsDataLoader;

@@ -1,7 +1,7 @@
 package hxsge.loaders.base;
 
 import hxsge.core.signal.SignalMacro;
-import hxsge.core.signal.Signal1;
+import hxsge.core.signal.Signal;
 import hxsge.core.debug.error.Error;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.core.debug.Debug;

@@ -1,7 +1,6 @@
 package hxsge.dataprovider.providers.base;
 
-import hxsge.core.signal.Signal2;
-import hxsge.core.signal.Signal1;
+import hxsge.core.signal.Signal;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.core.IDisposable;
 import hxsge.core.debug.error.ErrorHolder;
