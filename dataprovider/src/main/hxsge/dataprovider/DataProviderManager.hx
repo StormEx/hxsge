@@ -11,14 +11,14 @@ class DataProviderManager {
 	public static function add(proxy:IDataProviderProxy) {
 		for(p in _proxies) {
 			if(p.type == proxy.type) {
-				Log.log("try to register proxie duplicate: " + proxy.type);
+				Log.log("try to register proxie duplicate: " + proxy.info);
 
 				return;
 			}
 		}
 
 		_proxies.push(proxy);
-		Log.log("registered proxy for provider: " + proxy.type);
+		Log.log("registered proxy for provider: " + proxy.info);
 	}
 
 	public static function get(info:IDataProviderInfo):IDataProvider {

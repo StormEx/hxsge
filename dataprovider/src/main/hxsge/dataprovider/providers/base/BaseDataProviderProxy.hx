@@ -5,6 +5,7 @@ import haxe.io.Path;
 
 class BaseDataProviderProxy implements IDataProviderProxy {
 	public var type(default, null):String;
+	public var info(get, never):String;
 
 	public function new(type:String = "base") {
 		this.type = type;
@@ -18,5 +19,9 @@ class BaseDataProviderProxy implements IDataProviderProxy {
 
 	public function create(info:IDataProviderInfo):IDataProvider {
 		return new BaseDataProvider(info);
+	}
+
+	function get_info():String {
+		return type;
 	}
 }
