@@ -1,5 +1,9 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.dataprovider.DataProviderManager;
+import hxsge.dataprovider.providers.zip.ZipDataProvider;
+import hxsge.dataprovider.data.IDataProviderInfo;
+import hxsge.dataprovider.providers.zip.ZipDataProviderProxy;
 import hxsge.core.signal.SignalMacro;
 import hxsge.core.signal.Signal;
 import haxe.crypto.Base64;
@@ -31,17 +35,34 @@ class Test {
 	public function new() {
 	}
 
-	public static function main() {
-		Log.addLogger(new TraceLogger());
+	static function getDataProvider(info:IDataProviderInfo) {
+		checkDataProvider(DataProviderManager.get(info), info);
+	}
 
-		Log.log("begin: data provider example.");
-		DataProviderManager.add(new BaseDataProviderProxy());
-		var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo("asdlfkj.base"));
+	static function checkDataProvider(dp:IDataProvider, info:IDataProviderInfo) {
 		if(dp != null) {
 			Memory.dispose(dp);
-			Log.log("disposed");
+			Log.log("disposed: " + info.url);
 		}
+		else {
+			Log.log("can't create data provider: " + info.url);
+		}
+	}
+
+	public static function main() {
+		var zip_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/paytable_1000.zip";
+		var zip_file:String = "c:/Downloads/bundles/preloader/preloader.zip";
+		var jpg_file:String = "c:/Downloads/horseshoe_feed.jpg";
+
+		Log.addLogger(new TraceLogger());
+
+		Log.log("==============================================================================");
+		Log.log("begin: data provider example.");
+		DataProviderManager.add(new ZipDataProviderProxy());
+		getDataProvider(new DataProviderInfo("111111111111111.base"));
+		getDataProvider(new DataProviderInfo("222222222222222.zip"));
 		Log.log("end: data provider example.");
+		Log.log("==============================================================================");
 
 //		Memory.dispose(10);
 
@@ -50,25 +71,32 @@ class Test {
 		var b:String = "boo";
 		var c:DataProviderInfo = new DataProviderInfo("");
 //		myMacro("foo", a, b, c);
+		Log.log("==============================================================================");
 
 		Log.log("batch test");
 		var batch:ProviderBatch = new ProviderBatch();
-		batch.add(new BaseDataProvider(null));
-		batch.add(new BaseDataProvider(null));
+		batch.add(DataProviderManager.get(new DataProviderInfo(zip_url)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(zip_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(jpg_file)));
+		batch.itemFinished.add(function(data:IDataProvider){Log.log((data.errors.isError ? "error" : "success") + ": " + data.info.url);});
+		batch.finished.addOnce(function(_){Log.log("batch finished.");});
 		batch.handle();
+		Log.log("==============================================================================");
 
 		Log.log("error test");
 		var err1:hxsge.core.debug.error.Error = hxsge.core.debug.error.Error.create("some error");
 		var err2:hxsge.core.debug.error.Error = hxsge.core.debug.error.Error.create("some error");
 		Log.log(err1.info);
 		Log.log(err2.info);
+		Log.log("==============================================================================");
 
 		Log.log("test dispose");
 		var arr:Array<BaseDataProvider> = [];
-		arr.push(new BaseDataProvider(null));
+		arr.push(new BaseDataProvider(new DataProviderInfo("asdf")));
 		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));
 		Memory.disposeArray(arr);
 		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));
+		Log.log("==============================================================================");
 
 		Log.log("test loader");
 		Macro.defines();
@@ -76,12 +104,14 @@ class Test {
 		var loader:DataLoader = new DataLoader("c:/Downloads/horseshoe_feed.jpg");
 		loader.finished.addOnce(onLoaded);
 		loader.load();
+		Log.log("==============================================================================");
 
 		Log.log("base 64");
 		var raw:String = "eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImV4cGlyZXMiOjE0NTk5NTEyMDAsImlzc3VlZF9hdCI6MTQ1OTk0NDI4Niwib2F1dGhfdG9rZW4iOiJDQUFXUVZ5bThWRU1CQU9EMjZtMzdlSmV6ZHcyZE5nQnNsWElEdllodEo2QnRqME5lV1AyWXB2RGpqSElzNG44S3dDSzNFc09FWFRKSEhaQWMzN0NOM2kwcldyNkFPNnFaQlI5NTJWWkNaQ09HOHc5aHlQR2ZybzdyS3JXRXdUWHZ5RlREMUtWakN2dkpLMVpCYUQyeUJyYm52OVpCRVBpOUdDWkFhdkloSU9wZlpBTmVKSGhzcWFycE54ZDljY0tCcWlaQ3hoUjliRlBscWNubGZ2T2E5SlFSWkEiLCJ0b2tlbl9mb3JfYnVzaW5lc3MiOiJBYndhdlpvTl85bS1JbG00IiwidXNlciI6eyJjb3VudHJ5IjoiYnkiLCJsb2NhbGUiOiJydV9SVSIsImFnZSI6eyJtaW4iOjIxfX0sInVzZXJfaWQiOiI4NDMxMzQ1MzkwOTUzMjMifQ";
 		raw = raw.replace("-", "+").replace("_", "/").trim();
 		var data:String = Base64.decode(raw).toString();
 		Log.log(data);
+		Log.log("==============================================================================");
 
 		Log.log("signal test");
 		var signal0:Signal0 = new Signal0();
@@ -100,6 +130,7 @@ class Test {
 		signal2.emit(10, "cool");
 		signal2.emit(20, "cool");
 		Memory.dispose(signal2);
+		Log.log("==============================================================================");
 	}
 
 	static function toSignal0() {
