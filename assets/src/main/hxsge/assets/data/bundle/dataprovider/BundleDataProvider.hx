@@ -1,4 +1,4 @@
-package hxsge.dataprovider.providers.bundle;
+package hxsge.assets.data.bundle.dataprovider;
 
 import hxsge.format.bundle.BundleData;
 import hxsge.format.base.IReader;

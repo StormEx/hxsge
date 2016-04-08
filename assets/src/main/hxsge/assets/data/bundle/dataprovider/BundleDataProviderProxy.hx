@@ -1,4 +1,4 @@
-package hxsge.dataprovider.providers.bundle;
+package hxsge.assets.data.bundle.dataprovider;
 
 import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.dataprovider.data.IDataProviderInfo;
