@@ -1,5 +1,10 @@
-package hxsge.format.images.png;
+package hxsge.format.images.formats.png;
 
+#if flash
+import hxsge.format.images.platforms.flash.FlashImageReader;
+
+typedef PngImageReader = FlashImageReader;
+#else
 import haxe.io.Bytes;
 import haxe.io.BytesInput;
 import format.png.Reader;
@@ -22,5 +27,8 @@ class PngImageReader extends ImageReader {
 
 		var img:ImageData = new ImageData(null).fromBytes(h.width, h.height, bytes);
 		image = new Image(img);
+
+		finished.emit(this);
 	}
 }
+#end

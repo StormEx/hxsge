@@ -1,5 +1,6 @@
 package hxsge.dataprovider.providers.images;
 
+import hxsge.format.base.IReader;
 import haxe.io.Path;
 import hxsge.core.debug.error.Error;
 import haxe.io.Bytes;
@@ -22,14 +23,19 @@ class ImageDataProvider extends BaseDataProvider {
 				ImageDataProviderTypes.readers.get(Path.extension(info.url)),
 				[new BytesInput(bytes, 0, bytes.length)]
 			);
+			_reader.finished.addOnce(onDataPrepared);
 			_reader.read();
-
-			if(_reader.image == null) {
-				errors.addError(Error.create("Can't read image bytes..."));
-			}
 		}
 		else {
 			errors.addError(Error.create("Can't convert data to bytes image..."));
+
+			finished.emit(this);
+		}
+	}
+
+	function onDataPrepared(reader:IReader) {
+		if(_reader.errors.isError) {
+			errors.addError(Error.create("Can't read image bytes..."));
 		}
 
 		finished.emit(this);
