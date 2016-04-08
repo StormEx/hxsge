@@ -3,6 +3,7 @@
 -lib format
 
 -cp src
+-cp ../assets/src/main
 -cp ../dataprovider/src/main
 -cp ../loaders/src/main
 -cp ../format/src/main

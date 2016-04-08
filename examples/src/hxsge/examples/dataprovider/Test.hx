@@ -1,6 +1,8 @@
 package hxsge.examples.dataprovider;
 
-import hxsge.dataprovider.providers.bundle.BundleDataProviderProxy;
+import hxsge.assets.data.bundle.Bundle;
+import hxsge.assets.AssetManager;
+import hxsge.assets.data.bundle.dataprovider.BundleDataProviderProxy;
 import hxsge.dataprovider.providers.images.ImageDataProviderProxy;
 import hxsge.dataprovider.DataProviderManager;
 import hxsge.dataprovider.data.IDataProviderInfo;
@@ -61,7 +63,6 @@ class Test {
 		Log.log("begin: data provider example.");
 		DataProviderManager.add(new ZipDataProviderProxy());
 		DataProviderManager.add(new ImageDataProviderProxy());
-		DataProviderManager.add(new BundleDataProviderProxy());
 		getDataProvider(new DataProviderInfo("111111111111111.base"));
 		getDataProvider(new DataProviderInfo("222222222222222.zip"));
 		getDataProvider(new DataProviderInfo(png_file));
@@ -140,6 +141,12 @@ class Test {
 		signal2.emit(20, "cool");
 		Memory.dispose(signal2);
 		Log.log("==============================================================================");
+
+		Log.log("assets test");
+		var manager:AssetManager = new AssetManager();
+		var bundle:Bundle = manager.getBundle(bundle_file);
+		bundle.finished.addOnce(function(b:Bundle){Log.log("bundle loaded: " + b.url);});
+		bundle.load();
 	}
 
 	static function toSignal0() {
