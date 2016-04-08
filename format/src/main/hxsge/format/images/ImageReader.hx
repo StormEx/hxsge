@@ -1,12 +1,12 @@
 package hxsge.format.images;
 
-import haxe.io.BytesInput;
-import hxsge.format.base.BaseReader;
+import hxsge.format.base.BytesReader;
+import haxe.io.Bytes;
 
-class ImageReader extends BaseReader<BytesInput> {
+class ImageReader extends BytesReader {
 	public var image(default, null):Image;
 
-	public function new(input:BytesInput) {
-		super(input);
+	public function new(data:Bytes) {
+		super(data);
 	}
 }

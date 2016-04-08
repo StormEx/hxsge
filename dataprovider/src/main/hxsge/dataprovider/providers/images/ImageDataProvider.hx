@@ -21,7 +21,7 @@ class ImageDataProvider extends BaseDataProvider {
 		if(bytes != null) {
 			_reader = Type.createInstance(
 				ImageDataProviderTypes.readers.get(Path.extension(info.url)),
-				[new BytesInput(bytes, 0, bytes.length)]
+				[bytes]
 			);
 			_reader.finished.addOnce(onDataPrepared);
 			_reader.read();

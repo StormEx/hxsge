@@ -1,5 +1,6 @@
 package hxsge.format.base;
 
+import haxe.io.Bytes;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.core.memory.Memory;
 import hxsge.core.signal.Signal.Signal1;
@@ -11,12 +12,12 @@ class BaseReader<T> implements IReader implements IDisposable {
 
 	public var finished(default, null):Signal1<IReader>;
 
-	var _input:T;
+	var _data:T;
 
-	public function new(input:T) {
-		Debug.assert(input != null);
+	public function new(data:T) {
+		Debug.assert(data != null);
 
-		this._input = input;
+		_data = data;
 		finished = new Signal1();
 		errors = new ErrorHolder();
 	}
@@ -24,8 +25,6 @@ class BaseReader<T> implements IReader implements IDisposable {
 	public function dispose() {
 		Memory.dispose(finished);
 		errors = null;
-
-		_input = null;
 	}
 
 	public function read() {

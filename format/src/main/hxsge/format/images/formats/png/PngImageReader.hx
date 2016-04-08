@@ -5,8 +5,8 @@ import hxsge.format.images.platforms.flash.FlashImageReader;
 
 typedef PngImageReader = FlashImageReader;
 #else
-import haxe.io.Bytes;
 import haxe.io.BytesInput;
+import haxe.io.Bytes;
 import format.png.Reader;
 import format.png.Data;
 
@@ -14,12 +14,12 @@ using format.png.Tools;
 using hxsge.format.images.ImageDataTools;
 
 class PngImageReader extends ImageReader {
-	public function new(input:BytesInput) {
-		super(input);
+	public function new(data:Bytes) {
+		super(data);
 	}
 
 	override function readData() {
-		var reader:Reader = new Reader(_input);
+		var reader:Reader = new Reader(new BytesInput(_data));
 		reader.checkCRC = false;
 		var d:Data = reader.read();
 		var h:Header = d.getHeader();

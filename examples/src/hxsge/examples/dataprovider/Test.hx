@@ -86,10 +86,10 @@ class Test {
 		batch.add(DataProviderManager.get(new DataProviderInfo(zip_url)));
 		batch.add(DataProviderManager.get(new DataProviderInfo(zip_file)));
 		batch.add(DataProviderManager.get(new DataProviderInfo(jpg_file)));
-//		batch.add(DataProviderManager.get(new DataProviderInfo(png_url)));
-//		batch.add(DataProviderManager.get(new DataProviderInfo(png_file)));
-//		batch.add(DataProviderManager.get(new DataProviderInfo(jxr_file)));
-//		batch.add(DataProviderManager.get(new DataProviderInfo(jxr_url)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(png_url)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(png_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(jxr_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(jxr_url)));
 		batch.itemFinished.add(function(data:IDataProvider){Log.log((data.errors.isError ? "error" : "success") + ": " + data.info.url);});
 		batch.finished.addOnce(function(_){Log.log("batch finished.");});
 		batch.handle();

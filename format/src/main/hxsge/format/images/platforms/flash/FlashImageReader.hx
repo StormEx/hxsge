@@ -1,6 +1,7 @@
 package hxsge.format.images.platforms.flash;
 
 #if flash
+import haxe.io.Bytes;
 import flash.display.BitmapData;
 import flash.display.Bitmap;
 import flash.display.LoaderInfo;
@@ -11,13 +12,12 @@ import flash.events.Event;
 import flash.display.Loader;
 import flash.system.LoaderContext;
 import flash.system.ImageDecodingPolicy;
-import haxe.io.BytesInput;
 
 class FlashImageReader extends ImageReader {
 	var _flashLoader:Loader;
 
-	public function new(input:BytesInput) {
-		super(input);
+	public function new(data:Bytes) {
+		super(data);
 	}
 
 	override public function dispose() {
@@ -37,7 +37,7 @@ class FlashImageReader extends ImageReader {
 
 		var lc:LoaderContext = new LoaderContext();
 		lc.imageDecodingPolicy = ImageDecodingPolicy.ON_LOAD;
-		_flashLoader.loadBytes(@:privateAccess _input.b, lc);
+		_flashLoader.loadBytes(_data.getData(), lc);
 	}
 
 	function onImageLoaded(_) {
