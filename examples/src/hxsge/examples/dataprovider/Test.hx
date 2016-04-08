@@ -1,17 +1,13 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.dataprovider.providers.bundle.BundleDataProviderProxy;
 import hxsge.dataprovider.providers.images.ImageDataProviderProxy;
 import hxsge.dataprovider.DataProviderManager;
-import hxsge.dataprovider.providers.zip.ZipDataProvider;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.zip.ZipDataProviderProxy;
 import hxsge.core.signal.SignalMacro;
 import hxsge.core.signal.Signal;
 import haxe.crypto.Base64;
-import hxsge.loaders.base.LoaderStateType;
-import hxsge.loaders.data.NodeJsDataLoader;
-import haxe.io.BytesData;
-import haxe.io.Bytes;
 import haxe.io.Bytes;
 import hxsge.loaders.base.ILoader;
 import hxsge.core.macro.Macro;
@@ -25,8 +21,6 @@ import hxsge.dataprovider.data.DataProviderInfo;
 import haxe.macro.Expr;
 import hxsge.core.log.TraceLogger;
 import hxsge.core.log.Log;
-import hxsge.dataprovider.providers.base.BaseDataProviderProxy;
-import hxsge.dataprovider.DataProviderManager;
 
 using hxsge.core.utils.ArrayTools;
 using hxsge.loaders.utils.LoaderTools;
@@ -59,6 +53,7 @@ class Test {
 		var png_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/common/img/og/jackpot/horseshoe_jackpot.png";
 		var jxr_file:String = "c:/Downloads/bundles/preloader/gfx/preloader.jxr";
 		var jxr_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/game/10Ten10.jxr";
+		var bundle_file:String = "c:/Downloads/bundles/preloader/meta.bundle";
 
 		Log.addLogger(new TraceLogger());
 
@@ -66,6 +61,7 @@ class Test {
 		Log.log("begin: data provider example.");
 		DataProviderManager.add(new ZipDataProviderProxy());
 		DataProviderManager.add(new ImageDataProviderProxy());
+		DataProviderManager.add(new BundleDataProviderProxy());
 		getDataProvider(new DataProviderInfo("111111111111111.base"));
 		getDataProvider(new DataProviderInfo("222222222222222.zip"));
 		getDataProvider(new DataProviderInfo(png_file));
@@ -90,6 +86,7 @@ class Test {
 		batch.add(DataProviderManager.get(new DataProviderInfo(png_file)));
 		batch.add(DataProviderManager.get(new DataProviderInfo(jxr_file)));
 		batch.add(DataProviderManager.get(new DataProviderInfo(jxr_url)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(bundle_file)));
 		batch.itemFinished.add(function(data:IDataProvider){Log.log((data.errors.isError ? "error" : "success") + ": " + data.info.url);});
 		batch.finished.addOnce(function(_){Log.log("batch finished.");});
 		batch.handle();

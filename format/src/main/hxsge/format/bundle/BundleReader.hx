@@ -1,9 +1,21 @@
 package hxsge.format.bundle;
 
-import haxe.io.Input;
-import hxsge.format.base.BaseReader;
+import hxsge.core.utils.Json;
+import haxe.io.Bytes;
+import hxsge.format.base.BytesReader;
 
-class BundleReader extends BaseReader<Input> {
-	public function new() {
+class BundleReader extends BytesReader {
+	public var data(default, null):BundleData;
+
+	public function new(data:Bytes) {
+		super(data);
+	}
+
+	override function readData() {
+		var str:String = Std.string(_data);
+
+		data = Json.build(str, BundleData);
+
+		finished.emit(this);
 	}
 }
