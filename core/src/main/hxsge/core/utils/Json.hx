@@ -24,6 +24,13 @@ class Json {
 
 	public static function build<T>(data:String, cls:Class<T>):T {
 		var res:T = Type.createInstance(cls, []);
+		var obj:Dynamic = parse(data);
+
+		for(f in Reflect.fields(obj)) {
+			if(Reflect.hasField(res, f)) {
+				Reflect.setField(res, f, Reflect.field(obj, f));
+			}
+		}
 
 		return res;
 	}
