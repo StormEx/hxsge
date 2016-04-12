@@ -1,4 +1,4 @@
-package hxsge.format.bundle;
+package hxsge.assets.data.bundle.format.bundle;
 
 class BundleResourceGroup {
 	public var type:BundleResourceType;

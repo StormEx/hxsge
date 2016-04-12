@@ -1,40 +1,37 @@
 package hxsge.assets.data.bundle.dataprovider;
 
-import hxsge.format.bundle.BundleData;
-import hxsge.format.base.IReader;
-import haxe.io.Bytes;
-import hxsge.format.bundle.BundleReader;
+import hxsge.assets.data.bundle.format.bundle.BundleData;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.base.BaseDataProvider;
 
 class BundleDataProvider extends BaseDataProvider {
 	var data(get, never):BundleData;
 
-	var _reader:BundleReader;
+	var _structure:BundleStructure;
 
 	public function new(info:IDataProviderInfo) {
 		super(info);
 	}
 
 	override function prepareData() {
-		_reader = new BundleReader(Bytes.ofData(info.data));
-		_reader.finished.addOnce(onDataPrepared);
-		_reader.read();
+		_structure = new BundleStructure(info);
+		_structure.finished.addOnce(onDataPrepared);
+		_structure.load();
 	}
 
-	function onDataPrepared(reader:IReader) {
-		if(_reader.errors.isError) {
-			errors.concat(_reader.errors);
+	function onDataPrepared(structure:BundleStructure) {
+		if(_structure.errors.isError) {
+			errors.concat(_structure.errors);
 		}
 
 		finished.emit(this);
 	}
 
 	override function calculateProgress():Float {
-		return _reader != null ? 1 : 0;
+		return _structure != null ? 1 : 0;
 	}
 
 	inline function get_data():BundleData {
-		return _reader != null ? _reader.data : null;
+		return _structure != null ? _structure.data : null;
 	}
 }

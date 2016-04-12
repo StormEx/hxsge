@@ -1,4 +1,4 @@
-package hxsge.format.bundle;
+package hxsge.assets.data.bundle.format.bundle;
 
 @:enum abstract BundleResourceType(String) from String to String {
 	var REQUIRED:String = "required";

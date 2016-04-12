@@ -1,4 +1,4 @@
-package hxsge.format.bundle;
+package hxsge.assets.data.bundle.format.bundle;
 
 import hxsge.core.utils.Json;
 import haxe.io.Bytes;
