@@ -28,7 +28,7 @@ class Batch<T:IDisposable> {
 		Memory.dispose(itemFinished);
 
 		if(disposeItems) {
-			Memory.disposeArray(items);
+			Memory.disposeIterable(items);
 		}
 		items = null;
 	}

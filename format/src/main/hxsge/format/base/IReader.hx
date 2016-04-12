@@ -1,9 +1,10 @@
 package hxsge.format.base;
 
+import hxsge.core.IDisposable;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.core.signal.Signal.Signal1;
 
-interface IReader {
+interface IReader extends IDisposable {
 	public var errors(default, null):ErrorHolder;
 	public var finished(default, null):Signal1<IReader>;
 

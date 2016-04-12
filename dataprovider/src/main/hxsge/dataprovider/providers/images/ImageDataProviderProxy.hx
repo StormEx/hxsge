@@ -1,33 +1,18 @@
 package hxsge.dataprovider.providers.images;
 
-import hxsge.dataprovider.providers.images.ImageDataProviderTypes;
+import hxsge.dataprovider.providers.base.group.DataProviderGroupProxy;
+import hxsge.format.images.ImageReader;
+import hxsge.format.images.formats.png.PngImageReader;
+import hxsge.format.images.formats.jxr.JxrImageReader;
+import hxsge.format.images.formats.jpg.JpgImageReader;
 import hxsge.dataprovider.providers.base.IDataProvider;
-import haxe.io.Path;
 import hxsge.dataprovider.data.IDataProviderInfo;
-import hxsge.dataprovider.providers.base.BaseDataProviderProxy;
 
-class ImageDataProviderProxy extends BaseDataProviderProxy {
+class ImageDataProviderProxy extends DataProviderGroupProxy<Class<ImageReader>>{
 	public function new() {
-		super("images");
+		super("images", ["jpg" => JpgImageReader, "jxr" => JxrImageReader, "png" => PngImageReader]);
 	}
-
-	override public function check(info:IDataProviderInfo):Bool {
-		var ext:String = Path.extension(info.url);
-
-		return ImageDataProviderTypes.readers.exists(ext);
-	}
-
 	override public function create(info:IDataProviderInfo):IDataProvider {
-		return new ImageDataProvider(info);
-	}
-
-	override function get_info():String {
-		var types:Array<String> = [];
-
-		for(k in ImageDataProviderTypes.readers.keys()) {
-			types.push(k);
-		}
-
-		return type + "[" + types.join(", ") + "]";
+		return new ImageDataProvider<ImageReader>(info, _types.readers);
 	}
 }

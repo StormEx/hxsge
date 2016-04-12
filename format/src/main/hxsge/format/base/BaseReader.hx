@@ -6,7 +6,7 @@ import hxsge.core.signal.Signal.Signal1;
 import hxsge.core.IDisposable;
 import hxsge.core.debug.Debug;
 
-class BaseReader<T> implements IReader implements IDisposable {
+class BaseReader<T> implements IReader {
 	public var errors(default, null):ErrorHolder;
 
 	public var finished(default, null):Signal1<IReader>;

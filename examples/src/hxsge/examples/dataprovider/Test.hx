@@ -1,5 +1,6 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.dataprovider.providers.sounds.SoundDataProviderProxy;
 import hxsge.assets.data.bundle.Bundle;
 import hxsge.assets.AssetManager;
 import hxsge.assets.data.bundle.dataprovider.BundleDataProviderProxy;
@@ -56,6 +57,8 @@ class Test {
 		var jxr_file:String = "c:/Downloads/bundles/preloader/gfx/preloader.jxr";
 		var jxr_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/game/10Ten10.jxr";
 		var bundle_file:String = "c:/Downloads/bundles/preloader/meta.bundle";
+		var mp3_file:String = "c:/Downloads/bundles/mega_bonus/sfx/bonanza_bonus/win_plaque.mp3";
+		var mp3_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/sfx/bonanza_bonus/win_plaque.mp3";
 
 		Log.addLogger(new TraceLogger());
 
@@ -63,6 +66,7 @@ class Test {
 		Log.log("begin: data provider example.");
 		DataProviderManager.add(new ZipDataProviderProxy());
 		DataProviderManager.add(new ImageDataProviderProxy());
+		DataProviderManager.add(new SoundDataProviderProxy());
 		getDataProvider(new DataProviderInfo("111111111111111.base"));
 		getDataProvider(new DataProviderInfo("222222222222222.zip"));
 		getDataProvider(new DataProviderInfo(png_file));
@@ -88,6 +92,8 @@ class Test {
 		batch.add(DataProviderManager.get(new DataProviderInfo(jxr_file)));
 		batch.add(DataProviderManager.get(new DataProviderInfo(jxr_url)));
 		batch.add(DataProviderManager.get(new DataProviderInfo(bundle_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(mp3_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(mp3_url)));
 		batch.itemFinished.add(function(data:IDataProvider){Log.log((data.errors.isError ? "error" : "success") + ": " + data.info.url);});
 		batch.finished.addOnce(function(_){Log.log("batch finished.");});
 		batch.handle();
@@ -104,7 +110,7 @@ class Test {
 		var arr:Array<BaseDataProvider> = [];
 		arr.push(new BaseDataProvider(new DataProviderInfo("asdf")));
 		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));
-		Memory.disposeArray(arr);
+		Memory.disposeIterable(arr);
 		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));
 		Log.log("==============================================================================");
 

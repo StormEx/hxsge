@@ -15,7 +15,7 @@ class Memory {
 		};
 	}
 
-	macro public static function disposeArray(val:Expr) {
+	macro public static function disposeIterable(val:Expr) {
 		return macro {
 			if($val != null) {
 				for(i in $val) {
