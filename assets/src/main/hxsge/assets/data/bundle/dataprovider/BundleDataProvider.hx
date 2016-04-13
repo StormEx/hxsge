@@ -72,6 +72,7 @@ class BundleDataProvider extends BaseDataProvider {
 		for(s in data) {
 			dp = DataProviderManager.get(s);
 			if(dp == null) {
+//				TODO: need to uncomment it and remove next string after error adding
 //				errors.addError(Error.create("Can't find data provider for: " + s.url));
 				batch.add(dp);
 			}
