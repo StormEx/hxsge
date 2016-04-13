@@ -62,4 +62,16 @@ class ZipDataProvider extends BaseDataProvider {
 
 		finished.emit(this);
 	}
+
+	public function unzip(entry:Entry):Bytes {
+		if(entry == null) {
+			return null;
+		}
+
+#if flash
+		return entry.data;
+#else
+		return Reader.unzip(entry);
+#end
+	}
 }

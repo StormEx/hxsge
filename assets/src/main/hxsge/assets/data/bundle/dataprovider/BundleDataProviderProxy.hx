@@ -1,5 +1,6 @@
 package hxsge.assets.data.bundle.dataprovider;
 
+import haxe.io.Path;
 import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.base.BaseDataProviderProxy;
@@ -7,6 +8,12 @@ import hxsge.dataprovider.providers.base.BaseDataProviderProxy;
 class BundleDataProviderProxy extends BaseDataProviderProxy {
 	public function new() {
 		super("bundle");
+	}
+
+	override public function check(info:IDataProviderInfo):Bool {
+		var ext:String = Path.extension(info.url);
+
+		return ext == "bundle" || ext == "zip";
 	}
 
 	override public function create(info:IDataProviderInfo):IDataProvider {

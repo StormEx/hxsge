@@ -67,7 +67,7 @@ class BundleStructure implements IDisposable {
 		var tags:Array<String> = [];
 		if(data != null && data.isHasResources) {
 			for(d in data.dependencies) {
-				dependencies.push(new DataProviderInfo(Path.normalize(Path.directory(_info.url) + "/" + d + "/meta.bundle")));
+				dependencies.push(new DataProviderInfo(getDependencyUrl(d)));
 			}
 
 			for(i in 0...data.resources.length) {
@@ -84,6 +84,10 @@ class BundleStructure implements IDisposable {
 				}
 			}
 		}
+	}
+
+	function getDependencyUrl(name:String):String {
+		return Path.normalize(Path.directory(_info.url) + "/" + name + "/meta.bundle");
 	}
 
 	function getInfo(name:String, tags:Array<String>):IDataProviderInfo {

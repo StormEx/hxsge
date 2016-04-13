@@ -22,7 +22,7 @@ class MetaBundleDataProvider extends BaseDataProvider {
 	}
 
 	override function prepareData() {
-		_reader = new BundleReader(Bytes.ofData(info.data));
+		_reader = new BundleReader(info.data);
 		_reader.finished.addOnce(onDataPrepared);
 		_reader.read();
 	}

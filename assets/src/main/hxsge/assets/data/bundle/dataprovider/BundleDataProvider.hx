@@ -1,11 +1,12 @@
 package hxsge.assets.data.bundle.dataprovider;
 
+import haxe.io.Path;
 import hxsge.assets.data.bundle.format.bundle.BundleData;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.base.BaseDataProvider;
 
 class BundleDataProvider extends BaseDataProvider {
-	var data(get, never):BundleData;
+	public var data(get, never):BundleData;
 
 	var _structure:BundleStructure;
 
@@ -14,7 +15,12 @@ class BundleDataProvider extends BaseDataProvider {
 	}
 
 	override function prepareData() {
-		_structure = new BundleStructure(info);
+		if(Path.extension(info.url) == "zip") {
+			_structure = new ZipBundleStructure(info);
+		}
+		else {
+			_structure = new BundleStructure(info);
+		}
 		_structure.finished.addOnce(onDataPrepared);
 		_structure.load();
 	}
