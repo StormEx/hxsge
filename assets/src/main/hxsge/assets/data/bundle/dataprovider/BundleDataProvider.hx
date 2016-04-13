@@ -21,6 +21,8 @@ class BundleDataProvider extends BaseDataProvider {
 	public var dependencies(get, never):Array<String>;
 
 	public var prepared(default, null):Signal1<BundleDataProvider>;
+	public var initialized(default, null):Signal1<Array<IDataProvider>>;
+	public var updated(default, null):Signal1<IDataProvider>;
 
 	var _structure:BundleStructure;
 	var _syncBatch:ProviderBatch;
@@ -30,12 +32,16 @@ class BundleDataProvider extends BaseDataProvider {
 		super(info);
 
 		prepared = new Signal1();
+		initialized = new Signal1();
+		updated = new Signal1();
 	}
 
 	public override function dispose() {
 		super.dispose();
 
 		Memory.dispose(prepared);
+		Memory.dispose(initialized);
+		Memory.dispose(updated);
 	}
 
 	override function prepareData() {
@@ -91,8 +97,15 @@ class BundleDataProvider extends BaseDataProvider {
 	}
 
 	function onSyncBatchLoaded(batch:Batch<IDataProvider>) {
+		initialized.emit(_syncBatch.items);
+
 		_asyncBatch = new ProviderBatch();
+		_asyncBatch.itemFinished.add(onAsyncItemLoaded);
 		loadBatch(_asyncBatch, _structure.asyncData, onAsyncBatchLoaded);
+	}
+
+	function onAsyncItemLoaded(item:IDataProvider) {
+		updated.emit(item);
 	}
 
 	function onAsyncBatchLoaded(batch:Batch<IDataProvider>) {
