@@ -152,7 +152,7 @@ class Test {
 		Log.log("assets test");
 		var manager:AssetManager = new AssetManager();
 		var bundle:Bundle = manager.getBundle(zbundle_file);
-		bundle.finished.addOnce(function(b:Bundle){Log.log("bundle loaded: " + b.url);});
+		bundle.finished.addOnce(function(b:Bundle){Log.log("bundle loaded: " + b.url + (b.isSuccess ? "" : " with errors..."));});
 		bundle.load();
 	}
 
@@ -166,7 +166,7 @@ class Test {
 
 	static function onLoaded(l:ILoader) {
 		if(l.isSuccess()) {
-			var b:Bytes = Bytes.ofData(l.content);
+			var b:Bytes = l.content;
 			if(b != null) {
 				Log.log("Info loaded successfuly: " + b.length);
 			}

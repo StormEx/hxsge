@@ -1,6 +1,7 @@
 package hxsge.loaders.data;
 
 #if hxnodejs
+import haxe.io.Bytes;
 import js.html.Uint8Array;
 import hxsge.loaders.base.BaseLoader;
 
@@ -35,7 +36,7 @@ class NodeJsDataLoader extends BaseLoader {
 			return;
 		}
 
-		content = new Uint8Array(untyped buffer).buffer;
+		content = Bytes.ofData(new Uint8Array(untyped buffer).buffer);
 
 		performComplete();
 	}

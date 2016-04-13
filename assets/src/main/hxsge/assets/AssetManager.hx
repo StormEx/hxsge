@@ -1,8 +1,6 @@
 package hxsge.assets;
 
-import hxsge.assets.data.bundle.dataprovider.BundleDataProviderProxy;
-import hxsge.dataprovider.DataProviderManager;
-import hxsge.dataprovider.providers.base.IDataProvider;
+import hxsge.assets.data.IAsset;
 import hxsge.core.debug.Debug;
 import hxsge.core.memory.Memory;
 import hxsge.core.IDisposable;
@@ -12,11 +10,11 @@ import hxsge.assets.data.bundle.Bundle;
 using hxsge.core.utils.StringTools;
 
 class AssetManager implements IDisposable {
+	static public var assets:AssetManager = new AssetManager();
+
 	var _bundles:Map<String, BundleImpl>;
 
 	public function new() {
-		DataProviderManager.add(new BundleDataProviderProxy());
-
 		_bundles = new Map();
 	}
 
@@ -45,10 +43,10 @@ class AssetManager implements IDisposable {
 		return new Bundle(bundle);
 	}
 
-	function registerResources(resources:Array<IDataProvider>) {
+	function registerResources(resources:Array<IAsset>) {
 	}
 
-	function unregisterResources(resources:Array<IDataProvider>) {
+	function unregisterResources(resources:Array<IAsset>) {
 	}
 
 	function onBundleChanged(bundle:BundleImpl) {
@@ -68,7 +66,7 @@ class AssetManager implements IDisposable {
 		}
 	}
 
-	function onBundleUpdated(resources:Array<IDataProvider>) {
+	function onBundleUpdated(resources:Array<IAsset>) {
 		registerResources(resources);
 	}
 }

@@ -1,6 +1,7 @@
 package hxsge.loaders.data;
 
 #if flash
+import haxe.io.Bytes;
 import hxsge.core.debug.Debug;
 import hxsge.loaders.base.BaseLoader;
 import flash.events.Event;
@@ -71,7 +72,7 @@ class FlashDataLoader extends BaseLoader {
 	}
 
 	function onComplete(e:Event) {
-		content = _loader.data;
+		content = Bytes.ofData(_loader.data);
 
 		performComplete();
 	}
