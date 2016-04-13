@@ -90,7 +90,7 @@ class BaseDataProvider implements IDataProvider {
 	}
 
 	function calculateProgress():Float {
-		return _loader != null ? _loader.progress : 1;
+		return _loader != null ? _loader.progress : 0;
 	}
 
 	function onDataLoaded(loader:ILoader) {
