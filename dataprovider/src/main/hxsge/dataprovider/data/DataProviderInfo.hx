@@ -8,14 +8,16 @@ using hxsge.core.utils.StringTools;
 class DataProviderInfo implements IDataProviderInfo {
 	public var url(default, null):String;
 	public var data(default, set):Dynamic;
+	public var meta(default, null):String;
 
 	public var ext(get, null):String;
 
 	public var isNeedToLoad(get, never):Bool;
 
-	public function new(url:String, data:Dynamic = null) {
+	public function new(url:String, data:Dynamic = null, meta:String = null) {
 		this.url = url;
 		this.data = data;
+		this.meta = meta;
 	}
 
 	inline function set_data(value:Dynamic):Dynamic {
