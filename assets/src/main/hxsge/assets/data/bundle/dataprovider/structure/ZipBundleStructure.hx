@@ -1,4 +1,4 @@
-package hxsge.assets.data.bundle.dataprovider;
+package hxsge.assets.data.bundle.dataprovider.structure;
 
 import hxsge.core.debug.error.Error;
 import hxsge.assets.data.bundle.dataprovider.meta.MetaBundleDataProvider;
@@ -48,12 +48,12 @@ class ZipBundleStructure extends BundleStructure {
 	}
 
 	override function getInfo(name:String, tags:Array<String>):IDataProviderInfo {
-		var dir:String = Path.directory(_info.url) + "/" + name;
+		var dir:String = name;
 		var dpi:DataProviderInfo = null;
 
 		for(f in _zip.files) {
 			if(f.fileName == name) {
-				dpi = new DataProviderInfo(null, _zip.unzip(f));
+				dpi = new DataProviderInfo(dir, _zip.unzip(f));
 
 				break;
 			}

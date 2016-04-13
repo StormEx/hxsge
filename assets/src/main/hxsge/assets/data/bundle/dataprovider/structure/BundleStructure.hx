@@ -1,4 +1,4 @@
-package hxsge.assets.data.bundle.dataprovider;
+package hxsge.assets.data.bundle.dataprovider.structure;
 
 import hxsge.assets.data.bundle.format.bundle.BundleResourceType;
 import haxe.io.Path;
@@ -16,7 +16,7 @@ class BundleStructure implements IDisposable {
 	public var data(get, never):BundleData;
 	public var errors(default, null):ErrorHolder;
 
-	public var dependencies(default, null):Array<IDataProviderInfo> = [];
+	public var dependencies(default, null):Array<String> = [];
 	public var syncData(default, null):Array<IDataProviderInfo> = [];
 	public var asyncData(default, null):Array<IDataProviderInfo> = [];
 
@@ -67,7 +67,7 @@ class BundleStructure implements IDisposable {
 		var tags:Array<String> = [];
 		if(data != null && data.isHasResources) {
 			for(d in data.dependencies) {
-				dependencies.push(new DataProviderInfo(getDependencyUrl(d)));
+				dependencies.push(getDependencyUrl(d));
 			}
 
 			for(i in 0...data.resources.length) {
