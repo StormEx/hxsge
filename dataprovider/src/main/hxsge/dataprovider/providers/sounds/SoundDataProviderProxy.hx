@@ -11,7 +11,14 @@ import hxsge.dataprovider.data.IDataProviderInfo;
 
 class SoundDataProviderProxy extends DataProviderGroupProxy<Class<SoundReader>>{
 	public function new() {
-		super("sounds", ["mp3" => Mp3SoundReader, "ogg" => OggSoundReader, "wav" => WavSoundReader]);
+		super(
+			"sounds",
+			[
+				"mp3" => Mp3SoundReader,
+				"ogg" => OggSoundReader,
+				"wav" => WavSoundReader
+			]
+		);
 	}
 	override public function create(info:IDataProviderInfo):IDataProvider {
 		return new SoundDataProvider<SoundReader>(info, _types.readers);
