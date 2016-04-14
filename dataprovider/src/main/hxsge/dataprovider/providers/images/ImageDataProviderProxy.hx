@@ -1,5 +1,6 @@
 package hxsge.dataprovider.providers.images;
 
+import hxsge.format.images.formats.gif.GifImageReader;
 import hxsge.format.images.formats.bmp.BmpImageReader;
 import hxsge.dataprovider.providers.base.group.DataProviderGroupProxy;
 import hxsge.format.images.ImageReader;
@@ -17,7 +18,8 @@ class ImageDataProviderProxy extends DataProviderGroupProxy<Class<ImageReader>>{
 				"jpg" => JpgImageReader,
 				"jxr" => JxrImageReader,
 				"png" => PngImageReader,
-				"bmp" => BmpImageReader
+				"bmp" => BmpImageReader,
+				"gif" => GifImageReader
 			]
 		);
 	}

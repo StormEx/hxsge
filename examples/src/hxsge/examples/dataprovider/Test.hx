@@ -60,6 +60,10 @@ class Test {
 		var zbundle_file:String = "c:/Downloads/bundles/game_1000_1011/game_1000_1011.zip";
 		var mp3_file:String = "c:/Downloads/bundles/mega_bonus/sfx/bonanza_bonus/win_plaque.mp3";
 		var mp3_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/sfx/bonanza_bonus/win_plaque.mp3";
+		var wav_file:String = "c:/Downloads/bonusintro.wav";
+		var ogg_file:String = "c:/Downloads/bonanza_win.ogg";
+		var bmp_file:String = "c:/Downloads/b.bmp";
+		var gif_file:String = "c:/Downloads/SneakPeek_unlocked_new_game_AnimationV03.gif";
 
 		Log.addLogger(new TraceLogger());
 
@@ -92,9 +96,13 @@ class Test {
 		batch.add(DataProviderManager.get(new DataProviderInfo(png_file)));
 		batch.add(DataProviderManager.get(new DataProviderInfo(jxr_file)));
 		batch.add(DataProviderManager.get(new DataProviderInfo(jxr_url)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(gif_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(bmp_file)));
 		batch.add(DataProviderManager.get(new DataProviderInfo(zbundle_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo(mp3_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo(mp3_url)));
+//		batch.add(DataProviderManager.get(new DataProviderInfo(mp3_file)));
+//		batch.add(DataProviderManager.get(new DataProviderInfo(mp3_url)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(wav_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo(ogg_file)));
 		batch.itemFinished.add(function(data:IDataProvider){Log.log((data.errors.isError ? "error" : "success") + ": " + data.info.url);});
 		batch.finished.addOnce(function(_){Log.log("batch finished.");});
 		batch.handle();
