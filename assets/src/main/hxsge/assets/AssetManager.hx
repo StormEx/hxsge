@@ -95,8 +95,15 @@ class AssetManager implements IDisposable {
 	}
 
 	function unregisterResources(resources:Array<IAsset>) {
+		var res:Array<String> = [];
+
 		for(r in resources) {
 			_assets.remove(r.id);
+			res.push(r.id);
+		}
+
+		if(resources.isNotEmpty()) {
+			unregistered.emit(res);
 		}
 	}
 
