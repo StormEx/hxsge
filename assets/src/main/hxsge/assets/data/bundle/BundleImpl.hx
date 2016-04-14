@@ -1,6 +1,5 @@
 package hxsge.assets.data.bundle;
 
-import hxsge.core.debug.Debug;
 import hxsge.core.batch.Batch;
 import hxsge.core.memory.Memory;
 import hxsge.core.debug.error.Error;
@@ -12,6 +11,8 @@ import hxsge.assets.data.bundle.dataprovider.BundleDataProvider;
 import hxsge.core.IDisposable;
 import hxsge.core.utils.RefCount;
 
+using hxsge.core.utils.ArrayTools;
+
 class BundleImpl extends RefCount implements IDisposable {
 	public var url(default, null):String;
 	public var errors(default, null):ErrorHolder;
@@ -19,7 +20,7 @@ class BundleImpl extends RefCount implements IDisposable {
 	public var resources(default, null):Array<IAsset> = [];
 
 	public var changed(default, null):Signal1<BundleImpl>;
-	public var initialized(default, null):Signal1<Array<IAsset>>;
+	public var initialized(default, null):Signal1<BundleImpl>;
 	public var updated(default, null):Signal1<Array<IAsset>>;
 	public var finished(default, null):Signal1<BundleImpl>;
 
@@ -84,6 +85,22 @@ class BundleImpl extends RefCount implements IDisposable {
 		}
 	}
 
+	function createAssets(data:Array<IDataProvider>):Array<IAsset> {
+		var res:Array<IAsset> = [];
+
+		if(data.isNotEmpty()) {
+			for(d in data) {
+				if(d != null && !d.errors.isError) {
+					var item:IAsset = new Asset(d.info.url);
+					res.push(item);
+					resources.push(item);
+				}
+			}
+		}
+
+		return res;
+	}
+
 	function onBundlePrepared(provider:BundleDataProvider) {
 		if(provider.errors.isError) {
 			performFail("Can't prepare base bundle data...");
@@ -100,19 +117,12 @@ class BundleImpl extends RefCount implements IDisposable {
 	}
 
 	function onBundleInitialized(data:Array<IDataProvider>) {
-		if(data != null && data.length > 0) {
-			Debug.trace("count of items in init package: " + data.length);
-		}
-
-		initialized.emit([]);
+		createAssets(data);
+		initialized.emit(this);
 	}
 
 	function onBundleItemLoaded(item:IDataProvider) {
-		if(item != null) {
-			Debug.trace("item loaded: " + item.info.url);
-		}
-
-		updated.emit([]);
+		updated.emit(createAssets([item]));
 	}
 
 	function onDependenciesLoaded(batch:Batch<Bundle>) {

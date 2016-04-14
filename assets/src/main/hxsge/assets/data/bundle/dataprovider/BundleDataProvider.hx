@@ -1,11 +1,9 @@
 package hxsge.assets.data.bundle.dataprovider;
 
 import hxsge.dataprovider.providers.base.ProviderBatch;
-import hxsge.core.debug.error.Error;
 import hxsge.dataprovider.DataProviderManager;
 import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.core.batch.Batch;
-import hxsge.dataprovider.providers.base.ProviderBatch;
 import hxsge.core.debug.Debug;
 import hxsge.core.memory.Memory;
 import hxsge.core.signal.Signal.Signal1;
