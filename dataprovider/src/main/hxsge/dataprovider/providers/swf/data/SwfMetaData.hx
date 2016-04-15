@@ -1,4 +1,4 @@
-package hxsge.dataprovider.providers.swf;
+package hxsge.dataprovider.providers.swf.data;
 
 class SwfMetaData {
 	var data(default, null):Array<SwfMetaDataItem> = [];

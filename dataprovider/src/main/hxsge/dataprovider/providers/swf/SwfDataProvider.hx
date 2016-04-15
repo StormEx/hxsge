@@ -1,5 +1,6 @@
 package hxsge.dataprovider.providers.swf;
 
+import hxsge.dataprovider.providers.swf.data.SwfMetaData;
 import hxsge.core.utils.meta.Meta;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.base.DataProvider;
