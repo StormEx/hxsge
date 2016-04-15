@@ -53,7 +53,7 @@ class ZipBundleStructure extends BundleStructure {
 
 		for(f in _zip.files) {
 			if(f.fileName == name) {
-				dpi = new DataProviderInfo(dir, _zip.unzip(f));
+				dpi = new DataProviderInfo(dir, _zip.unzip(f), getMeta(tags));
 
 				break;
 			}

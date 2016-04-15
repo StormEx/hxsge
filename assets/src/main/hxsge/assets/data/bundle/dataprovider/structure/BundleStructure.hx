@@ -12,6 +12,8 @@ import hxsge.assets.data.bundle.dataprovider.meta.MetaBundleDataProvider;
 import hxsge.assets.data.bundle.format.bundle.BundleData;
 import hxsge.dataprovider.data.IDataProviderInfo;
 
+using hxsge.core.utils.ArrayTools;
+
 class BundleStructure implements IDisposable {
 	public var data(get, never):BundleData;
 	public var errors(default, null):ErrorHolder;
@@ -94,7 +96,22 @@ class BundleStructure implements IDisposable {
 		var ext:String = Path.extension(name);
 		var dir:String = Path.directory(_info.url) + "/" + name;
 
-		return new DataProviderInfo(dir);
+		return new DataProviderInfo(dir, null, getMeta(tags));
+	}
+
+	function getMeta(tags:Array<String>):String {
+		if(tags.isEmpty()) {
+			return "";
+		}
+
+		if(tags.indexOf("loop") != -1) {
+			return '{"data":[{"name":"SoundSymbol","type":"sound"}]}';
+		}
+		if(tags.indexOf("video") != -1) {
+			return '{"data":[{"name":"VideoSymbol","type":"video"}]}';
+		}
+
+		return "";
 	}
 
 	inline function get_data():BundleData {
