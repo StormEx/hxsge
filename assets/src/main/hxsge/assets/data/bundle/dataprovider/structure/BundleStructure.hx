@@ -43,7 +43,7 @@ class BundleStructure implements IDisposable {
 			performLoad();
 		}
 		else {
-			if(_provider.progress == 1) {
+			if(_provider.progress.isFinished) {
 				finished.emit(this);
 			}
 		}

@@ -1,5 +1,6 @@
 package hxsge.loaders.base;
 
+import hxsge.core.utils.progress.IProgress;
 import hxsge.core.signal.Signal;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.core.IDisposable;
@@ -10,7 +11,7 @@ interface ILoader extends IDisposable {
 	public var finished(default, null):Signal1<ILoader>;
 	public var state(default, null):LoaderStateType;
 	public var content(default, null):Dynamic;
-	public var progress(get, never):Float;
+	public var progress(get, never):IProgress;
 
 	public function load():Void;
 	public function cancel():Void;

@@ -1,5 +1,7 @@
 package hxsge.dataprovider.providers.base;
 
+import hxsge.core.utils.progress.Progress;
+import hxsge.core.utils.progress.IProgress;
 import hxsge.core.log.Log;
 import hxsge.core.signal.SignalMacro;
 import hxsge.core.debug.error.Error;
@@ -17,12 +19,13 @@ using hxsge.loaders.utils.LoaderTools;
 class BaseDataProvider implements IDataProvider {
 	public var info(default, null):IDataProviderInfo;
 	public var errors(default, null):ErrorHolder;
-	public var progress(get, never):Float;
+	public var progress(get, never):IProgress;
 
 	public var finished(default, null):Signal1<IDataProvider>;
 	public var dataNeeded(default, null):Signal2<IDataProvider, IDataProviderInfo>;
 
 	var _loader:ILoader;
+	var _progress:IProgress;
 
 	public function new(info:IDataProviderInfo) {
 		Debug.assert(info != null, "DataProviderInfo must be not null");
@@ -30,6 +33,7 @@ class BaseDataProvider implements IDataProvider {
 		finished = new Signal1();
 		dataNeeded = new Signal2();
 		errors = new ErrorHolder();
+		_progress = new Progress();
 		this.info = info;
 	}
 
@@ -38,6 +42,7 @@ class BaseDataProvider implements IDataProvider {
 
 		info = null;
 		errors = null;
+		_progress = null;
 		Memory.dispose(finished);
 		Memory.dispose(dataNeeded);
 	}
@@ -54,7 +59,7 @@ class BaseDataProvider implements IDataProvider {
 	function performCleanup() {}
 
 	public function load() {
-		if(progress == 1) {
+		if(progress.isFinished) {
 			finished.emit(this);
 
 			return;
@@ -89,8 +94,10 @@ class BaseDataProvider implements IDataProvider {
 		Debug.error("need to override");
 	}
 
-	function calculateProgress():Float {
-		return _loader != null ? _loader.progress : 0;
+	function calculateProgress():IProgress {
+		_progress.set(_loader != null ? _loader.progress.progress : 0);
+
+		return _progress;
 	}
 
 	function onDataLoaded(loader:ILoader) {
@@ -108,7 +115,7 @@ class BaseDataProvider implements IDataProvider {
 		cleanup();
 	}
 
-	inline function get_progress():Float {
+	inline function get_progress():IProgress {
 		return calculateProgress();
 	}
 }

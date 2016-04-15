@@ -1,5 +1,6 @@
 package hxsge.assets.data.bundle.dataprovider;
 
+import hxsge.core.utils.progress.IProgress;
 import hxsge.dataprovider.providers.base.ProviderBatch;
 import hxsge.dataprovider.DataProviderManager;
 import hxsge.dataprovider.providers.base.IDataProvider;
@@ -110,8 +111,12 @@ class BundleDataProvider extends BaseDataProvider {
 		finished.emit(this);
 	}
 
-	override function calculateProgress():Float {
-		return _structure != null ? 1 : 0;
+	override function calculateProgress():IProgress {
+		if(_progress != null) {
+			_progress.set(_structure != null ? 1 : 0);
+		}
+
+		return _progress;
 	}
 
 	inline function get_data():BundleData {

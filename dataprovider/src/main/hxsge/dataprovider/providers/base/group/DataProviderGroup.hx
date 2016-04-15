@@ -1,5 +1,6 @@
 package hxsge.dataprovider.providers.base.group;
 
+import hxsge.core.utils.progress.IProgress;
 import hxsge.core.debug.error.Error;
 import haxe.io.Path;
 import haxe.io.Bytes;
@@ -52,7 +53,11 @@ class DataProviderGroup<TReader:IReader> extends BaseDataProvider {
 		finished.emit(this);
 	}
 
-	override function calculateProgress():Float {
-		return _reader != null ? 1 : 0;
+	override function calculateProgress():IProgress {
+		if(_progress != null) {
+			_progress.set(_reader != null ? 1 : 0);
+		}
+
+		return _progress;
 	}
 }

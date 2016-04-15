@@ -1,6 +1,7 @@
 package hxsge.loaders.data;
 
 #if flash
+import hxsge.core.utils.progress.IProgress;
 import haxe.io.Bytes;
 import hxsge.core.debug.Debug;
 import hxsge.loaders.base.BaseLoader;
@@ -16,7 +17,6 @@ import flash.net.URLLoader;
 class FlashDataLoader extends BaseLoader {
 	var _loader:URLLoader;
 	var _urlRequest:URLRequest;
-	var _progress:Float = 0;
 
 	public function new(url:String) {
 		super(url);
@@ -39,7 +39,7 @@ class FlashDataLoader extends BaseLoader {
 		_loader.load(_urlRequest);
 	}
 
-	override function calculateProgress():Float {
+	override function calculateProgress():IProgress {
 		return _progress;
 	}
 
@@ -82,7 +82,7 @@ class FlashDataLoader extends BaseLoader {
 	}
 
 	function onProgress(e:ProgressEvent) {
-		_progress = e.bytesTotal > 0 ? (e.bytesLoaded / e.bytesTotal) : 0;
+		_progress.set(e.bytesTotal > 0 ? (e.bytesLoaded / e.bytesTotal) : 0);
 	}
 }
 #end

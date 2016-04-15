@@ -1,5 +1,7 @@
 package hxsge.loaders.base;
 
+import hxsge.core.utils.progress.Progress;
+import hxsge.core.utils.progress.IProgress;
 import hxsge.core.signal.SignalMacro;
 import hxsge.core.signal.Signal;
 import hxsge.core.debug.error.Error;
@@ -13,8 +15,10 @@ class BaseLoader implements ILoader {
 	public var errors(default, null):ErrorHolder;
 	public var finished(default, null):Signal1<ILoader>;
 	public var state(default, null):LoaderStateType;
-	public var progress(get, never):Float;
+	public var progress(get, never):IProgress;
 	public var content(default, null):Dynamic;
+
+	var _progress:IProgress;
 
 	public function new(url:String) {
 		Debug.assert(url.isNotEmpty());
@@ -23,6 +27,7 @@ class BaseLoader implements ILoader {
 		errors = new ErrorHolder();
 		state = LoaderStateType.NONE;
 		finished = new Signal1();
+		_progress = new Progress();
 	}
 
 	public function dispose() {
@@ -37,6 +42,7 @@ class BaseLoader implements ILoader {
 
 		content = null;
 		errors = null;
+		_progress = null;
 	}
 
 	public function load() {
@@ -56,7 +62,7 @@ class BaseLoader implements ILoader {
 		SignalMacro.safeEmit(finished, this);
 	}
 
-	inline function get_progress():Float {
+	inline function get_progress():IProgress {
 		return calculateProgress();
 	}
 
@@ -87,7 +93,7 @@ class BaseLoader implements ILoader {
 	function performDispose() {
 	}
 
-	function calculateProgress():Float {
-		return 0;
+	function calculateProgress():IProgress {
+		return _progress;
 	}
 }
