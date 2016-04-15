@@ -1,5 +1,7 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.dataprovider.providers.swf.SwfDataProviderProxy;
+import hxsge.dataprovider.providers.swf.SwfDataProvider;
 import hxsge.dataprovider.providers.sounds.SoundDataProviderProxy;
 import hxsge.assets.data.bundle.Bundle;
 import hxsge.assets.AssetManager;
@@ -72,6 +74,7 @@ class Test {
 //		DataProviderManager.add(new ZipDataProviderProxy());
 		DataProviderManager.add(new ImageDataProviderProxy());
 		DataProviderManager.add(new SoundDataProviderProxy());
+		DataProviderManager.add(new SwfDataProviderProxy());
 		getDataProvider(new DataProviderInfo("111111111111111.base"));
 		getDataProvider(new DataProviderInfo("222222222222222.zip"));
 		getDataProvider(new DataProviderInfo(png_file));
