@@ -3,7 +3,7 @@ package hxsge.dataprovider.providers.base;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import haxe.io.Path;
 
-class BaseDataProviderProxy implements IDataProviderProxy {
+class DataProviderProxy implements IDataProviderProxy {
 	public var type(default, null):String;
 	public var info(get, never):String;
 
@@ -18,7 +18,7 @@ class BaseDataProviderProxy implements IDataProviderProxy {
 	}
 
 	public function create(info:IDataProviderInfo):IDataProvider {
-		return new BaseDataProvider(info);
+		return new DataProvider(info);
 	}
 
 	function get_info():String {

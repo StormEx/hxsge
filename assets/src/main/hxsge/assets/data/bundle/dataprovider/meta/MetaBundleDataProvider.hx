@@ -8,9 +8,9 @@ import hxsge.format.base.IReader;
 import hxsge.assets.data.bundle.format.bundle.BundleReader;
 import hxsge.assets.data.bundle.format.bundle.BundleData;
 import hxsge.dataprovider.data.IDataProviderInfo;
-import hxsge.dataprovider.providers.base.BaseDataProvider;
+import hxsge.dataprovider.providers.base.DataProvider;
 
-class MetaBundleDataProvider extends BaseDataProvider {
+class MetaBundleDataProvider extends DataProvider {
 	public var data(get, never):BundleData;
 
 	var _reader:BundleReader;

@@ -17,7 +17,7 @@ import hxsge.core.macro.Macro;
 import hxsge.loaders.data.DataLoader;
 import hxsge.dataprovider.providers.base.ProviderBatch;
 import hxsge.core.debug.error.Error;
-import hxsge.dataprovider.providers.base.BaseDataProvider;
+import hxsge.dataprovider.providers.base.DataProvider;
 import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.core.memory.Memory;
 import hxsge.dataprovider.data.DataProviderInfo;
@@ -116,8 +116,8 @@ class Test {
 		Log.log("==============================================================================");
 
 		Log.log("test dispose");
-		var arr:Array<BaseDataProvider> = [];
-		arr.push(new BaseDataProvider(new DataProviderInfo("asdf")));
+		var arr:Array<DataProvider> = [];
+		arr.push(new DataProvider(new DataProviderInfo("asdf")));
 		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));
 		Memory.disposeIterable(arr);
 		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));

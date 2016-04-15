@@ -2,9 +2,9 @@ package hxsge.dataprovider.providers.zip;
 
 import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.dataprovider.data.IDataProviderInfo;
-import hxsge.dataprovider.providers.base.BaseDataProviderProxy;
+import hxsge.dataprovider.providers.base.DataProviderProxy;
 
-class ZipDataProviderProxy extends BaseDataProviderProxy {
+class ZipDataProviderProxy extends DataProviderProxy {
 	public function new() {
 		super("zip");
 	}

@@ -3,9 +3,9 @@ package hxsge.assets.data.bundle.dataprovider;
 import haxe.io.Path;
 import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.dataprovider.data.IDataProviderInfo;
-import hxsge.dataprovider.providers.base.BaseDataProviderProxy;
+import hxsge.dataprovider.providers.base.DataProviderProxy;
 
-class BundleDataProviderProxy extends BaseDataProviderProxy {
+class BundleDataProviderProxy extends DataProviderProxy {
 	public function new() {
 		super("bundle");
 	}

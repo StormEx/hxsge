@@ -7,9 +7,9 @@ import haxe.io.Bytes;
 import hxsge.core.memory.Memory;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.format.base.IReader;
-import hxsge.dataprovider.providers.base.BaseDataProvider;
+import hxsge.dataprovider.providers.base.DataProvider;
 
-class DataProviderGroup<TReader:IReader> extends BaseDataProvider {
+class DataProviderGroup<TReader:IReader> extends DataProvider {
 	var _reader:TReader;
 	var _readers:Map<String, Class<TReader>>;
 

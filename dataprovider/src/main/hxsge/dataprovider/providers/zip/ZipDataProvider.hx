@@ -4,10 +4,10 @@ import haxe.zip.Reader;
 import haxe.io.BytesInput;
 import haxe.io.Bytes;
 import hxsge.dataprovider.data.IDataProviderInfo;
-import hxsge.dataprovider.providers.base.BaseDataProvider;
+import hxsge.dataprovider.providers.base.DataProvider;
 import haxe.zip.Entry;
 
-class ZipDataProvider extends BaseDataProvider {
+class ZipDataProvider extends DataProvider {
 	public var entries(default, null):Array<Entry> = [];
 
 	public var directories(default, null):Array<Entry> = [];

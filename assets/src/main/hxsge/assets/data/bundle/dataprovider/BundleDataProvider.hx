@@ -13,9 +13,9 @@ import hxsge.assets.data.bundle.dataprovider.structure.BundleStructure;
 import haxe.io.Path;
 import hxsge.assets.data.bundle.format.bundle.BundleData;
 import hxsge.dataprovider.data.IDataProviderInfo;
-import hxsge.dataprovider.providers.base.BaseDataProvider;
+import hxsge.dataprovider.providers.base.DataProvider;
 
-class BundleDataProvider extends BaseDataProvider {
+class BundleDataProvider extends DataProvider {
 	public var data(get, never):BundleData;
 	public var dependencies(get, never):Array<String>;
 

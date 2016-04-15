@@ -4,9 +4,9 @@ import hxsge.core.debug.Debug;
 import hxsge.dataprovider.providers.base.IDataProvider;
 import haxe.io.Path;
 import hxsge.dataprovider.data.IDataProviderInfo;
-import hxsge.dataprovider.providers.base.BaseDataProviderProxy;
+import hxsge.dataprovider.providers.base.DataProviderProxy;
 
-class DataProviderGroupProxy<TType> extends BaseDataProviderProxy{
+class DataProviderGroupProxy<TType> extends DataProviderProxy{
 	var _types:DataProviderGroupTypes<TType>;
 
 	function new(type:String, values:Map<String, TType>) {

@@ -16,7 +16,7 @@ import hxsge.core.debug.error.ErrorHolder;
 
 using hxsge.loaders.utils.LoaderTools;
 
-class BaseDataProvider implements IDataProvider {
+class DataProvider implements IDataProvider {
 	public var info(default, null):IDataProviderInfo;
 	public var errors(default, null):ErrorHolder;
 	public var progress(get, never):IProgress;
