@@ -8,7 +8,7 @@ import flash.display.BitmapData;
 import haxe.io.Bytes;
 
 class ImageDataTools {
-	public static function fromBytes(image:ImageData, width:Int, height:Int, bytes:Bytes) {
+	public static function fromBytes(image:ImageData, width:Int, height:Int, bytes:Bytes):ImageData {
 #if flash
 		var bd:BitmapData = new BitmapData(width, height, true, 0xFFFF0000);
 		var ba:ByteArray = bytes.getData();
