@@ -1,16 +1,17 @@
 package hxsge.assets.data.bundle.format.bundle;
 
+import hxsge.core.serialize.ISerializable;
 import hxsge.core.platforms.Platforms;
 using hxsge.core.utils.StringTools;
 
-class BundleData {
+class BundleData implements ISerializable {
 	public var requiredAppVersion:String;
 	public var name:String;
 	public var version:String;
 	public var platforms:Array<String> = [];
 	public var dependencies:Array<String> = [];
 //	TODO: need to change Dynamic to BundleResourceGroup after change parse data algorithm
-	public var resources:Array</*BundleResourceGroup*/Dynamic> = [];
+	public var resources:Array<BundleResourceGroup> = [];
 
 	public var isHasDependencies(get, never):Bool;
 	public var isHasResources(get, never):Bool;

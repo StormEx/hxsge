@@ -74,14 +74,14 @@ class BundleStructure implements IDisposable {
 
 			for(i in 0...data.resources.length) {
 				var type:BundleResourceType = data.resources[i].type;
-				var list:Array<String> = data.resources[i].list;
+				var list:Array<Dynamic> = data.resources[i].list;
 				tags = data.resources[i].tags;
 				for(r in list) {
 					switch(type) {
 						case BundleResourceType.ASYNCHRONOUS:
-							asyncData.push(getInfo(r, tags));
+							asyncData.push(getInfo(r.name, tags));
 						default:
-							syncData.push(getInfo(r, tags));
+							syncData.push(getInfo(r.name, tags));
 					}
 				}
 			}

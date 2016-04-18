@@ -14,7 +14,9 @@ class BundleReader extends BytesReader {
 	override function readData() {
 		var str:String = Std.string(_data);
 
-		data = Json.build(str, BundleData);
+		data = new BundleData();
+		data.deserialize(Json.parse(str));
+//		data = Json.build(str, BundleData);
 
 		finished.emit(this);
 	}
