@@ -1,5 +1,6 @@
 package hxsge.assets.data.bundle.dataprovider.structure;
 
+import hxsge.assets.data.bundle.format.bundle.BundleResourceData;
 import hxsge.assets.data.bundle.format.bundle.BundleResourceType;
 import haxe.io.Path;
 import hxsge.dataprovider.data.DataProviderInfo;
@@ -73,15 +74,12 @@ class BundleStructure implements IDisposable {
 			}
 
 			for(i in 0...data.resources.length) {
-				var type:BundleResourceType = data.resources[i].type;
-				var list:Array<Dynamic> = data.resources[i].list;
-				tags = data.resources[i].tags;
-				for(r in list) {
-					switch(type) {
+				for(r in data.resources[i].list) {
+					switch(data.resources[i].type) {
 						case BundleResourceType.ASYNCHRONOUS:
-							asyncData.push(getInfo(r.name, tags));
+							asyncData.push(getInfo(r.name, data.resources[i].tags));
 						default:
-							syncData.push(getInfo(r.name, tags));
+							syncData.push(getInfo(r.name, data.resources[i].tags));
 					}
 				}
 			}
