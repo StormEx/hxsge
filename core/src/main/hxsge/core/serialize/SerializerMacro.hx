@@ -77,14 +77,14 @@ class SerializerMacro {
 
 		exprs.push(macro var obj:Dynamic = data);
 		for(f in flds) {
-			if(Macro.isSimpleType(f)) {
-				exprs.push(deserializeSimpleField(f));
-			}
-			else if(Macro.isArray(f)) {
+			if(Macro.isArray(f)) {
 				exprs.push(deserializeArrayField(f));
 			}
 			else if(Macro.isMap(f)) {
 				exprs.push(deserializeMapField(f));
+			}
+			else if(Macro.isSimpleType(f)) {
+				exprs.push(deserializeSimpleField(f));
 			}
 			else {
 			}
@@ -194,63 +194,91 @@ class SerializerMacro {
 				var atp:TypePath = TypePathMacro.fromComplexType(act);
 				simple = TypePathMacro.isSimpleType(atp);
 
-				return macro {
-					var dd:Dynamic = Reflect.field(obj, $v{f.name});
-					trace("------------------------> " + dd);
+				if(simple) {
+					act = switch(tp.params[1]) {
+						case TypeParam.TPType(t):
+							t;
+						default:
+							null;
+					}
+					atp = TypePathMacro.fromComplexType(act);
+					simple = TypePathMacro.isSimpleType(atp);
+					isSerializable = switch(Context.getType(atp.name)) {
+						case TInst(cct, _):
+							isSerializableClass(cct.get());
+						default:
+							false;
+					}
+					if(simple) {
+						return macro {
+							if(Reflect.hasField(obj, $v{f.name})) {
+								$i{f.name} = new Map();
+								var d:Dynamic = Reflect.field(obj, $v{f.name});
+								if(d != null) {
+									try
+									{
+										var keys = Reflect.fields(d);
+										for(k in keys) {
+											$i{f.name}.set(cast k, cast Reflect.field(d, k));
+										}
+									}
+									catch(e:Dynamic) {}
+								}
+								hxsge.core.debug.Debug.trace($v{f.name} + ": " + $i{f.name});
+							}
+						}
+					}
+					else {
+						if(isSerializable) {
+							return macro {
+								if(Reflect.hasField(obj, $v{f.name})) {
+									$i{f.name} = new Map();
+									var d:Dynamic = Reflect.field(obj, $v{f.name});
+									if(d != null) {
+										try
+										{
+											var keys = Reflect.fields(d);
+											for(k in keys) {
+												var val = Type.createInstance($i{atp.name}, []);
+												Reflect.field(val, "deserialize")(Reflect.field(d, k));
+												$i{f.name}.set(cast k, val);
+											}
+										}
+										catch(e:Dynamic) {}
+									}
+									hxsge.core.debug.Debug.trace($v{f.name} + ": " + $i{f.name});
+								}
+							}
+						}
+						else {
+							return macro {
+								if(Reflect.hasField(obj, $v{f.name})) {
+									$i{f.name} = new Map();
+									var d:Dynamic = Reflect.field(obj, $v{f.name});
+									if(d != null) {
+										try
+										{
+											var keys = Reflect.fields(d);
+											for(k in keys) {
+												$i{f.name}.set(cast k, Std.instance(Reflect.field(d, k), $i{atp.name}));
+											}
+										}
+										catch(e:Dynamic) {trace(Std.string(e));}
+									}
+									hxsge.core.debug.Debug.trace($v{f.name} + ": " + $i{f.name});
+								}
+							}
+						}
+					}
 				}
-
-//				TODO: need to finish parsing of map type
-
-//				if(simple) {
-//					return macro {
-//						if(Reflect.hasField(obj, $v{f.name})) {
-//							var d:Array<Dynamic> = Reflect.field(obj, $v{f.name});
-//							if(d != null) {
-//								$i{f.name} = [];
-//								for(v in d) {
-//								$i{f.name}.push(cast v);
-//								}
-//							}
-//							hxsge.core.debug.Debug.trace($v{f.name} + ": " + $i{f.name});
-//						}
-//					}
-//				}
-//				else {
-//					switch(Context.getType(atp.name)) {
-//						case TInst(cct, _):
-//							isSerializable = isSerializableClass(cct.get());
-//						default:
-//							isSerializable = false;
-//					}
-//					if(isSerializable) {
-//						return macro {
-//							if(Reflect.hasField(obj, $v{f.name})) {
-//								var d:Array<Dynamic> = Reflect.field(obj, $v{f.name});
-//								if(d != null) {
-//									$i{f.name} = [];
-//									for(v in d) {
-//									var val = Type.createInstance($i{atp.name}, []);
-//									Reflect.field(val, "deserialize")(v);
-//									$i{f.name}.push(val);
-//									}
-//								}
-//								hxsge.core.debug.Debug.trace($v{f.name} + ": " + $i{f.name});}
-//						}
-//					}
-//					else {
-//						return macro {
-//							if(Reflect.hasField(obj, $v{f.name})) {
-//								var d:Array<Dynamic> = Reflect.field(obj, $v{f.name});
-//								if(d != null) {
-//									$i{f.name} = [];
-//									for(v in d) {
-//									$i{f.name}.push(Std.instance(v, $i{atp.name}));
-//									}
-//								}
-//								hxsge.core.debug.Debug.trace($v{f.name} + ": " + $i{f.name});}
-//						}
-//					}
-//				}
+				else {
+					return macro {
+						if(Reflect.hasField(obj, $v{f.name})) {
+							$i{f.name} = new Map();
+							hxsge.core.debug.Debug.trace($v{f.name} + ": " + $i{f.name});
+						}
+					}
+				}
 			}
 		}
 

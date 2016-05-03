@@ -10,7 +10,6 @@ class BundleData implements ISerializable {
 	public var version:String;
 	public var platforms:Array<String> = [];
 	public var dependencies:Array<String> = [];
-//	TODO: need to change Dynamic to BundleResourceGroup after change parse data algorithm
 	public var resources:Array<BundleResourceGroup> = [];
 
 	public var isHasDependencies(get, never):Bool;
