@@ -33,6 +33,10 @@ class Macro {
 		return TypePathMacro.isSimpleType(TypePathMacro.fromComplexType(getComplexType(fld)));
 	}
 
+	public static function isAbstract(fld:Field):Bool {
+		return TypePathMacro.isAbstract(TypePathMacro.fromComplexType(getComplexType(fld)));
+	}
+
 	public static function isArray(fld:Field):Bool {
 		return TypePathMacro.isArray(TypePathMacro.fromComplexType(getComplexType(fld)));
 	}

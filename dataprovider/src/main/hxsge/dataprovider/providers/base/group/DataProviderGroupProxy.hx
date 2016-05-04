@@ -16,6 +16,8 @@ class DataProviderGroupProxy<TType> extends DataProviderProxy{
 	}
 
 	override public function check(info:IDataProviderInfo):Bool {
+		Debug.assert(info != null);
+
 		var ext:String = Path.extension(info.url);
 
 		return _types.readers.exists(ext);

@@ -26,16 +26,27 @@ class TypePathMacro {
 					| ValueType.TBool
 					| ValueType.TFloat:
 						true;
-					case ValueType.TClass(c):
-						switch(Context.getType(tp.name)) {
-							case haxe.macro.Type.TAbstract:
-								true;
-							default:
-								false;
-						}
 					default:
 						false;
 				}
+		}
+	}
+
+	public static function isAbstract(tp:TypePath):Bool {
+		if(tp == null) {
+			return false;
+		}
+
+		return switch(Type.typeof(tp.name)) {
+			case ValueType.TClass(c):
+				switch(Context.getType(tp.name)) {
+					case haxe.macro.Type.TAbstract:
+						true;
+					default:
+						false;
+				}
+			default:
+				false;
 		}
 	}
 
