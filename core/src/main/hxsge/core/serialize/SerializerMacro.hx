@@ -192,7 +192,7 @@ class SerializerMacro {
 
 	static function deserializeArrayField(f:Field):Expr {
 		var tName:String = getFieldParamNameByIndex(f, 0);
-		return switch(getFieldTypeByIndex(f, 0)) {
+		return deserializeField(f, switch(getFieldTypeByIndex(f, 0)) {
 			case SerializerMacroFieldType.SERIALIZABLE:
 				macro {
 					var d:Array<Dynamic> = Reflect.field(obj, $v{f.name});
@@ -225,11 +225,11 @@ class SerializerMacro {
 						}
 					}
 				}
-		}
+		});
 	}
 
 	static function deserializeMapField(f:Field):Expr {
-		return switch(getFieldTypeByIndex(f, 0)) {
+		return deserializeField(f, switch(getFieldTypeByIndex(f, 0)) {
 			case SerializerMacroFieldType.SIMPLE:
 				var tName:String = getFieldParamNameByIndex(f, 1);
 				switch(getFieldTypeByIndex(f, 1)) {
@@ -282,7 +282,7 @@ class SerializerMacro {
 				macro {
 					$i{f.name} = new Map();
 				}
-		}
+		});
 	}
 }
 #end
