@@ -55,5 +55,27 @@ class Macro {
 				return null;
 		}
 	}
+
+	static public function getParamNameByIndex(f:Field, paramIndex:Int):String {
+		var ct:ComplexType = null;
+		var tp:TypePath = null;
+
+		if(f != null) {
+			ct = Macro.getComplexType(f);
+			if(ct != null) {
+				tp = TypePathMacro.fromComplexType(ct);
+				if(tp != null && tp.params != null && tp.params.length > paramIndex) {
+					return switch(tp.params[paramIndex]) {
+						case TypeParam.TPType(t):
+							TypePathMacro.fromComplexType(t).name;
+						default:
+							null;
+					};
+				}
+			}
+		}
+
+		return null;
+	}
 #end
 }

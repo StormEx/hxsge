@@ -115,7 +115,7 @@ class SerializerMacro {
 		return res;
 	}
 
-	static function getFieldParamNameByIndex(f:Field, paramIndex:Int):String {
+	static function getSerializerFieldTypeByIndex(f:Field, paramIndex:Int):SerializerMacroFieldType {
 		var ct:ComplexType = null;
 		var tp:TypePath = null;
 
@@ -124,29 +124,7 @@ class SerializerMacro {
 			if(ct != null) {
 				tp = TypePathMacro.fromComplexType(ct);
 				if(tp != null && tp.params != null && tp.params.length > paramIndex) {
-					return switch(tp.params[paramIndex]) {
-						case TypeParam.TPType(t):
-							TypePathMacro.fromComplexType(t).name;
-						default:
-							null;
-					};
-				}
-			}
-		}
-
-		return null;
-	}
-
-	static function getFieldTypeByIndex(f:Field, paramIndex:Int):SerializerMacroFieldType {
-		var ct:ComplexType = null;
-		var tp:TypePath = null;
-
-		if(f != null) {
-			ct = Macro.getComplexType(f);
-			if(ct != null) {
-				tp = TypePathMacro.fromComplexType(ct);
-				if(tp != null && tp.params != null && tp.params.length > paramIndex) {
-					return getFieldType(tp.params[paramIndex]);
+					return getSerializerFieldType(tp.params[paramIndex]);
 				}
 			}
 		}
@@ -154,7 +132,7 @@ class SerializerMacro {
 		return SerializerMacroFieldType.UNKNOWN;
 	}
 
-	static function getFieldType(tp:TypeParam):SerializerMacroFieldType {
+	static function getSerializerFieldType(tp:TypeParam):SerializerMacroFieldType {
 		if(tp == null) {
 			return SerializerMacroFieldType.UNKNOWN;
 		}
@@ -191,8 +169,8 @@ class SerializerMacro {
 	}
 
 	static function deserializeArrayField(f:Field):Expr {
-		var tName:String = getFieldParamNameByIndex(f, 0);
-		return deserializeField(f, switch(getFieldTypeByIndex(f, 0)) {
+		var tName:String = Macro.getParamNameByIndex(f, 0);
+		return deserializeField(f, switch(getSerializerFieldTypeByIndex(f, 0)) {
 			case SerializerMacroFieldType.SERIALIZABLE:
 				macro {
 					var d:Array<Dynamic> = Reflect.field(obj, $v{f.name});
@@ -229,10 +207,10 @@ class SerializerMacro {
 	}
 
 	static function deserializeMapField(f:Field):Expr {
-		return deserializeField(f, switch(getFieldTypeByIndex(f, 0)) {
+		return deserializeField(f, switch(getSerializerFieldTypeByIndex(f, 0)) {
 			case SerializerMacroFieldType.SIMPLE:
-				var tName:String = getFieldParamNameByIndex(f, 1);
-				switch(getFieldTypeByIndex(f, 1)) {
+				var tName:String = Macro.getParamNameByIndex(f, 1);
+				switch(getSerializerFieldTypeByIndex(f, 1)) {
 					case SerializerMacroFieldType.SERIALIZABLE:
 						macro {
 							$i{f.name} = new Map();
