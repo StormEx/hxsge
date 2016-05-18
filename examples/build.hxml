@@ -8,5 +8,7 @@
 -cp ../loaders/src/main
 -cp ../format/src/main
 -cp ../core/src/main
+-cp ../swamp/src/main
+-cp ../forge/src/main
 
 -debug

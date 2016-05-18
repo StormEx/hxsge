@@ -15,7 +15,7 @@ import hxsge.core.signal.Signal;
 import haxe.crypto.Base64;
 import haxe.io.Bytes;
 import hxsge.loaders.base.ILoader;
-import hxsge.core.macro.Macro;
+import hxsge.swamp.Macro;
 import hxsge.loaders.data.DataLoader;
 import hxsge.dataprovider.providers.base.ProviderBatch;
 import hxsge.core.debug.error.Error;

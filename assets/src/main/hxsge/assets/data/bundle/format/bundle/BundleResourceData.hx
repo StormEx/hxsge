@@ -1,6 +1,6 @@
 package hxsge.assets.data.bundle.format.bundle;
 
-import hxsge.core.serialize.ISerializable;
+import hxsge.forge.ISerializable;
 
 class BundleResourceData implements ISerializable {
 	public var name(default, null):String;

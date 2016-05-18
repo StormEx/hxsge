@@ -1,7 +1,8 @@
 package hxsge.assets.data.bundle.format.bundle;
 
-import hxsge.core.serialize.ISerializable;
+import hxsge.forge.ISerializable;
 import hxsge.core.platforms.Platforms;
+
 using hxsge.core.utils.StringTools;
 
 class BundleData implements ISerializable {

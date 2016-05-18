@@ -1,6 +1,5 @@
 package hxsge.core.debug.error;
 
-import hxsge.core.macro.Macro;
 import haxe.macro.Expr;
 
 class Error implements IError {
@@ -11,7 +10,7 @@ class Error implements IError {
 
 	macro static public function create(e:Expr):Expr {
 		return macro {
-			@:privateAccess new hxsge.core.debug.error.Error($e, hxsge.core.macro.Macro.fileInfo($e));
+			@:privateAccess new hxsge.core.debug.error.Error($e, hxsge.swamp.Macro.fileInfo($e));
 		}
 	}
 

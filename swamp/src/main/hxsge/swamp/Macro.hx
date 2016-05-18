@@ -1,4 +1,4 @@
-package hxsge.core.macro;
+package hxsge.swamp;
 
 import haxe.macro.Context;
 import haxe.macro.Expr;

@@ -1,11 +1,10 @@
-package hxsge.core.serialize;
+package hxsge.forge.macro;
 
 #if macro
 import haxe.macro.Expr.Binop;
 import haxe.macro.Type.ClassType;
 import haxe.macro.Context;
-import hxsge.core.macro.TypePathMacro;
-import hxsge.core.macro.Macro;
+import hxsge.swamp.Macro;
 import haxe.macro.Expr.ComplexType;
 import haxe.macro.Expr.Field;
 import haxe.macro.Expr.Function;
@@ -63,7 +62,7 @@ class SerializerMacro {
 
 	static function isSerializableClass(ct:ClassType):Bool {
 		for(i in ct.interfaces) {
-			if(i.t.toString() == "hxsge.core.serialize.ISerializable") {
+			if(i.t.toString() == "hxsge.forge.ISerializable") {
 				return true;
 			}
 		}
@@ -122,7 +121,7 @@ class SerializerMacro {
 		if(f != null) {
 			ct = Macro.getComplexType(f);
 			if(ct != null) {
-				tp = TypePathMacro.fromComplexType(ct);
+				tp = hxsge.swamp.TypePathMacro.fromComplexType(ct);
 				if(tp != null && tp.params != null && tp.params.length > paramIndex) {
 					return getSerializerFieldType(tp.params[paramIndex]);
 				}
@@ -145,8 +144,8 @@ class SerializerMacro {
 		}
 
 		if(act != null) {
-			var atp:TypePath = TypePathMacro.fromComplexType(act);
-			if(TypePathMacro.isSimpleType(atp) || TypePathMacro.isAbstract(atp)) {
+			var atp:TypePath = hxsge.swamp.TypePathMacro.fromComplexType(act);
+			if(hxsge.swamp.TypePathMacro.isSimpleType(atp) || hxsge.swamp.TypePathMacro.isAbstract(atp)) {
 				return SerializerMacroFieldType.SIMPLE;
 			}
 			else {

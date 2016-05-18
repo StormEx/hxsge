@@ -1,4 +1,4 @@
-package hxsge.core.macro;
+package hxsge.swamp;
 
 #if macro
 import haxe.macro.Context;

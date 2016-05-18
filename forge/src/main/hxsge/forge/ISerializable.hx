@@ -1,7 +1,7 @@
-package hxsge.core.serialize;
+package hxsge.forge;
 
 #if !macro
-@:autoBuild(hxsge.core.serialize.SerializerMacro.build())
+@:autoBuild(hxsge.forge.macro.SerializerMacro.build())
 #end
 
 interface ISerializable {

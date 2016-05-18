@@ -1,4 +1,4 @@
-package hxsge.core.serialize;
+package hxsge.forge.macro;
 
 @:enum abstract SerializerMacroFieldType(Int) from Int to Int {
 	var UNKNOWN = -1;
