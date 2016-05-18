@@ -5,7 +5,7 @@ import hxsge.core.memory.Memory;
 import hxsge.core.debug.error.Error;
 import hxsge.dataprovider.data.DataProviderInfo;
 import hxsge.dataprovider.providers.base.IDataProvider;
-import hxsge.core.signal.Signal.Signal1;
+import hxsge.photon.Signal;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.assets.data.bundle.dataprovider.BundleDataProvider;
 import hxsge.core.IDisposable;

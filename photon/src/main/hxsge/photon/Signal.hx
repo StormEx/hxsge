@@ -1,9 +1,8 @@
-package hxsge.core.signal;
+package hxsge.photon;
 
-import hxsge.core.debug.Debug;
 import haxe.Constraints.Function;
 
-class Signal<T:Function> implements IDisposable {
+class Signal<T:Function> {
 	var _functions:Array<T> = [];
 	var _flags:Array<SignalFlagType> = [];
 
@@ -31,9 +30,6 @@ class Signal<T:Function> implements IDisposable {
 		if(check(func) == -1) {
 			_functions.push(func);
 			_flags.push(type);
-		}
-		else {
-			Debug.trace("try to add existing function...");
 		}
 	}
 

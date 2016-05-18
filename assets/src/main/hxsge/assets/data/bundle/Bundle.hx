@@ -1,7 +1,7 @@
 package hxsge.assets.data.bundle;
 
 import hxsge.core.memory.Memory;
-import hxsge.core.signal.Signal.Signal1;
+import hxsge.photon.Signal;
 import hxsge.core.IDisposable;
 
 class Bundle implements IDisposable {

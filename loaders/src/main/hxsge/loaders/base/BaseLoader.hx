@@ -1,9 +1,9 @@
 package hxsge.loaders.base;
 
+import hxsge.photon.SignalMacro;
 import hxsge.core.utils.progress.Progress;
 import hxsge.core.utils.progress.IProgress;
-import hxsge.core.signal.SignalMacro;
-import hxsge.core.signal.Signal;
+import hxsge.photon.Signal;
 import hxsge.core.debug.error.Error;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.core.debug.Debug;

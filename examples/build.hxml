@@ -10,5 +10,6 @@
 -cp ../core/src/main
 -cp ../swamp/src/main
 -cp ../forge/src/main
+-cp ../photon/src/main
 
 -debug

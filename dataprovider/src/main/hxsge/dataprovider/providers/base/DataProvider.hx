@@ -1,15 +1,15 @@
 package hxsge.dataprovider.providers.base;
 
+import hxsge.photon.SignalMacro;
 import hxsge.core.utils.progress.Progress;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.core.log.Log;
-import hxsge.core.signal.SignalMacro;
 import hxsge.core.debug.error.Error;
 import hxsge.loaders.base.ILoader;
 import hxsge.loaders.base.BaseLoader;
 import hxsge.loaders.data.DataLoader;
 import hxsge.core.memory.Memory;
-import hxsge.core.signal.Signal;
+import hxsge.photon.Signal;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.core.debug.Debug;
 import hxsge.core.debug.error.ErrorHolder;

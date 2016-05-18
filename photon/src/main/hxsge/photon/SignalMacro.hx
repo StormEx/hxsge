@@ -1,4 +1,4 @@
-package hxsge.core.signal;
+package hxsge.photon;
 
 import haxe.macro.Expr;
 

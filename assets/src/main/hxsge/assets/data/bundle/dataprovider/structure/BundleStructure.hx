@@ -8,7 +8,7 @@ import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.core.memory.Memory;
 import hxsge.core.IDisposable;
 import hxsge.core.debug.error.ErrorHolder;
-import hxsge.core.signal.Signal.Signal1;
+import hxsge.photon.Signal;
 import hxsge.assets.data.bundle.dataprovider.meta.MetaBundleDataProvider;
 import hxsge.assets.data.bundle.format.bundle.BundleData;
 import hxsge.dataprovider.data.IDataProviderInfo;

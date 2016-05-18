@@ -1,7 +1,7 @@
 package hxsge.dataprovider.providers.base;
 
 import hxsge.core.utils.progress.IProgress;
-import hxsge.core.signal.Signal;
+import hxsge.photon.Signal;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.core.IDisposable;
 import hxsge.core.debug.error.ErrorHolder;

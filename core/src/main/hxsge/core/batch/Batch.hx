@@ -1,6 +1,6 @@
 package hxsge.core.batch;
 
-import hxsge.core.signal.Signal;
+import hxsge.photon.Signal;
 import hxsge.core.memory.Memory;
 import hxsge.core.debug.Debug;
 

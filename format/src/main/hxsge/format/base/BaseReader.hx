@@ -2,8 +2,7 @@ package hxsge.format.base;
 
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.core.memory.Memory;
-import hxsge.core.signal.Signal.Signal1;
-import hxsge.core.IDisposable;
+import hxsge.photon.Signal;
 import hxsge.core.debug.Debug;
 
 class BaseReader<T> implements IReader {

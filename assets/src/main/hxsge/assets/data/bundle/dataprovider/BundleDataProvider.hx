@@ -7,7 +7,7 @@ import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.core.batch.Batch;
 import hxsge.core.debug.Debug;
 import hxsge.core.memory.Memory;
-import hxsge.core.signal.Signal.Signal1;
+import hxsge.photon.Signal;
 import hxsge.assets.data.bundle.dataprovider.structure.ZipBundleStructure;
 import hxsge.assets.data.bundle.dataprovider.structure.BundleStructure;
 import haxe.io.Path;

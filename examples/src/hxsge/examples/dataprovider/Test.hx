@@ -1,5 +1,6 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.photon.SignalMacro;
 import hxsge.dataprovider.providers.swf.SwfDataProviderProxy;
 import hxsge.dataprovider.providers.swf.SwfDataProvider;
 import hxsge.dataprovider.providers.sounds.SoundDataProviderProxy;
@@ -10,8 +11,7 @@ import hxsge.dataprovider.providers.images.ImageDataProviderProxy;
 import hxsge.dataprovider.DataProviderManager;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.zip.ZipDataProviderProxy;
-import hxsge.core.signal.SignalMacro;
-import hxsge.core.signal.Signal;
+import hxsge.photon.Signal;
 import haxe.crypto.Base64;
 import haxe.io.Bytes;
 import hxsge.loaders.base.ILoader;

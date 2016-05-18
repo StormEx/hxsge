@@ -2,7 +2,7 @@ package hxsge.format.base;
 
 import hxsge.core.IDisposable;
 import hxsge.core.debug.error.ErrorHolder;
-import hxsge.core.signal.Signal.Signal1;
+import hxsge.photon.Signal;
 
 interface IReader extends IDisposable {
 	public var errors(default, null):ErrorHolder;

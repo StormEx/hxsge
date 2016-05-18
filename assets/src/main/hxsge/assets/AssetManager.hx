@@ -1,6 +1,6 @@
 package hxsge.assets;
 
-import hxsge.core.signal.Signal.Signal1;
+import hxsge.photon.Signal;
 import hxsge.core.log.Log;
 import hxsge.assets.data.IAsset;
 import hxsge.core.debug.Debug;
