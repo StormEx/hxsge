@@ -8,13 +8,13 @@ using hxsge.core.utils.StringTools;
 class DataProviderInfo implements IDataProviderInfo {
 	public var url(default, null):String;
 	public var data(default, set):Dynamic;
-	public var meta(default, null):String;
+	public var meta(default, null):Dynamic;
 
 	public var ext(get, null):String;
 
 	public var isNeedToLoad(get, never):Bool;
 
-	public function new(url:String, data:Dynamic = null, meta:String = null) {
+	public function new(url:String, data:Dynamic = null, meta:Dynamic = null) {
 		this.url = url;
 		this.data = data;
 		this.meta = meta;

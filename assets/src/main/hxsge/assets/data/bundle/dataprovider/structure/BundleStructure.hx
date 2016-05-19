@@ -14,6 +14,7 @@ import hxsge.assets.data.bundle.format.bundle.BundleData;
 import hxsge.dataprovider.data.IDataProviderInfo;
 
 using hxsge.core.utils.ArrayTools;
+using hxsge.core.utils.StringTools;
 
 class BundleStructure implements IDisposable {
 	public var data(get, never):BundleData;
@@ -77,9 +78,9 @@ class BundleStructure implements IDisposable {
 				for(r in data.resources[i].list) {
 					switch(data.resources[i].type) {
 						case BundleResourceType.ASYNCHRONOUS:
-							asyncData.push(getInfo(r.name, data.resources[i].tags));
+							asyncData.push(getInfo(r.name, data.resources[i].tags, r.meta));
 						default:
-							syncData.push(getInfo(r.name, data.resources[i].tags));
+							syncData.push(getInfo(r.name, data.resources[i].tags, r.meta));
 					}
 				}
 			}
@@ -90,26 +91,19 @@ class BundleStructure implements IDisposable {
 		return Path.normalize(Path.directory(_info.url) + "/" + name + "/meta.bundle");
 	}
 
-	function getInfo(name:String, tags:Array<String>):IDataProviderInfo {
+	function getInfo(name:String, tags:Array<String>, meta:Dynamic):IDataProviderInfo {
 		var ext:String = Path.extension(name);
 		var dir:String = Path.directory(_info.url) + "/" + name;
 
-		return new DataProviderInfo(dir, null, getMeta(tags));
+		return new DataProviderInfo(dir, null, getMeta(meta));
 	}
 
-	function getMeta(tags:Array<String>):String {
-		if(tags.isEmpty()) {
-			return "";
+	function getMeta(meta:Dynamic):Dynamic {
+		if(meta == null) {
+			return {};
 		}
 
-		if(tags.indexOf("loop") != -1) {
-			return '{"data":[{"name":"SoundSymbol","type":"sound"}]}';
-		}
-		if(tags.indexOf("video") != -1) {
-			return '{"data":[{"name":"VideoSymbol","type":"video"}]}';
-		}
-
-		return "";
+		return meta;
 	}
 
 	inline function get_data():BundleData {

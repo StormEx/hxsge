@@ -47,13 +47,13 @@ class ZipBundleStructure extends BundleStructure {
 		return Path.normalize(Path.directory(_info.url) + "/" + name + ".zip");
 	}
 
-	override function getInfo(name:String, tags:Array<String>):IDataProviderInfo {
+	override function getInfo(name:String, tags:Array<String>, meta:Dynamic):IDataProviderInfo {
 		var dir:String = name;
 		var dpi:DataProviderInfo = null;
 
 		for(f in _zip.files) {
 			if(f.fileName == name) {
-				dpi = new DataProviderInfo(dir, _zip.unzip(f), getMeta(tags));
+				dpi = new DataProviderInfo(dir, _zip.unzip(f), getMeta(meta));
 
 				break;
 			}

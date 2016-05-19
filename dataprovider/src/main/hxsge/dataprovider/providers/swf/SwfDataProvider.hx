@@ -4,14 +4,13 @@ package hxsge.dataprovider.providers.swf;
 import hxsge.core.platforms.Platforms;
 import hxsge.core.debug.Debug;
 import hxsge.dataprovider.providers.swf.data.SwfMetaData;
-import hxsge.core.utils.meta.Meta;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.base.DataProvider;
 
 using hxsge.core.utils.StringTools;
 
 class SwfDataProvider extends DataProvider {
-	var _meta:Meta<SwfMetaData>;
+	var _meta:SwfMetaData;
 
 	public function new(info:IDataProviderInfo) {
 		super(info);
@@ -19,13 +18,9 @@ class SwfDataProvider extends DataProvider {
 		setMeta(info.meta);
 	}
 
-	public function setMeta(meta:String) {
-		if(meta.isNotEmpty()) {
-			_meta = Meta.parse(meta, SwfMetaData);
-		}
-		else {
-			_meta = new Meta(new SwfMetaData());
-		}
+	public function setMeta(meta:Dynamic) {
+		_meta = new SwfMetaData();
+		_meta.deserialize(meta);
 	}
 
 	override function prepareData() {
