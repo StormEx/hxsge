@@ -45,7 +45,7 @@ class SerializerMacro {
 
 	static function buildDeserialize():Field {
 		var knd:Function = {
-			args: [{name:"data", type:macro :Dynamic}],
+			args: [{name:"__data__", type:macro :Dynamic}],
 			ret: macro :Void,
 			expr: buildDeserializeExpr()
 		};
@@ -74,7 +74,7 @@ class SerializerMacro {
 		var flds:Array<Field> = Context.getBuildFields();
 		var exprs:Array<Expr> = [];
 
-		exprs.push(macro var obj:Dynamic = data);
+		exprs.push(macro var obj:Dynamic = __data__);
 		for(f in flds) {
 			if(Macro.isSimpleType(f)) {
 				exprs.push(deserializeSimpleField(f));
