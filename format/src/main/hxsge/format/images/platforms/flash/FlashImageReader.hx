@@ -21,6 +21,8 @@ class FlashImageReader extends ImageReader {
 	}
 
 	override public function dispose() {
+		super.dispose();
+
 		if(_flashLoader != null) {
 			_flashLoader.contentLoaderInfo.removeEventListener(Event.COMPLETE, onImageLoaded);
 			_flashLoader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, onError);
