@@ -64,7 +64,6 @@ class SwfDataProvider extends DataProvider {
 					case SwfMetaDataType.SOUND:
 						var snd:Sound = _reader.getSound(d.name);
 						if(snd != null) {
-							snd.data.data.play();
 							sounds.push(snd);
 						}
 					case SwfMetaDataType.VIDEO:
