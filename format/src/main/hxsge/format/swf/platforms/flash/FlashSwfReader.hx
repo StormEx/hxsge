@@ -1,7 +1,6 @@
-package hxsge.format.swf;
+package hxsge.format.swf.platforms.flash;
 
 #if flash
-import hxsge.format.sounds.SoundImpl;
 import hxsge.format.sounds.Sound;
 import hxsge.format.images.Image;
 import hxsge.format.sounds.SoundData;
