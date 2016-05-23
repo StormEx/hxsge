@@ -1,6 +1,7 @@
 package hxsge.format.sounds.platforms.flash;
 
 #if flash
+import hxsge.format.sounds.platforms.flash.FlashSoundData;
 import flash.utils.ByteArray;
 import haxe.io.Bytes;
 import hxsge.core.debug.error.Error;
@@ -27,7 +28,7 @@ class FlashSoundReader extends SoundReader {
 		}
 
 		if(!errors.isError) {
-			sound = new hxsge.format.sounds.Sound(new SoundData(_soundLoader));
+			sound = new FlashSoundData(_soundLoader);
 		}
 
 		finished.emit(this);

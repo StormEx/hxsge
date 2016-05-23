@@ -1,5 +1,8 @@
 package hxsge.assets.data.bundle;
 
+import hxsge.dataprovider.providers.images.ImageDataProvider;
+import hxsge.assets.data.SoundAsset;
+import hxsge.dataprovider.providers.sounds.SoundDataProvider;
 import hxsge.core.batch.Batch;
 import hxsge.core.memory.Memory;
 import hxsge.core.debug.error.Error;
@@ -90,9 +93,24 @@ class BundleImpl extends RefCount {
 		if(data.isNotEmpty()) {
 			for(d in data) {
 				if(d != null && !d.errors.isError) {
-					var item:IAsset = new Asset(d.info.url);
-					res.push(item);
-					resources.push(item);
+					var item:IAsset = null;
+
+					try {
+						if(Std.is(d, SoundDataProvider)) {
+							item = new SoundAsset(d.info.url, d);
+						}
+						if(Std.is(d, ImageDataProvider)) {
+							item = new Asset(d.info.url, d);
+						}
+					}
+					catch(e:Dynamic) {
+						item = null;
+					}
+
+					if(item != null) {
+						res.push(item);
+						resources.push(item);
+					}
 				}
 			}
 		}

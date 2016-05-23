@@ -21,6 +21,6 @@ class SoundDataProviderProxy extends DataProviderGroupProxy<Class<SoundReader>>{
 		);
 	}
 	override public function create(info:IDataProviderInfo):IDataProvider {
-		return new SoundDataProvider<SoundReader>(info, _types.readers);
+		return new SoundDataProvider(info, _types.readers);
 	}
 }

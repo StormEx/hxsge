@@ -1,6 +1,7 @@
 package hxsge.dataprovider.providers.swf;
 
 #if flash
+import hxsge.format.sounds.ISoundData;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.core.debug.error.Error;
 import hxsge.format.base.IReader;
@@ -20,7 +21,7 @@ using hxsge.core.utils.StringTools;
 
 class SwfDataProvider extends DataProvider {
 	public var images(default, null):Array<Image> = [];
-	public var sounds(default, null):Array<Sound> = [];
+	public var sounds(default, null):Array<ISoundData> = [];
 //	public var videos(default, null):Array<Image> = [];
 
 	var _meta:SwfMetaData;
@@ -62,7 +63,7 @@ class SwfDataProvider extends DataProvider {
 							images.push(img);
 						}
 					case SwfMetaDataType.SOUND:
-						var snd:Sound = _reader.getSound(d.name);
+						var snd:ISoundData = _reader.getSound(d.name);
 						if(snd != null) {
 							sounds.push(snd);
 						}

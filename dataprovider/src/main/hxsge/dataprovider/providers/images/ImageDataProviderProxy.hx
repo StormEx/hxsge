@@ -24,6 +24,6 @@ class ImageDataProviderProxy extends DataProviderGroupProxy<Class<ImageReader>>{
 		);
 	}
 	override public function create(info:IDataProviderInfo):IDataProvider {
-		return new ImageDataProvider<ImageReader>(info, _types.readers);
+		return new ImageDataProvider(info, _types.readers);
 	}
 }

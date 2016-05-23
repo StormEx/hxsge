@@ -1,6 +1,8 @@
 package hxsge.format.swf.platforms.flash;
 
 #if flash
+import hxsge.format.sounds.ISoundData;
+import hxsge.format.sounds.platforms.flash.FlashSoundData;
 import hxsge.format.sounds.Sound;
 import hxsge.format.images.Image;
 import hxsge.format.sounds.SoundData;
@@ -111,13 +113,13 @@ class FlashSwfReader extends BaseSwfReader {
 		return null;
 	}
 
-	override public function getSound(symbolName:String):Sound {
+	override public function getSound(symbolName:String):ISoundData {
 		var snd:flash.media.Sound = Std.instance(cast createInstance(symbolName), flash.media.Sound);
 		if(snd == null) {
 			errors.addError(Error.create("Can't get sound data from Sound..."));
 		}
 		else {
-			return new Sound(new SoundData(snd));
+			return new FlashSoundData(snd);
 		}
 
 		return null;

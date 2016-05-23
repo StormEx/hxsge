@@ -1,6 +1,7 @@
 package hxsge.format.sounds.formats.wav;
 
 #if flash
+import hxsge.format.sounds.platforms.flash.FlashSoundData;
 import hxsge.core.debug.error.Error;
 import haxe.io.BytesInput;
 import haxe.io.Bytes;
@@ -21,8 +22,9 @@ class WavSoundReader extends SoundReader {
 		var bytes:Bytes = d.data;
 
 		try {
-			var snd:SoundData = new SoundData(null).fromBytes(bytes, h.byteRate);
-			sound = new Sound(snd);
+			var snd:ISoundData = new FlashSoundData(null);
+			snd = snd.fromBytes(bytes, h.byteRate);
+			sound = snd;
 		}
 		catch(e:Dynamic) {
 			errors.addError(Error.create("Can't encode wav data..."));
@@ -32,7 +34,7 @@ class WavSoundReader extends SoundReader {
 	}
 }
 #else
-import hxsge.format.sounds.DummySoundReader;
+import hxsge.format.sounds.platforms.dummy.DummySoundReader;
 
 typedef WavSoundReader = DummySoundReader;
 #end

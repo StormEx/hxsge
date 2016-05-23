@@ -50,7 +50,13 @@ class DataProviderGroup<TReader:IReader> extends DataProvider {
 			errors.addError(Error.create("Can't read bytes by reader..."));
 		}
 
+		prepareDataAfterRead();
+
 		finished.emit(this);
+	}
+
+	function prepareDataAfterRead() {
+
 	}
 
 	override function calculateProgress():IProgress {

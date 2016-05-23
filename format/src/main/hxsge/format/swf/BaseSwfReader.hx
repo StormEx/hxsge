@@ -1,8 +1,8 @@
 package hxsge.format.swf;
 
+import hxsge.format.sounds.ISoundData;
 import haxe.io.Bytes;
 import hxsge.format.base.BytesReader;
-import hxsge.format.sounds.Sound;
 import hxsge.format.images.Image;
 
 class BaseSwfReader extends BytesReader {
@@ -16,7 +16,7 @@ class BaseSwfReader extends BytesReader {
 		return null;
 	}
 
-	public function getSound(symbolName:String):Sound {
+	public function getSound(symbolName:String):ISoundData {
 		return null;
 	}
 }
