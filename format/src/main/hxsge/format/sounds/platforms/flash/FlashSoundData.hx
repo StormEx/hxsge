@@ -17,8 +17,5 @@ class FlashSoundData implements ISoundData {
 
 		return res;
 	}
-
-	public function remove(sound:ISound) {
-	}
 }
 #end
