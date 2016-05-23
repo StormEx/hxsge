@@ -8,12 +8,11 @@ import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.photon.Signal;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.assets.data.bundle.dataprovider.BundleDataProvider;
-import hxsge.core.IDisposable;
 import hxsge.core.utils.RefCount;
 
 using hxsge.core.utils.ArrayTools;
 
-class BundleImpl extends RefCount implements IDisposable {
+class BundleImpl extends RefCount {
 	public var url(default, null):String;
 	public var errors(default, null):ErrorHolder;
 	public var progress(get, never):Float;

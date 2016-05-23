@@ -1,6 +1,6 @@
 package hxsge.core.utils;
 
-class RefCount {
+class RefCount implements IDisposable {
 	public var refCount(default, null):Int = 0;
 
 	public function new() {
