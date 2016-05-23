@@ -29,7 +29,7 @@ class DataProviderGroup<TReader:IReader> extends DataProvider {
 	}
 
 	override function prepareData() {
-		var bytes:Bytes = info.data;
+		var bytes:Bytes = _data;
 		if(bytes != null) {
 			_reader = Type.createInstance(
 				_readers.get(Path.extension(info.url)),

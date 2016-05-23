@@ -46,7 +46,7 @@ class ZipDataProvider extends DataProvider {
 	}
 
 	override function prepareData() {
-		var bytes:Bytes = info.data;
+		var bytes:Bytes = _data;
 		var i:BytesInput = new BytesInput(bytes);
 
 		_reader = new Reader(i);

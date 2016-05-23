@@ -26,6 +26,7 @@ class DataProvider implements IDataProvider {
 
 	var _loader:ILoader;
 	var _progress:IProgress;
+	var _data:Dynamic;
 
 	public function new(info:IDataProviderInfo) {
 		Debug.assert(info != null, "DataProviderInfo must be not null");
@@ -54,6 +55,7 @@ class DataProvider implements IDataProvider {
 			_loader.cancel();
 		}
 		Memory.dispose(_loader);
+		_data = null;
 	}
 
 	function performCleanup() {}
@@ -69,8 +71,16 @@ class DataProvider implements IDataProvider {
 			performLoad();
 		}
 		else {
+			_data = info.data;
 			prepareData();
 		}
+	}
+
+	public function clear() {
+		cleanup();
+
+		_progress.reset();
+		errors.reset();
 	}
 
 	function performLoad() {
@@ -109,6 +119,7 @@ class DataProvider implements IDataProvider {
 		}
 		else {
 			info.data = loader.content;
+			_data = loader.content;
 			prepareData();
 		}
 

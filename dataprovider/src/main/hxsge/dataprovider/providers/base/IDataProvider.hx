@@ -15,5 +15,6 @@ interface IDataProvider extends IDisposable {
 	public var dataNeeded(default, null):Signal2<IDataProvider, IDataProviderInfo>;
 
 	public function load():Void;
+	public function clear():Void;
 	public function provideRequestedData(provider:IDataProvider):Void;
 }

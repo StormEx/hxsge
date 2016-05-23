@@ -40,7 +40,7 @@ class SwfDataProvider extends DataProvider {
 
 	override function prepareData() {
 		if(_reader == null) {
-			_reader = new SwfReader(info.data);
+			_reader = new SwfReader(_data);
 			_reader.finished.addOnce(onDataPrepared);
 			_reader.read();
 		}
