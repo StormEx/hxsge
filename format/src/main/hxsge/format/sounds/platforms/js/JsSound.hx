@@ -1,6 +1,6 @@
 package hxsge.format.sounds.platforms.js;
 
-#if (js || nodejs)
+#if js
 import hxsge.format.sounds.platforms.base.SoundVolume;
 import js.html.audio.GainNode;
 import js.html.audio.AudioBufferSourceNode;

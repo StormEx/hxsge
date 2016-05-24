@@ -4,7 +4,7 @@ package hxsge.format.sounds.formats.mp3;
 import hxsge.format.sounds.platforms.flash.FlashSoundReader;
 
 typedef Mp3SoundReader = FlashSoundReader;
-#elseif(js || nodejs)
+#elseif js
 import hxsge.format.sounds.platforms.js.JsSoundReader;
 
 typedef Mp3SoundReader = JsSoundReader;

@@ -1,6 +1,6 @@
 package hxsge.format.sounds.platforms.js;
 
-#if (js || nodejs)
+#if js
 import haxe.io.Bytes;
 
 class JsSoundReader extends SoundReader {

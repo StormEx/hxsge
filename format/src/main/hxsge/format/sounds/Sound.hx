@@ -4,7 +4,7 @@ package hxsge.format.sounds;
 import hxsge.format.sounds.platforms.flash.FlashSound;
 
 typedef Sound = FlashSound;
-#elseif(js || nodejs)
+#elseif js
 import hxsge.format.sounds.platforms.js.JsSound;
 
 typedef Sound = JsSound;
