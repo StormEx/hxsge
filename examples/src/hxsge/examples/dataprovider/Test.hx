@@ -1,5 +1,8 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.core.debug.Debug;
+import hxsge.dataprovider.providers.sounds.SoundDataProvider;
+import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.photon.SignalMacro;
 import hxsge.dataprovider.providers.swf.SwfDataProviderProxy;
 import hxsge.dataprovider.providers.swf.SwfDataProvider;
@@ -50,18 +53,18 @@ class Test {
 	}
 
 	public static function main() {
-		var zip_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/paytable_1000.zip";
+		var zip_url:String = "http://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/paytable_1000.zip";
 		var zip_file:String = "c:/Downloads/bundles/preloader/preloader.zip";
 		var jpg_file:String = "c:/Downloads/horseshoe_jackpot.jpg";
-		var jpg_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/common/img/og/jackpot/1029_jackpot.jpg";
+		var jpg_url:String = "http://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/common/img/og/jackpot/1029_jackpot.jpg";
 		var png_file:String = "c:/Downloads/logo_alt.png";
-		var png_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/common/img/og/jackpot/horseshoe_jackpot.png";
+		var png_url:String = "http://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/common/img/og/jackpot/horseshoe_jackpot.png";
 		var jxr_file:String = "c:/Downloads/bundles/preloader/gfx/preloader.jxr";
-		var jxr_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/game/10Ten10.jxr";
+		var jxr_url:String = "http://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/game/10Ten10.jxr";
 		var bundle_file:String = "d:/StormEx/temp/game_1000_1011/meta.bundle";
 		var zbundle_file:String = "d:/StormEx/temp/game_1000_1011/game_1000_1011.zip";
 		var mp3_file:String = "c:/Downloads/bundles/mega_bonus/sfx/bonanza_bonus/win_plaque.mp3";
-		var mp3_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/sfx/bonanza_bonus/win_plaque.mp3";
+		var mp3_url:String = "http://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/sfx/bonanza_bonus/win_plaque.mp3";
 		var wav_file:String = "c:/Downloads/bonusintro.wav";
 		var ogg_file:String = "c:/Downloads/bonanza_win.ogg";
 		var bmp_file:String = "c:/Downloads/b.bmp";
@@ -78,6 +81,12 @@ class Test {
 		getDataProvider(new DataProviderInfo("111111111111111.base"));
 		getDataProvider(new DataProviderInfo("222222222222222.zip"));
 		getDataProvider(new DataProviderInfo(png_file));
+//		var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo(mp3_file));
+		var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo(mp3_url));
+		if(dp != null) {
+			dp.finished.addOnce(onDPFinished);
+			dp.load();
+		}
 		Log.log("end: data provider example.");
 		Log.log("==============================================================================");
 
@@ -204,6 +213,18 @@ class Test {
 
 	static function call(a:Int, b:String, c:DataProviderInfo) {
 		Log.log("call");
+	}
+
+	static function onDPFinished(provider:IDataProvider) {
+		var sdp:SoundDataProvider = cast provider;
+
+		if(sdp != null && !sdp.errors.isError) {
+			Debug.trace("sound data provider loaded successfuly");
+			sdp.sound.create(1, 0.1).play(0);
+		}
+		else {
+			Debug.trace("can't load sound data provider");
+		}
 	}
 
 //	macro static function generateClass<T>(name:String) {

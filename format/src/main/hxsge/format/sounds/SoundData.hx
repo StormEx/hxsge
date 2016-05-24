@@ -4,6 +4,10 @@ package hxsge.format.sounds;
 import hxsge.format.sounds.platforms.flash.FlashSound;
 
 typedef SoundData = FlashSound;
+#elseif(js || nodejs)
+import hxsge.format.sounds.platforms.js.JsSound;
+
+typedef SoundData = JsSound;
 #else
 import hxsge.format.sounds.platforms.dummy.DummySoundData;
 
