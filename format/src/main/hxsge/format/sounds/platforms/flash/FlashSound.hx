@@ -41,8 +41,8 @@ class FlashSound implements ISound {
 		stop();
 
 		if(_sound != null) {
-			_position = 0;
-			_channel = _sound.play(startTime, loop ? 999999 : 1, _st);
+			_position = startTime;
+			_channel = _sound.play(_position, loop ? 999999 : 0, _st);
 			if(_channel != null) {
 				_position = _channel.position;
 				_channel.addEventListener(Event.SOUND_COMPLETE, onSoundCompleted, false, 0, true);
