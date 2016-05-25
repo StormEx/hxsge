@@ -10,7 +10,8 @@ class Meta<T:Dynamic> {
 
 		switch(type) {
 			case MetaType.JSON:
-				meta = new Meta(hxsge.core.utils.Json.build(data, cls));
+//				meta = new Meta(hxsge.core.utils.Json.build(data, cls));
+				Debug.error("[Meta] parsing of Json meta type not implemented...");
 			case MetaType.XML:
 				Debug.error("[Meta] parsing of XML meta type not implemented...");
 			default:

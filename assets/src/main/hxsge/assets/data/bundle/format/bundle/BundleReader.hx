@@ -1,6 +1,6 @@
 package hxsge.assets.data.bundle.format.bundle;
 
-import hxsge.core.utils.Json;
+import hxsge.format.json.Json;
 import haxe.io.Bytes;
 import hxsge.format.base.BytesReader;
 

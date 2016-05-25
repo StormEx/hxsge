@@ -1,4 +1,4 @@
-package hxsge.core.utils;
+package hxsge.format.json;
 
 class Json {
 	inline public static function parse(data:String):Dynamic {
