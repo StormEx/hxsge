@@ -1,5 +1,7 @@
 -main hxsge.examples.dataprovider.Test
 
+-swf-header 912:40:40:FF0000
+
 -lib format
 -lib actuate
 -lib haxeui
