@@ -1,7 +1,7 @@
 package hxsge.format.sounds.platforms.js;
 
 #if js
-import hxsge.core.utils.Json;
+import hxsge.format.json.Json;
 import hxsge.core.debug.Debug;
 import hxsge.format.sounds.platforms.base.SoundVolume;
 import js.html.audio.GainNode;
