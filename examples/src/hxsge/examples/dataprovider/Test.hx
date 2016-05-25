@@ -142,7 +142,7 @@ class Test {
 		Log.log("==============================================================================");
 
 		Log.log("test loader");
-		Macro.defines();
+		hxsge.core.macro.Macro.defines();
 //		var loader:DataLoader = new DataLoader("https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/paytable_1000.zip");
 		var loader:DataLoader = new DataLoader("c:/Downloads/horseshoe_feed.jpg");
 		loader.finished.addOnce(onLoaded);
