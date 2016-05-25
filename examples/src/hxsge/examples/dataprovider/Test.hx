@@ -1,6 +1,7 @@
 package hxsge.examples.dataprovider;
 
 #if flash
+import hxsge.core.memory.Memory;
 import flash.events.MouseEvent;
 #end
 import hxsge.core.debug.Debug;
@@ -177,21 +178,29 @@ class Test {
 #if flash
 		Log.log("assets test");
 		var manager:AssetManager = new AssetManager();
+		var bundle:Bundle = null;
 		haxe.ui.toolkit.core.Toolkit.init();
 		haxe.ui.toolkit.core.Toolkit.openFullscreen(function(root:haxe.ui.toolkit.core.Root) {
 			var button:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
+			var ubutton:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
+			ubutton.text = "unload";
+			ubutton.x = 49;
 			button.text = "load";
 			var ti:haxe.ui.toolkit.controls.TextInput = new haxe.ui.toolkit.controls.TextInput();
 			ti.text = zbundle_url;
-			ti.x = 50;
-			ti.width = 500;
+			ti.x = 112;
+			ti.width = 800;
 			ti.height = button.height;
 			button.addEventListener(MouseEvent.CLICK, function(e) {
-				var bundle:Bundle = manager.getBundle(ti.text);
+				bundle = manager.getBundle(ti.text);
 				bundle.finished.addOnce(function(b:Bundle){Log.log("bundle loaded: " + b.url + (b.isSuccess ? "" : " with errors..."));});
 				bundle.load();
 			});
+			ubutton.addEventListener(MouseEvent.CLICK, function(e) {
+				Memory.dispose(bundle);
+			});
 			root.addChild(button);
+			root.addChild(ubutton);
 			root.addChild(ti);
 		});
 #end

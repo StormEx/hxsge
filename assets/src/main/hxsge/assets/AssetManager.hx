@@ -49,6 +49,7 @@ class AssetManager implements IDisposable {
 			bundle.initialized.addOnce(onBundleInitialized);
 			bundle.updated.add(onBundleUpdated);
 			bundle.finished.addOnce(onBundleFinished);
+			bundle.changed.add(onBundleChanged);
 
 			_bundles.set(url, bundle);
 		}
