@@ -27,7 +27,6 @@ class JsDataLoader extends BaseLoader {
 		_request.onload = onLoaded;
 		_request.onerror = onErrored;
 		_request.onprogress = onProgress;
-		_request.withCredentials = true;
 		_request.send(null);
 	}
 
