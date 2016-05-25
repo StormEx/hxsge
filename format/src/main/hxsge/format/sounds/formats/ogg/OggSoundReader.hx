@@ -4,6 +4,10 @@ package hxsge.format.sounds.formats.ogg;
 import hxsge.format.sounds.platforms.flash.FlashSoundReader;
 
 typedef OggSoundReader = FlashSoundReader;
+#elseif nodejs
+import hxsge.format.sounds.platforms.dummy.DummySoundReader;
+
+typedef OggSoundReader = DummySoundReader;
 #elseif js
 import hxsge.format.sounds.platforms.js.JsSoundReader;
 

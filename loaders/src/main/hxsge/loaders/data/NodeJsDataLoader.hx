@@ -1,6 +1,6 @@
 package hxsge.loaders.data;
 
-#if hxnodejs
+#if nodejs
 import haxe.io.Bytes;
 import js.html.Uint8Array;
 import hxsge.loaders.base.BaseLoader;
@@ -31,7 +31,7 @@ class NodeJsDataLoader extends BaseLoader {
 
 	override function performLoad() {
 		try {
-			Fs.exists(url, onCheckLocalFileFinished);
+			Fs.access(url, Fs.R_OK, onCheckLocalFileFinished);
 		}
 		catch(e:Dynamic) {
 			performFail("Can't load data...");
@@ -46,9 +46,9 @@ class NodeJsDataLoader extends BaseLoader {
 		return Http.get(url, onResponseRetrieved);
 	}
 
-	function onCheckLocalFileFinished(isLocal:Bool) {
+	function onCheckLocalFileFinished(error:js.Error) {
 		try {
-			if(isLocal) {
+			if(error == null) {
 				Fs.readFile(url, onFileReaded);
 			}
 			else {

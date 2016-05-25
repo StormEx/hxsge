@@ -2,7 +2,7 @@ package hxsge.loaders.data;
 
 #if flash
 typedef DataLoader = FlashDataLoader;
-#elseif hxnodejs
+#elseif nodejs
 typedef DataLoader = NodeJsDataLoader;
 #elseif js
 typedef DataLoader = JsDataLoader;
