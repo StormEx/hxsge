@@ -82,7 +82,8 @@ class Test {
 		getDataProvider(new DataProviderInfo("222222222222222.zip"));
 		getDataProvider(new DataProviderInfo(png_file));
 //		var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo(mp3_file));
-		var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo(mp3_url));
+		var spath:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/bonanza_win.ogg";
+		var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo(spath));
 		if(dp != null) {
 			dp.finished.addOnce(onDPFinished);
 			dp.load();

@@ -1,6 +1,8 @@
 package hxsge.format.sounds.platforms.js;
 
 #if js
+import hxsge.core.utils.Json;
+import hxsge.core.debug.Debug;
 import hxsge.format.sounds.platforms.base.SoundVolume;
 import js.html.audio.GainNode;
 import js.html.audio.AudioBufferSourceNode;
@@ -55,7 +57,12 @@ class JsSound implements ISound {
 		_position = startTime;
 		if(!_isReady) {
 			if(_context != null) {
-				_context.decodeAudioData(_data.getData(), onDataDecoded);
+				try {
+					_context.decodeAudioData(_data.getData(), onDataDecoded);
+				}
+				catch(e:Dynamic) {
+					Debug.trace("Can't decode audio data: " + Json.stringify(e));
+				}
 			}
 		}
 		else {
