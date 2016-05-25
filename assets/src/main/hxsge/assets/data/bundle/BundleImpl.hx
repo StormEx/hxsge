@@ -74,16 +74,21 @@ class BundleImpl extends RefCount {
 	}
 
 	function loadBundle() {
-		_provider = new BundleDataProvider(new DataProviderInfo(url));
 		if(_provider == null) {
-			performFail("Can't receive data provider for load bundle data...");
+			_provider = new BundleDataProvider(new DataProviderInfo(url));
+			if(_provider == null) {
+				performFail("Can't receive data provider for load bundle data...");
+			}
+			else {
+				_provider.prepared.addOnce(onBundlePrepared);
+				_provider.initialized.addOnce(onBundleInitialized);
+				_provider.updated.add(onBundleItemLoaded);
+				_provider.finished.addOnce(onBundleLoaded);
+				_provider.load();
+			}
 		}
 		else {
-			_provider.prepared.addOnce(onBundlePrepared);
-			_provider.initialized.addOnce(onBundleInitialized);
-			_provider.updated.add(onBundleItemLoaded);
-			_provider.finished.addOnce(onBundleLoaded);
-			_provider.load();
+			finished.emit(this);
 		}
 	}
 
