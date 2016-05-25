@@ -1,6 +1,6 @@
 package hxsge.format.images;
 
-#if js
+#if (js || nodejs)
 typedef ImageDataImpl = js.html.ImageElement;
 #elseif flash
 typedef ImageDataImpl = flash.display.BitmapData;

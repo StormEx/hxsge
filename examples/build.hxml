@@ -1,6 +1,8 @@
 -main hxsge.examples.dataprovider.Test
 
 -lib format
+-lib actuate
+-lib haxeui
 
 -cp src
 -cp ../assets/src/main

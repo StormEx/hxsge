@@ -1,5 +1,8 @@
 package hxsge.examples.dataprovider;
 
+#if flash
+import flash.events.MouseEvent;
+#end
 import hxsge.core.debug.Debug;
 import hxsge.dataprovider.providers.sounds.SoundDataProvider;
 import hxsge.dataprovider.providers.base.IDataProvider;
@@ -56,11 +59,11 @@ class Test {
 		var zip_url:String = "http://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/paytable_1000.zip";
 		var zip_file:String = "c:/Downloads/bundles/preloader/preloader.zip";
 		var jpg_file:String = "c:/Downloads/horseshoe_jackpot.jpg";
-		var jpg_url:String = "http://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/common/img/og/jackpot/1029_jackpot.jpg";
+		var jpg_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/common/img/og/jackpot/1029_jackpot.jpg";
 		var png_file:String = "c:/Downloads/logo_alt.png";
-		var png_url:String = "http://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/common/img/og/jackpot/horseshoe_jackpot.png";
+		var png_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/common/img/og/jackpot/horseshoe_jackpot.png";
 		var jxr_file:String = "c:/Downloads/bundles/preloader/gfx/preloader.jxr";
-		var jxr_url:String = "http://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/game/10Ten10.jxr";
+		var jxr_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/game/10Ten10.jxr";
 		var bundle_file:String = "d:/StormEx/temp/game_1000_1011/meta.bundle";
 		var zbundle_file:String = "d:/StormEx/temp/game_1000_1011/game_1000_1011.zip";
 		var zbundle_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/game_1000_1011/game_1000_1011.zip";
@@ -171,11 +174,27 @@ class Test {
 		Memory.dispose(signal2);
 		Log.log("==============================================================================");
 
+#if flash
 		Log.log("assets test");
 		var manager:AssetManager = new AssetManager();
-		var bundle:Bundle = manager.getBundle(zbundle_url);
-		bundle.finished.addOnce(function(b:Bundle){Log.log("bundle loaded: " + b.url + (b.isSuccess ? "" : " with errors..."));});
-		bundle.load();
+		haxe.ui.toolkit.core.Toolkit.init();
+		haxe.ui.toolkit.core.Toolkit.openFullscreen(function(root:haxe.ui.toolkit.core.Root) {
+			var button:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
+			button.text = "load";
+			var ti:haxe.ui.toolkit.controls.TextInput = new haxe.ui.toolkit.controls.TextInput();
+			ti.text = zbundle_url;
+			ti.x = 50;
+			ti.width = 500;
+			ti.height = button.height;
+			button.addEventListener(MouseEvent.CLICK, function(e) {
+				var bundle:Bundle = manager.getBundle(ti.text);
+				bundle.finished.addOnce(function(b:Bundle){Log.log("bundle loaded: " + b.url + (b.isSuccess ? "" : " with errors..."));});
+				bundle.load();
+			});
+			root.addChild(button);
+			root.addChild(ti);
+		});
+#end
 	}
 
 	static function toSignal0() {
