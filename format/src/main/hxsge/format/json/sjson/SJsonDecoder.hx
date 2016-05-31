@@ -5,6 +5,7 @@ import haxe.io.Bytes;
 
 class SJsonDecoder {
 	var _data:Bytes;
+	var _block:SJsonBlock;
 	var _names:Map<Int, String>;
 
 	public function new(data:Bytes) {
@@ -12,38 +13,62 @@ class SJsonDecoder {
 	}
 
 	public static function toDynamic(data:Bytes):Dynamic {
-		return {};
+		var decoder:SJsonDecoder = new SJsonDecoder(data);
+
+		return decoder._toDynamic();
 	}
 
 	public static function toJson(data:Bytes):String {
-		var decoder:SJsonDecoder = new SJsonDecoder(data);
-
-		return decoder._toJson();
+		return Json.stringify(toDynamic(data));
 	}
 
-	function _toJson():String {
-		var header:String = "";
-		var str:String;
-		var size:Int;
-		var count:Int;
-		var temp:Int = 0;
-		var ib:BytesInput = new BytesInput(_data);
+	function _toDynamic():Dynamic {
+		var res:Dynamic = {};
 
-		_names = new Map();
+		readData();
 
-		header = ib.readString(5);
-		if(header == SJson.HEADER) {
-			count = ib.readUInt16();
-			temp = 0;
-			for(i in 0...count) {
-				size = ib.readUInt16();
-				str = ib.readString(size);
-
-				_names.set(temp, str);
-				temp++;
-			}
+		if(_block != null) {
+			res = _block.toObject(_names);
 		}
 
-		return "";
+		return res;
+	}
+
+	function readData() {
+		var reader:BytesInput = new BytesInput(_data);
+		var str:String;
+		var size:Float;
+		var count:Int;
+		var length:Int;
+		var key:Int;
+		var block:SJsonBlock = null;
+
+		try {
+			if(reader != null) {
+				str = reader.readString(SJson.HEADER.length);
+				if(str == SJson.HEADER) {
+					size = reader.readFloat();
+					count = reader.readInt16();
+					_names = new Map();
+					for(i in 0...count) {
+						key = reader.readUInt16();
+						str = readString(reader);
+						_names.set(key, str);
+					}
+					block = SJsonBlock.read(reader);
+				}
+			}
+		}
+		catch(e:Dynamic) {
+			block = null;
+		}
+
+		_block = block;
+	}
+
+	function readString(reader:BytesInput):String {
+		var len:Int = reader.readUInt16();
+
+		return reader.readString(len);
 	}
 }
