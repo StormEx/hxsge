@@ -1,9 +1,7 @@
-package hxsge.format.json.sjson;
+package hxsge.format.json.sjson.parts;
 
 import haxe.io.BytesInput;
-import hxsge.format.json.sjson.SJsonBlock;
 import haxe.io.Bytes;
-import hxsge.format.json.sjson.SJsonBlockType;
 import haxe.io.BytesOutput;
 
 using hxsge.core.utils.StringTools;
@@ -12,82 +10,84 @@ class SJsonBlock {
 	public var type:SJsonBlockType;
 	public var data:Dynamic;
 	public var nameIndex:Int;
+	public var name:String;
 	public var size(get, never):Float;
 
-	public function new(type:SJsonBlockType = SJsonBlockType.SJSON_BT_NULL, data:Dynamic = null, nameIndex:Int = -1) {
+	public function new(type:SJsonBlockType = SJsonBlockType.SJSON_BT_NULL, data:Dynamic = null, nameIndex:Int = -1,
+							name:String = null) {
 		this.type = type;
 		this.data = data;
 		this.nameIndex = nameIndex;
 	}
 
-	static public function write(block:SJsonBlock, out:BytesOutput) {
+	public function write(out:BytesOutput) {
 		var ival:Int;
 		var fval:Float;
 		var sval:String = "";
 		var bval:Bytes = null;
 		var aval:Array<SJsonBlock> = [];
 
-		switch(block.type) {
+		switch(type) {
 			case SJsonBlockType.SJSON_BT_NULL |
 					SJsonBlockType.SJSON_BT_FALSE |
 					SJsonBlockType.SJSON_BT_TRUE |
 					SJsonBlockType.SJSON_BT_ESTRING:
-				out.writeInt8(block.type);
-				out.writeInt16(block.nameIndex);
+				out.writeInt8(type);
+				out.writeInt16(nameIndex);
 			case SJsonBlockType.SJSON_BT_UINT8 |
 					SJsonBlockType.SJSON_BT_UINT16 |
 					SJsonBlockType.SJSON_BT_UINT32 |
 					SJsonBlockType.SJSON_BT_UINT64:
 			case SJsonBlockType.SJSON_BT_INT8:
-				ival = cast block.data;
+				ival = cast data;
 
-				out.writeInt8(block.type);
-				out.writeInt16(block.nameIndex);
+				out.writeInt8(type);
+				out.writeInt16(nameIndex);
 				out.writeInt8(ival);
 			case SJsonBlockType.SJSON_BT_INT16:
-				ival = cast block.data;
+				ival = cast data;
 
-				out.writeInt8(block.type);
-				out.writeInt16(block.nameIndex);
+				out.writeInt8(type);
+				out.writeInt16(nameIndex);
 				out.writeInt16(ival);
 			case SJsonBlockType.SJSON_BT_INT32:
-				ival = cast block.data;
+				ival = cast data;
 
-				out.writeInt8(block.type);
-				out.writeInt16(block.nameIndex);
+				out.writeInt8(type);
+				out.writeInt16(nameIndex);
 				out.writeInt32(ival);
 			case SJsonBlockType.SJSON_BT_INT64:
 			case SJsonBlockType.SJSON_BT_FLOAT32:
-				fval = cast block.data;
+				fval = cast data;
 
-				out.writeInt8(block.type);
-				out.writeInt16(block.nameIndex);
+				out.writeInt8(type);
+				out.writeInt16(nameIndex);
 				out.writeFloat(fval);
 			case SJsonBlockType.SJSON_BT_FLOAT64:
-				var fval = cast block.data;
+				var fval = cast data;
 
-				out.writeInt8(block.type);
-				out.writeInt16(block.nameIndex);
+				out.writeInt8(type);
+				out.writeInt16(nameIndex);
 				out.writeDouble(fval);
 			case SJsonBlockType.SJSON_BT_STRING_UINT8 |
 					SJsonBlockType.SJSON_BT_STRING_UINT16 |
 					SJsonBlockType.SJSON_BT_STRING_UINT32 |
 					SJsonBlockType.SJSON_BT_STRING_UINT64:
-				sval = Std.string(block.data);
+				sval = Std.string(data);
 
-				out.writeInt8(block.type);
-				out.writeInt16(block.nameIndex);
+				out.writeInt8(type);
+				out.writeInt16(nameIndex);
 				out.writeInt32(sval.length);
 				out.writeString(sval);
 			case SJsonBlockType.SJSON_BT_BINARY_UINT8 |
 					SJsonBlockType.SJSON_BT_BINARY_UINT16 |
 					SJsonBlockType.SJSON_BT_BINARY_UINT32 |
 					SJsonBlockType.SJSON_BT_BINARY_UINT64:
-				var val:BytesOutput = cast block.data;
+				var val:BytesOutput = cast data;
 				bval = val.getBytes();
 
-				out.writeInt8(block.type);
-				out.writeInt16(block.nameIndex);
+				out.writeInt8(type);
+				out.writeInt16(nameIndex);
 				out.writeInt32(bval.length);
 				out.writeBytes(bval, 0, bval.length);
 			case SJsonBlockType.SJSON_BT_ARRAY_UINT8 |
@@ -98,20 +98,20 @@ class SJsonBlock {
 					SJsonBlockType.SJSON_BT_MAP_UINT16 |
 					SJsonBlockType.SJSON_BT_MAP_UINT32 |
 					SJsonBlockType.SJSON_BT_MAP_UINT64:
-				aval = cast block.data;
+				aval = cast data;
 
-				out.writeInt8(block.type);
-				out.writeInt16(block.nameIndex);
-				out.writeFloat(block.size);
+				out.writeInt8(type);
+				out.writeInt16(nameIndex);
+				out.writeFloat(size);
 				out.writeInt32(aval.length);
 				for(i in aval) {
-					SJsonBlock.write(i, out);
+					i.write(out);
 				}
 			default:
 		}
 	}
 
-	static public function read(stream:BytesInput):SJsonBlock {
+	static public function read(stream:BytesInput, header:SJsonHeader):SJsonBlock {
 		var ival:Int;
 		var fval:Float;
 		var sval:String = "";
@@ -181,48 +181,17 @@ class SJsonBlock {
 				fval = stream.readFloat();
 				ival = stream.readInt32();
 				for(i in 0...ival) {
-					aval.push(SJsonBlock.read(stream));
+					aval.push(SJsonBlock.read(stream, header));
 				}
 				res.data = aval;
 			default:
 		}
 
-		return res;
-	}
-
-	public function toObject(names:Map<Int, String>):Dynamic {
-		return switch(type) {
-			case SJsonBlockType.SJSON_BT_NULL:
-				null;
-			case SJsonBlockType.SJSON_BT_FALSE:
-				false;
-			case SJsonBlockType.SJSON_BT_TRUE:
-				true;
-			case SJsonBlockType.SJSON_BT_ESTRING:
-				"";
-			case SJsonBlockType.SJSON_BT_ARRAY_UINT8 |
-			SJsonBlockType.SJSON_BT_ARRAY_UINT16 |
-			SJsonBlockType.SJSON_BT_ARRAY_UINT32 |
-			SJsonBlockType.SJSON_BT_ARRAY_UINT64:
-				var arr:Array<Dynamic> = [];
-				var from:Array<SJsonBlock> = data;
-				for(val in from) {
-					arr.push(val.toObject(names));
-				}
-				arr;
-			case SJsonBlockType.SJSON_BT_MAP_UINT8 |
-			SJsonBlockType.SJSON_BT_MAP_UINT16 |
-			SJsonBlockType.SJSON_BT_MAP_UINT32 |
-			SJsonBlockType.SJSON_BT_MAP_UINT64:
-				var arr:Array<SJsonBlock> = cast data;
-				var res:Dynamic = {};
-				for(val in arr) {
-					Reflect.setField(res, names.get(val.nameIndex), val.toObject(names));
-				}
-				res;
-			default:
-				data;
+		if(res.nameIndex != -1) {
+			res.name = header.keys.get(res.nameIndex);
 		}
+
+		return res;
 	}
 
 	function get_size():Float {

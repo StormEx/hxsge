@@ -1,23 +1,28 @@
-package hxsge.format.json.sjson;
+package hxsge.format.json.sjson.converters;
 
+import hxsge.format.json.sjson.parts.SJsonBlock;
+import hxsge.format.json.sjson.parts.SJsonBlockType;
+import hxsge.format.json.sjson.parts.SJsonHeader;
 import haxe.io.BytesOutput;
 import hxsge.core.debug.Debug;
 import haxe.io.Bytes;
 
-class JsonConverter {
+class SJsonFromJsonConverter implements ISJsonConverter {
+	public var sjson(default, null):Bytes;
+
 	var _names:Map<String, Int>;
 	var _namesCount:Int = 0;
 
 	var _string:String;
 	var _pos:Int;
 
-	public function new() {
+	public function new(json:String) {
+		sjson = convert(json);
 	}
 
-	public function convert(json:String):Bytes {
-		var dataBlock:BytesOutput = new BytesOutput();
+	function convert(json:String):Bytes {
 		var out:BytesOutput = new BytesOutput();
-		var size:Float = 0;
+		var header:SJsonHeader;
 
 		_names = new Map();
 		_namesCount = 0;
@@ -27,29 +32,14 @@ class JsonConverter {
 		var res:SJsonBlock = null;
 		try {
 			res = parseJson();
+			if(out != null) {
+				header = new SJsonHeader(_names);
+				header.write(out);
+				res.write(out);
+			}
 		}
 		catch(e:Dynamic) {
 			Debug.trace("SJSON parse failed");
-		}
-
-		if(out != null) {
-			out.writeString(SJson.HEADER);
-			for(k in _names.keys()) {
-				size += (2 + k.length);
-			}
-			// write name's table size
-			size += 4;
-			out.writeFloat(size);
-			// write count of names
-			out.writeInt16(_namesCount);
-			for(k in _names.keys()) {
-				out.writeUInt16(_names.get(k));
-				// write name's length
-				out.writeUInt16(k.length);
-				// write name
-				out.writeString(k);
-			}
-			SJsonBlock.write(res, out);
 		}
 
 		return out.getBytes();
@@ -139,91 +129,6 @@ class JsonConverter {
 					return new SJsonBlock(SJsonBlockType.SJSON_BT_STRING_UINT32, num, nameIndex);
 				default:
 					invalidChar();
-			}
-		}
-	}
-
-	function parseJsonObject(nameIndex:Int = -1):SJsonBlock {
-		var val:Array<SJsonBlock> = [];
-		var block:SJsonBlock;
-		var size:Float = 0;
-		var field:String = null;
-		var comma:Null<Bool> = null;
-
-		while(true) {
-			var c = nextChar();
-
-			switch( c ) {
-				case ' '.code, '\r'.code, '\n'.code, '\t'.code:
-					// loop
-				case '}'.code:
-					if(field != null || comma == false) {
-						invalidChar();
-					}
-
-					return new SJsonBlock(SJsonBlockType.SJSON_BT_MAP_UINT32, val, nameIndex);
-				case ':'.code:
-					if(field == null) {
-						invalidChar();
-					}
-					block = parseJson(nameIndex);
-					size += block.size;
-					val.push(block);
-					field = null;
-					comma = true;
-				case ','.code:
-					if(comma) {
-						comma = false;
-					}
-					else {
-						invalidChar();
-					}
-				case '"'.code:
-					if(comma) {
-						invalidChar();
-					}
-					field = parseString();
-					setName(field);
-					nameIndex = getNameIndex(field);
-				default:
-					invalidChar();
-			}
-		}
-	}
-
-	function parseJsonArray(nameIndex:Int = -1):SJsonBlock {
-		var val:Array<SJsonBlock> = [];
-		var block:SJsonBlock;
-		var size:Float = 0;
-		var comma:Null<Bool> = null;
-
-		while(true) {
-			var c = nextChar();
-			switch( c ) {
-				case ' '.code, '\r'.code, '\n'.code, '\t'.code:
-					// loop
-				case ']'.code:
-					if(comma == false) {
-						invalidChar();
-					}
-
-					return new SJsonBlock(SJsonBlockType.SJSON_BT_ARRAY_UINT32, val, nameIndex);
-				case ','.code:
-					if(comma) {
-						comma = false;
-					}
-					else {
-						invalidChar();
-					}
-				default:
-					if(comma) {
-						invalidChar();
-					}
-					_pos--;
-					block = parseJson();
-					size += block.size;
-					val.push(block);
-					comma = true;
 			}
 		}
 	}

@@ -1,5 +1,7 @@
 package hxsge.format.json.sjson;
 
+import hxsge.format.json.sjson.converters.SJsonFromJsonConverter;
+import hxsge.format.json.sjson.converters.ISJsonConverter;
 import haxe.io.Bytes;
 
 using hxsge.core.utils.StringTools;
@@ -11,26 +13,18 @@ class SJsonEncoder {
 	var _string:String;
 	var _pos:Int;
 
+	var _converter:ISJsonConverter;
+
 	public function new() {
 	}
 
-	public static function fromDynamic(json:String):Bytes {
+	public function fromDynamic(json:String):Bytes {
 		return null;
 	}
 
-	static public function fromJson(json:String):Bytes {
-		var bytes:Bytes = null;
-		var converter:JsonConverter = null;
+	public function fromJson(json:String):Bytes {
+		_converter = new SJsonFromJsonConverter(json);
 
-		if(json.isNotEmpty()) {
-			converter = new JsonConverter();
-			bytes = converter.convert(json);
-		}
-
-		return bytes;
-	}
-
-	static public function toJson(data:Bytes):String {
-		return "";
+		return _converter.sjson;
 	}
 }

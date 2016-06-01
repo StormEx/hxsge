@@ -1,4 +1,4 @@
-package hxsge.format.json.sjson;
+package hxsge.format.json.sjson.parts;
 
 @:enum abstract SJsonBlockType(Int) from Int to Int {
 	var SJSON_BT_NULL = 0;

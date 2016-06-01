@@ -8,14 +8,20 @@ class SJson {
 	inline public static var HEADER:String = "SJSON";
 
 	static public function parse(data:Bytes):Dynamic {
-		return SJsonDecoder.toDynamic(data);
+		var decoder = new SJsonDecoder(data);
+
+		return decoder.toDynamic();
 	}
 
 	static public function stringify(data:Bytes):String {
-		return SJsonDecoder.toJson(data);
+		var decoder = new SJsonDecoder(data);
+
+		return decoder.toJson();
 	}
 
 	static public function convert(json:String):Bytes {
-		return SJsonEncoder.fromJson(json);
+		var encoder = new SJsonEncoder();
+
+		return encoder.fromJson(json);
 	}
 }
