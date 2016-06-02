@@ -15,5 +15,6 @@
 -cp ../swamp/src/main
 -cp ../forge/src/main
 -cp ../photon/src/main
+-cp ../io/src/main
 
 -debug
