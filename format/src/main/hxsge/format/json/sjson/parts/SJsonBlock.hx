@@ -168,6 +168,8 @@ class SJsonBlock {
 				ival = stream.readInt32();
 				bval = Bytes.alloc(ival);
 				stream.readBytes(bval, 0, ival);
+				res.data = new BytesOutput();
+				res.data.writeBytes(bval, 0, bval.length);
 			case SJsonBlockType.SJSON_BT_ARRAY_UINT8 |
 					SJsonBlockType.SJSON_BT_ARRAY_UINT16 |
 					SJsonBlockType.SJSON_BT_ARRAY_UINT32 |
@@ -195,6 +197,10 @@ class SJsonBlock {
 	}
 
 	function get_size():Float {
+		var oval:BytesOutput;
+		var sval:String;
+		var aval:Array<SJsonBlock>;
+
 		return switch(type) {
 			case SJsonBlockType.SJSON_BT_UINT8 | SJsonBlockType.SJSON_BT_INT8:
 				(1 + 2 + 1);
@@ -212,15 +218,14 @@ class SJsonBlock {
 					SJsonBlockType.SJSON_BT_STRING_UINT16 |
 					SJsonBlockType.SJSON_BT_STRING_UINT32 |
 					SJsonBlockType.SJSON_BT_STRING_UINT64:
-				var val:String = cast data;
-				(1 + 2 + 4 + val.length);
+				sval = cast data;
+				(1 + 2 + 4 + sval.length);
 			case SJsonBlockType.SJSON_BT_BINARY_UINT8 |
 					SJsonBlockType.SJSON_BT_BINARY_UINT16 |
 					SJsonBlockType.SJSON_BT_BINARY_UINT32 |
 					SJsonBlockType.SJSON_BT_BINARY_UINT64:
-				var val:BytesOutput = cast data;
-				var b:Bytes = val.getBytes();
-				(1 + 2 + 4 + b.length);
+				oval = Std.instance(data, BytesOutput);
+				(1 + 2 + 4 + (oval == null ? 0 : oval.length));
 			case SJsonBlockType.SJSON_BT_ARRAY_UINT8 |
 					SJsonBlockType.SJSON_BT_ARRAY_UINT16 |
 					SJsonBlockType.SJSON_BT_ARRAY_UINT32 |
@@ -229,10 +234,10 @@ class SJsonBlock {
 					SJsonBlockType.SJSON_BT_MAP_UINT16 |
 					SJsonBlockType.SJSON_BT_MAP_UINT32 |
 					SJsonBlockType.SJSON_BT_MAP_UINT64:
-				var val:Array<SJsonBlock> = cast data;
+				aval = cast data;
 				var res:Float = 0;
 
-				for(i in val) {
+				for(i in aval) {
 					res += i.size;
 				}
 				(1 + 2 + 4 + 4 + res);

@@ -15,6 +15,8 @@ class SJsonDecoder {
 
 	public function new(data:Bytes) {
 		_data = data;
+
+		readData();
 	}
 
 	public function toJson():String {
@@ -23,8 +25,6 @@ class SJsonDecoder {
 
 	public function toDynamic():Dynamic {
 		var res:Dynamic = {};
-
-		readData();
 
 		if(root != null) {
 			res = root.toDynamic(header.keys);

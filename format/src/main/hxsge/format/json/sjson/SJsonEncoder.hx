@@ -1,5 +1,8 @@
 package hxsge.format.json.sjson;
 
+import hxsge.format.json.sjson.parts.SJsonHeader;
+import hxsge.format.json.sjson.converters.SJsonFromBlockConverter;
+import hxsge.format.json.sjson.parts.SJsonBlock;
 import hxsge.format.json.sjson.converters.SJsonFromJsonConverter;
 import hxsge.format.json.sjson.converters.ISJsonConverter;
 import haxe.io.Bytes;
@@ -26,5 +29,9 @@ class SJsonEncoder {
 		_converter = new SJsonFromJsonConverter(json);
 
 		return _converter.sjson;
+	}
+
+	public static function fromBlock(header:SJsonHeader, block:SJsonBlock) {
+		return (new SJsonFromBlockConverter(header, block)).sjson;
 	}
 }

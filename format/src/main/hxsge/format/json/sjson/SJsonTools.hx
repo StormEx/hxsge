@@ -6,6 +6,11 @@ import hxsge.format.json.sjson.parts.SJsonBlockType;
 using hxsge.core.utils.StringTools;
 
 class SJsonTools {
+	public static function change(block:SJsonBlock, type:SJsonBlockType, data:Dynamic) {
+		@:privateAccess block.type = type;
+		@:privateAccess block.data = data;
+	}
+
 	public static function blockByName(block:SJsonBlock, name:String):SJsonBlock {
 		if(block == null) {
 			return null;
