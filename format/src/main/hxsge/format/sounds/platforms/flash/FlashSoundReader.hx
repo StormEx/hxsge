@@ -21,6 +21,7 @@ class FlashSoundReader extends SoundReader {
 		_soundLoader = new flash.media.Sound();
 		try {
 			var ba:ByteArray = _data.getData();
+			ba.position = 0;
 			_soundLoader.loadCompressedDataFromByteArray(ba, ba.length);
 		}
 		catch(e:Dynamic) {
