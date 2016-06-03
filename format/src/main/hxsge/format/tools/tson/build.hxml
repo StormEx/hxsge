@@ -1,0 +1,12 @@
+-main hxsge.format.tools.tson.TsonManager
+
+-swf-header 912:400:40:FFFFFF
+
+-lib format
+-lib haxeui
+
+-cp src/main
+-cp ../core/src/main
+-cp ../io/src/main
+
+-debug
