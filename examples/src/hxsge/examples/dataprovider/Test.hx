@@ -1,19 +1,20 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.format.tson.TsonTools;
 import hxsge.format.sounds.SoundReader;
 import haxe.io.BytesOutput;
-import hxsge.format.json.sjson.SJsonEncoder;
-import hxsge.format.json.sjson.parts.SJsonBlockType;
-import hxsge.format.json.sjson.parts.SJsonBlock;
+import hxsge.format.tson.TsonEncoder;
+import hxsge.format.tson.parts.TsonBlockType;
+import hxsge.format.tson.parts.TsonBlock;
 import hxsge.loaders.base.LoadersBatch;
 import hxsge.core.batch.Batch;
-import hxsge.format.json.sjson.parts.SJsonBlock;
+import hxsge.format.tson.parts.TsonBlock;
 import hxsge.core.memory.Memory;
 import hxsge.core.debug.Debug;
-import hxsge.format.json.sjson.SJsonDecoder;
-import hxsge.format.json.SJson;
+import hxsge.format.tson.TsonDecoder;
+import hxsge.format.tson.Tson;
 import hxsge.format.json.Json;
-import hxsge.io.object.json.sjson.SJsonObjectInput;
+import hxsge.io.object.tson.TsonObjectInput;
 import hxsge.core.debug.Debug;
 import hxsge.dataprovider.providers.sounds.SoundDataProvider;
 import hxsge.dataprovider.providers.base.IDataProvider;
@@ -57,11 +58,11 @@ import flash.events.MouseEvent;
 using hxsge.core.utils.ArrayTools;
 using hxsge.loaders.utils.LoaderTools;
 using StringTools;
-using hxsge.format.json.sjson.SJsonTools;
+using hxsge.format.tson.TsonTools;
 
 class Test {
-	static var data:Map<String, SJsonBlock>;
-	static var sjson:SJsonDecoder;
+	static var data:Map<String, TsonBlock>;
+	static var tson:TsonDecoder;
 
 	public function new() {
 	}
@@ -233,9 +234,9 @@ class Test {
 		});
 		Log.log("==============================================================================");
 #end
-		Debug.trace("SJSON test");
+		Debug.trace("TSON test");
 		var json:String = '{"resources":[{"list":[{"name":"gfx/triple/triplejewels.rage","meta":""},{"name":"gfx/mystery/mystery_jewels.rage"}]},{"list":[{"name":"sfx/menu_buttons/press_spin.mp3"}]},{"list":[{"name":"sfx/reel_spins/reel_spin_1.swf","meta":{"data":[{"name":"SoundSymbol","type":"sound"}]}},{"name":"sfx/reel_spins/reel_spin_2.swf","meta":{"data":[{"name":"SoundSymbol","type":"sound"}]}},{"name":"sfx/reel_spins/reel_spin_3.swf","meta":{"data":[{"name":"SoundSymbol","type":"sound"}]}},{"name":"sfx/reel_spins/reel_spin_4.swf","meta":{"data":[{"name":"SoundSymbol","type":"sound"}]}}],"tags":["sound"]},{"list":[{"name":"sfx/reel_stops/reel_stop1.mp3"},{"name":"sfx/reel_stops/reel_stop2.mp3"},{"name":"sfx/reel_stops/reel_stop3.mp3"},{"name":"sfx/menu_buttons/max_bet.mp3"},{"name":"sfx/bang_ups/credit_bang_3_seconds_small.mp3"},{"name":"sfx/bang_ups/credit_bang_6_seconds_medium.mp3"},{"name":"sfx/bang_ups/credit_bang_10_seconds_large.mp3"},{"name":"sfx/bang_ups/credit_bang_14_seconds_top.mp3"},{"name":"sfx/menu_buttons/decrease_bet1.mp3"},{"name":"sfx/menu_buttons/decrease_bet2.mp3"},{"name":"sfx/menu_buttons/decrease_bet3.mp3"},{"name":"sfx/menu_buttons/decrease_bet4.mp3"},{"name":"sfx/menu_buttons/decrease_bet5.mp3"},{"name":"sfx/menu_buttons/decrease_bet6.mp3"},{"name":"sfx/menu_buttons/decrease_bet7.mp3"},{"name":"sfx/menu_buttons/decrease_bet8.mp3"},{"name":"sfx/menu_buttons/increase_bet1.mp3"},{"name":"sfx/menu_buttons/increase_bet2.mp3"},{"name":"sfx/menu_buttons/increase_bet3.mp3"},{"name":"sfx/menu_buttons/increase_bet4.mp3"},{"name":"sfx/menu_buttons/increase_bet5.mp3"},{"name":"sfx/menu_buttons/increase_bet6.mp3"},{"name":"sfx/menu_buttons/increase_bet7.mp3"},{"name":"sfx/menu_buttons/increase_bet8.mp3"},{"name":"sfx/bonus_triggers/bonus_trigger_1.mp3"},{"name":"sfx/bonus_triggers/bonus_trigger_2.mp3"},{"name":"sfx/bonus_triggers/bonus_trigger_3.mp3"},{"name":"sfx/bonus_triggered/bonus_triggered.mp3"}],"type":"asynchronous"},{"tags":["sound"],"list":[{"name":"sfx/reel_spins/casino_background.swf","meta":{"data":[{"name":"SoundSymbol","type":"sound"}]}}],"type":"asynchronous"}],"platforms":["flash","js"],"name":"game_1000_1011","dependencies":["preloader","common"],"version":"0.0.1","requiredAppVersion":"0.1.17","temp":{"0":{"type":"asynchronous"},"1":{"list":[{"name":"sfx/reel_stops/blabalblablablablablab.mp3"}],"type":"asynchronous"}}}';
-		Debug.trace(hxsge.format.json.SJson.stringify(hxsge.format.json.SJson.convert(json)));
+		Debug.trace(Tson.stringify(Tson.convert(json)));
 		var ld:DataLoader = new DataLoader("d:/StormEx/temp/game_1000_1011/meta.bundle");
 		ld.finished.addOnce(onBundleDataLoaded);
 		ld.load();
@@ -316,7 +317,7 @@ class Test {
 	static function onNodeJsFileLoaded(loader:ILoader) {
 		if(loader.isSuccess()) {
 			var d:Bytes = Std.instance(loader.content, Bytes);
-			Debug.trace("sjson file loaded successfully: " + hxsge.format.json.SJson.stringify(d));
+			Debug.trace("sjson file loaded successfully: " + Tson.stringify(d));
 		}
 		else {
 			Debug.trace("sjson file loaded failed...");
@@ -340,21 +341,21 @@ class Test {
 					}
 				}
 			}
-			var sj:Bytes = SJson.convert(Json.stringify(json));
-			var dec:SJsonDecoder = new SJsonDecoder(sj);
-			var arr:Array<SJsonBlock> = cast dec.root.data;
-			var map:Map<String, SJsonBlock> = new Map();
+			var sj:Bytes = Tson.convert(Json.stringify(json));
+			var dec:TsonDecoder = new TsonDecoder(sj);
+			var arr:Array<TsonBlock> = cast dec.root.data;
+			var map:Map<String, TsonBlock> = new Map();
 			for(el in arr) {
 				if(el.name == "resources") {
-					var arrr:Array<SJsonBlock> = cast el.data;
+					var arrr:Array<TsonBlock> = cast el.data;
 
 					for(ell in arrr) {
-						var bb:Array<SJsonBlock> = (new SJsonObjectInput(ell)).readField("list");
+						var bb:Array<TsonBlock> = (new TsonObjectInput(ell)).readField("list");
 						if(bb != null) {
-							var inn:Array<SJsonBlock> = bb;
+							var inn:Array<TsonBlock> = bb;
 							for(inel in inn) {
-								var name:String = (new SJsonObjectInput(inel)).readField("name");
-								var inres:Array<SJsonBlock> = cast inel.data;
+								var name:String = (new TsonObjectInput(inel)).readField("name");
+								var inres:Array<TsonBlock> = cast inel.data;
 								for(val in inres) {
 									if(val.name == "data") {
 										map.set(name, val);
@@ -367,7 +368,7 @@ class Test {
 			}
 
 			data = map;
-			sjson = dec;
+			tson = dec;
 
 			fillSJSON();
 		}
@@ -388,11 +389,11 @@ class Test {
 				if(!i.errors.isError) {
 					var str:String = i.url;
 					str = str.substr("d:/StormEx/temp/game_1000_1011/".length);
-					var obj:SJsonBlock = data.get(str);
+					var obj:TsonBlock = data.get(str);
 					if(obj != null) {
 						var out:BytesOutput = new BytesOutput();
 						out.writeBytes(i.content, 0, i.content.length);
-						obj.change(SJsonBlockType.SJSON_BT_BINARY_UINT32, out);
+						obj.change(TsonBlockType.TSON_BT_BINARY_UINT32, out);
 					}
 				}
 			}
@@ -400,17 +401,17 @@ class Test {
 //		SJsonEncoder.fromBlock(sjson.header, sjson.root);
 
 #if nodejs
-		var bbb:js.node.Buffer = new js.node.Buffer(cast SJsonEncoder.fromBlock(sjson.header, sjson.root).getData());
+		var bbb:js.node.Buffer = new js.node.Buffer(cast TsonEncoder.fromBlock(tson.header, tson.root).getData());
 		js.node.Fs.writeFile("build/nodejs/sample.sjson", bbb, "binary", onFileWriteFinished);
 #end
 	}
 
 	static function onSJSLoaded(l:ILoader) {
 		var d:Bytes = cast l.content;
-		var dec:SJsonDecoder = new SJsonDecoder(d);
-		var block:Array<SJsonBlock> = (new SJsonObjectInput(dec.root)).readField("resources");
+		var dec:TsonDecoder = new TsonDecoder(d);
+		var block:Array<TsonBlock> = (new TsonObjectInput(dec.root)).readField("resources");
 		if(block != null) {
-			var out:SJsonBlock = Std.instance(block[3].data[1].data[27].data[1], SJsonBlock);
+			var out:TsonBlock = Std.instance(block[3].data[1].data[27].data[1], TsonBlock);
 			if(out != null) {
 				var stream:BytesOutput = cast out.data;
 				var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo("d:/StormEx/temp/game_1000_1011/" + block[3].data[1].data[27].data[0].data, stream.getBytes()));

@@ -1,15 +1,15 @@
-package hxsge.io.object.json.sjson;
+package hxsge.io.object.tson;
 
-import hxsge.format.json.sjson.SJsonTools;
-import hxsge.format.json.sjson.parts.SJsonBlock;
+import hxsge.format.tson.TsonTools;
+import hxsge.format.tson.parts.TsonBlock;
 import haxe.io.Path;
 
-using hxsge.format.json.sjson.SJsonTools;
+using hxsge.format.tson.TsonTools;
 
-class SJsonObjectInput implements IObjectInput {
-	var _root:SJsonBlock;
+class TsonObjectInput implements IObjectInput {
+	var _root:TsonBlock;
 
-	public function new(block:SJsonBlock) {
+	public function new(block:TsonBlock) {
 		_root = block;
 	}
 
@@ -21,9 +21,9 @@ class SJsonObjectInput implements IObjectInput {
 		return _readField(path).names();
 	}
 
-	function _readField(path:String):SJsonBlock {
+	function _readField(path:String):TsonBlock {
 		var levels:Array<String> = Path.normalize(path).split("/");
-		var field:SJsonBlock = _root;
+		var field:TsonBlock = _root;
 
 		for(l in levels) {
 			field = field.blockByName(l);

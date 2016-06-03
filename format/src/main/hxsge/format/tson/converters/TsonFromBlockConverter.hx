@@ -1,11 +1,11 @@
-package hxsge.format.json.sjson.converters;
+package hxsge.format.tson.converters;
 
 import haxe.io.BytesOutput;
-import hxsge.format.json.sjson.parts.SJsonBlock;
-import hxsge.format.json.sjson.parts.SJsonHeader;
+import hxsge.format.tson.parts.TsonBlock;
+import hxsge.format.tson.parts.TsonHeader;
 import haxe.io.Bytes;
 
-class SJsonFromBlockConverter {
+class TsonFromBlockConverter {
 	public var sjson(default, null):Bytes;
 
 	var _names:Map<String, Int>;
@@ -14,7 +14,7 @@ class SJsonFromBlockConverter {
 	var _string:String;
 	var _pos:Int;
 
-	public function new(header:SJsonHeader, block:SJsonBlock) {
+	public function new(header:TsonHeader, block:TsonBlock) {
 		var out:BytesOutput = new BytesOutput();
 
 		try {

@@ -1,15 +1,16 @@
-package hxsge.format.json.sjson;
+package hxsge.format.tson;
 
-import hxsge.format.json.sjson.parts.SJsonBlock;
-import hxsge.format.json.sjson.parts.SJsonHeader;
+import hxsge.format.json.Json;
+import hxsge.format.tson.parts.TsonBlock;
+import hxsge.format.tson.parts.TsonHeader;
 import haxe.io.BytesInput;
 import haxe.io.Bytes;
 
-using hxsge.format.json.sjson.SJsonTools;
+using hxsge.format.tson.TsonTools;
 
-class SJsonDecoder {
-	public var header(default, null):SJsonHeader;
-	public var root(default, null):SJsonBlock;
+class TsonDecoder {
+	public var header(default, null):TsonHeader;
+	public var root(default, null):TsonBlock;
 
 	var _data:Bytes;
 
@@ -35,13 +36,13 @@ class SJsonDecoder {
 
 	function readData() {
 		var reader:BytesInput = new BytesInput(_data);
-		var block:SJsonBlock = null;
+		var block:TsonBlock = null;
 
 		try {
 			if(reader != null) {
-				header = SJsonHeader.read(reader);
+				header = TsonHeader.read(reader);
 				if(header.isSuccess) {
-					block = SJsonBlock.read(reader, header);
+					block = TsonBlock.read(reader, header);
 				}
 			}
 		}

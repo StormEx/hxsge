@@ -1,11 +1,11 @@
-package hxsge.format.json.sjson.parts;
+package hxsge.format.tson.parts;
 
 import haxe.io.BytesOutput;
 import haxe.io.BytesInput;
 
 using hxsge.core.utils.StringTools;
 
-class SJsonHeader {
+class TsonHeader {
 	public var format(default, null):String;
 	public var keys(default, null):Map<Int, String>;
 	public var names(default, null):Map<String, Int>;
@@ -13,7 +13,7 @@ class SJsonHeader {
 	public var isSuccess(get, never):Bool;
 
 	public function new(names:Map<String, Int> = null) {
-		format = SJson.HEADER;
+		format = Tson.HEADER;
 
 		this.names = names;
 		if(names != null) {
@@ -27,8 +27,8 @@ class SJsonHeader {
 		}
 	}
 
-	static public function read(stream:BytesInput):SJsonHeader {
-		var header:SJsonHeader = new SJsonHeader();
+	static public function read(stream:BytesInput):TsonHeader {
+		var header:TsonHeader = new TsonHeader();
 		var size:Float;
 		var count:Int;
 		var length:Int;
@@ -36,7 +36,7 @@ class SJsonHeader {
 		var str:String;
 
 		try {
-			header.format = stream.readString(SJson.HEADER.length);
+			header.format = stream.readString(Tson.HEADER.length);
 			if(header.isSuccess) {
 				size = stream.readFloat();
 				count = stream.readInt16();
@@ -63,7 +63,7 @@ class SJsonHeader {
 		var size:Float = 0;
 		var count:Int = 0;
 
-		stream.writeString(SJson.HEADER);
+		stream.writeString(Tson.HEADER);
 		for(k in names.keys()) {
 			size += (2 + k.length);
 			count++;
@@ -83,6 +83,6 @@ class SJsonHeader {
 	}
 
 	inline function get_isSuccess():Bool {
-		return format == SJson.HEADER;
+		return format == Tson.HEADER;
 	}
 }

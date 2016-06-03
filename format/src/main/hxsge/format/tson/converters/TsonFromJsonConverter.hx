@@ -1,13 +1,13 @@
-package hxsge.format.json.sjson.converters;
+package hxsge.format.tson.converters;
 
-import hxsge.format.json.sjson.parts.SJsonBlock;
-import hxsge.format.json.sjson.parts.SJsonBlockType;
-import hxsge.format.json.sjson.parts.SJsonHeader;
+import hxsge.format.tson.parts.TsonBlock;
+import hxsge.format.tson.parts.TsonBlockType;
+import hxsge.format.tson.parts.TsonHeader;
 import haxe.io.BytesOutput;
 import hxsge.core.debug.Debug;
 import haxe.io.Bytes;
 
-class SJsonFromJsonConverter implements ISJsonConverter {
+class TsonFromJsonConverter implements ITsonConverter {
 	public var sjson(default, null):Bytes;
 
 	var _names:Map<String, Int>;
@@ -22,18 +22,18 @@ class SJsonFromJsonConverter implements ISJsonConverter {
 
 	function convert(json:String):Bytes {
 		var out:BytesOutput = new BytesOutput();
-		var header:SJsonHeader;
+		var header:TsonHeader;
 
 		_names = new Map();
 		_namesCount = 0;
 		_string = json;
 		_pos = 0;
 
-		var res:SJsonBlock = null;
+		var res:TsonBlock = null;
 		try {
 			res = parseJson();
 			if(out != null) {
-				header = new SJsonHeader(_names);
+				header = new TsonHeader(_names);
 				header.write(out);
 				res.write(out);
 			}
@@ -45,7 +45,7 @@ class SJsonFromJsonConverter implements ISJsonConverter {
 		return out.getBytes();
 	}
 
-	function parseJson(nameIndex:Int = -1):SJsonBlock {
+	function parseJson(nameIndex:Int = -1):TsonBlock {
 		while(true) {
 			var c = nextChar();
 
@@ -53,7 +53,7 @@ class SJsonFromJsonConverter implements ISJsonConverter {
 				case ' '.code, '\r'.code, '\n'.code, '\t'.code:
 					// loop
 				case '{'.code:
-					var val = [], block:SJsonBlock = null, field = null, comma : Null<Bool> = null;
+					var val = [], block:TsonBlock = null, field = null, comma : Null<Bool> = null;
 					while( true ) {
 						var c = nextChar();
 						switch( c ) {
@@ -63,7 +63,7 @@ class SJsonFromJsonConverter implements ISJsonConverter {
 								if( field != null || comma == false )
 									invalidChar();
 
-								return new SJsonBlock(SJsonBlockType.SJSON_BT_MAP_UINT32, val, nameIndex);
+								return new TsonBlock(TsonBlockType.TSON_BT_MAP_UINT32, val, nameIndex);
 							case ':'.code:
 								if( field == null )
 									invalidChar();
@@ -90,7 +90,7 @@ class SJsonFromJsonConverter implements ISJsonConverter {
 								// loop
 							case ']'.code:
 								if( comma == false ) invalidChar();
-								return new SJsonBlock(SJsonBlockType.SJSON_BT_ARRAY_UINT32, val, nameIndex);
+								return new TsonBlock(TsonBlockType.TSON_BT_ARRAY_UINT32, val, nameIndex);
 							case ','.code:
 								if( comma ) comma = false else invalidChar();
 							default:
@@ -106,27 +106,27 @@ class SJsonFromJsonConverter implements ISJsonConverter {
 						_pos = save;
 						invalidChar();
 					}
-					return new SJsonBlock(SJsonBlockType.SJSON_BT_TRUE, true, nameIndex);
+					return new TsonBlock(TsonBlockType.TSON_BT_TRUE, true, nameIndex);
 				case 'f'.code:
 					var save = _pos;
 					if(nextChar() != 'a'.code || nextChar() != 'l'.code || nextChar() != 's'.code || nextChar() != 'e'.code) {
 						_pos = save;
 						invalidChar();
 					}
-					return new SJsonBlock(SJsonBlockType.SJSON_BT_FALSE, false, nameIndex);
+					return new TsonBlock(TsonBlockType.TSON_BT_FALSE, false, nameIndex);
 				case 'n'.code:
 					var save = _pos;
 					if(nextChar() != 'u'.code || nextChar() != 'l'.code || nextChar() != 'l'.code) {
 						_pos = save;
 						invalidChar();
 					}
-					return new SJsonBlock(SJsonBlockType.SJSON_BT_NULL, null, nameIndex);
+					return new TsonBlock(TsonBlockType.TSON_BT_NULL, null, nameIndex);
 				case '"'.code:
 					var str:String = parseString();
-					return new SJsonBlock(SJsonBlockType.SJSON_BT_STRING_UINT32, str, nameIndex);
+					return new TsonBlock(TsonBlockType.TSON_BT_STRING_UINT32, str, nameIndex);
 				case '0'.code, '1'.code, '2'.code, '3'.code, '4'.code, '5'.code, '6'.code, '7'.code, '8'.code, '9'.code, '-'.code:
 					var num:Dynamic = parseNumber(c);
-					return new SJsonBlock(SJsonBlockType.SJSON_BT_STRING_UINT32, num, nameIndex);
+					return new TsonBlock(TsonBlockType.TSON_BT_STRING_UINT32, num, nameIndex);
 				default:
 					invalidChar();
 			}
