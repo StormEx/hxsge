@@ -5,10 +5,13 @@ import haxe.io.Bytes;
 import haxe.io.BytesOutput;
 
 using hxsge.core.utils.StringTools;
+using hxsge.format.tson.TsonTools;
 
 class TsonBlock {
+	public var array(default, null):Array<TsonBlock> = null;
+
 	public var type:TsonBlockType;
-	public var data:Dynamic;
+	public var data(default, set):Dynamic;
 	public var nameIndex:Int;
 	public var name:String;
 	public var size(get, never):Float;
@@ -25,7 +28,6 @@ class TsonBlock {
 		var fval:Float;
 		var sval:String = "";
 		var bval:Bytes = null;
-		var aval:Array<TsonBlock> = [];
 
 		switch(type) {
 			case TsonBlockType.TSON_BT_NULL |
@@ -98,13 +100,11 @@ class TsonBlock {
 					TsonBlockType.TSON_BT_MAP_UINT16 |
 					TsonBlockType.TSON_BT_MAP_UINT32 |
 					TsonBlockType.TSON_BT_MAP_UINT64:
-				aval = cast data;
-
 				out.writeInt8(type);
 				out.writeInt16(nameIndex);
 				out.writeFloat(size);
-				out.writeInt32(aval.length);
-				for(i in aval) {
+				out.writeInt32(array.length);
+				for(i in array) {
 					i.write(out);
 				}
 			default:
@@ -116,7 +116,6 @@ class TsonBlock {
 		var fval:Float;
 		var sval:String = "";
 		var bval:Bytes = null;
-		var aval:Array<TsonBlock> = [];
 
 		var res:TsonBlock = new TsonBlock();
 		res.type = stream.readInt8();
@@ -178,14 +177,14 @@ class TsonBlock {
 					TsonBlockType.TSON_BT_MAP_UINT16 |
 					TsonBlockType.TSON_BT_MAP_UINT32 |
 					TsonBlockType.TSON_BT_MAP_UINT64:
-				aval = [];
+				res.array = [];
 				res.nameIndex = stream.readInt16();
 				fval = stream.readFloat();
 				ival = stream.readInt32();
 				for(i in 0...ival) {
-					aval.push(TsonBlock.read(stream, header));
+					res.array.push(TsonBlock.read(stream, header));
 				}
-				res.data = aval;
+				res.data = res.array;
 			default:
 		}
 
@@ -199,7 +198,6 @@ class TsonBlock {
 	function get_size():Float {
 		var oval:BytesOutput;
 		var sval:String;
-		var aval:Array<TsonBlock>;
 
 		return switch(type) {
 			case TsonBlockType.TSON_BT_UINT8 | TsonBlockType.TSON_BT_INT8:
@@ -234,15 +232,23 @@ class TsonBlock {
 					TsonBlockType.TSON_BT_MAP_UINT16 |
 					TsonBlockType.TSON_BT_MAP_UINT32 |
 					TsonBlockType.TSON_BT_MAP_UINT64:
-				aval = cast data;
 				var res:Float = 0;
 
-				for(i in aval) {
+				for(i in array) {
 					res += i.size;
 				}
 				(1 + 2 + 4 + 4 + res);
 			default:
 				(1 + 2);
 		}
+	}
+
+	function set_data(value:Dynamic):Dynamic {
+		data = value;
+		if(TsonBlockType.isArray(type) || TsonBlockType.isMap(type)) {
+			this.array = cast this.data;
+		}
+
+		return data;
 	}
 }

@@ -4,8 +4,27 @@ import hxsge.format.tson.parts.TsonBlock;
 import hxsge.format.tson.parts.TsonBlockType;
 
 using hxsge.core.utils.StringTools;
+using hxsge.core.utils.ArrayTools;
 
 class TsonTools {
+	public static function add(block:TsonBlock, newBlock:TsonBlock):Bool {
+		if(newBlock == null) {
+			return false;
+		}
+
+		if(isMap(block) && newBlock.name.isEmpty()) {
+			return false;
+		}
+		else {
+			if(isArray(block)) {
+				newBlock.nameIndex = -1;
+			}
+		}
+		block.array.push(newBlock);
+
+		return true;
+	}
+
 	public static function change(block:TsonBlock, type:TsonBlockType, data:Dynamic) {
 		@:privateAccess block.type = type;
 		@:privateAccess block.data = data;
@@ -17,11 +36,20 @@ class TsonTools {
 		}
 
 		if(isMap(block)) {
-			var arr:Array<TsonBlock> = cast block.data;
-			for(e in arr) {
+			for(e in block.array) {
 				if(e.name == name) {
 					return e;
 				}
+			}
+		}
+
+		return null;
+	}
+
+	public static function blockByIndex(block:TsonBlock, index:Int):TsonBlock {
+		if(isArray(block) && index >= 0) {
+			if(index < block.array.length) {
+				return block.array[index];
 			}
 		}
 
@@ -36,8 +64,7 @@ class TsonTools {
 		}
 
 		if(isMap(block)) {
-			var vals:Array<TsonBlock> = cast block.data;
-			for(e in vals) {
+			for(e in block.array) {
 				if(e.name.isNotEmpty()) {
 					arr.push(e.name);
 				}
@@ -45,6 +72,14 @@ class TsonTools {
 		}
 
 		return arr;
+	}
+
+	public static function blocks(block:TsonBlock):Array<TsonBlock> {
+		if(isArray(block) || isMap(block)) {
+			return block.array;
+		}
+
+		return [];
 	}
 
 	public static function toDynamic(block:TsonBlock, names:Map<Int, String>):Dynamic {
@@ -66,8 +101,7 @@ class TsonTools {
 			TsonBlockType.TSON_BT_ARRAY_UINT32 |
 			TsonBlockType.TSON_BT_ARRAY_UINT64:
 				var arr:Array<Dynamic> = [];
-				var from:Array<TsonBlock> = block.data;
-				for(val in from) {
+				for(val in block.array) {
 					arr.push(toDynamic(val, names));
 				}
 				arr;
@@ -75,9 +109,8 @@ class TsonTools {
 			TsonBlockType.TSON_BT_MAP_UINT16 |
 			TsonBlockType.TSON_BT_MAP_UINT32 |
 			TsonBlockType.TSON_BT_MAP_UINT64:
-				var arr:Array<TsonBlock> = cast block.data;
 				var res:Dynamic = {};
-				for(val in arr) {
+				for(val in block.array) {
 					Reflect.setField(res, names.get(val.nameIndex), toDynamic(val, names));
 				}
 				res;
@@ -91,16 +124,10 @@ class TsonTools {
 	}
 
 	public static function isMap(block:TsonBlock):Bool {
-		return block == null ? false : (block.type == TsonBlockType.TSON_BT_MAP_UINT8 ||
-			block.type == TsonBlockType.TSON_BT_MAP_UINT16 ||
-			block.type == TsonBlockType.TSON_BT_MAP_UINT32 ||
-			block.type == TsonBlockType.TSON_BT_MAP_UINT64);
+		return block == null ? false : (TsonBlockType.isMap(block.type) && block.array.isNotEmpty());
 	}
 
 	public static function isArray(block:TsonBlock):Bool {
-		return block == null ? false : (block.type == TsonBlockType.TSON_BT_ARRAY_UINT8 ||
-			block.type == TsonBlockType.TSON_BT_ARRAY_UINT16 ||
-			block.type == TsonBlockType.TSON_BT_ARRAY_UINT32 ||
-			block.type == TsonBlockType.TSON_BT_ARRAY_UINT64);
+		return block == null ? false : (TsonBlockType.isArray(block.type) && block.array.isNotEmpty());
 	}
 }
