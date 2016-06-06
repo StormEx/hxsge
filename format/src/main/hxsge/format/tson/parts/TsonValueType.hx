@@ -1,6 +1,6 @@
 package hxsge.format.tson.parts;
 
-@:enum abstract TsonBlockType(Int) from Int to Int {
+@:enum abstract TsonValueType(Int) from Int to Int {
 	var TSON_BT_NULL = 0;
 	var TSON_BT_FALSE = 1;
 	var TSON_BT_TRUE = 2;
@@ -39,14 +39,14 @@ package hxsge.format.tson.parts;
 	var TSON_BT_MAP_UINT32 = 28;
 	var TSON_BT_MAP_UINT64 = 29;
 
-	public inline static function isValue(type:TsonBlockType):Bool {
+	public inline static function isValue(type:TsonValueType):Bool {
 		return type == TSON_BT_NULL ||
 				type == TSON_BT_FALSE ||
 				type == TSON_BT_TRUE ||
 				type == TSON_BT_ESTRING;
 	}
 
-	public inline static function isSimple(type:TsonBlockType):Bool {
+	public inline static function isSimple(type:TsonValueType):Bool {
 		return type == TSON_BT_UINT8 ||
 				type == TSON_BT_UINT16 ||
 				type == TSON_BT_UINT32 ||
@@ -59,39 +59,39 @@ package hxsge.format.tson.parts;
 				type == TSON_BT_FLOAT64;
 	}
 
-	public inline static function isString(type:TsonBlockType):Bool {
+	public inline static function isString(type:TsonValueType):Bool {
 		return type == TSON_BT_STRING_UINT8 ||
 				type == TSON_BT_STRING_UINT16 ||
 				type == TSON_BT_STRING_UINT32 ||
 				type == TSON_BT_STRING_UINT64;
 	}
 
-	public inline static function isBinary(type:TsonBlockType):Bool {
+	public inline static function isBinary(type:TsonValueType):Bool {
 		return type == TSON_BT_BINARY_UINT8 ||
 				type == TSON_BT_BINARY_UINT16 ||
 				type == TSON_BT_BINARY_UINT32 ||
 				type == TSON_BT_BINARY_UINT64;
 	}
 
-	public inline static function isArray(type:TsonBlockType):Bool {
+	public inline static function isArray(type:TsonValueType):Bool {
 		return type == TSON_BT_ARRAY_UINT8 ||
 				type == TSON_BT_ARRAY_UINT16 ||
 				type == TSON_BT_ARRAY_UINT32 ||
 				type == TSON_BT_ARRAY_UINT64;
 	}
 
-	public inline static function isMap(type:TsonBlockType):Bool {
+	public inline static function isMap(type:TsonValueType):Bool {
 		return type == TSON_BT_MAP_UINT8 ||
 				type == TSON_BT_MAP_UINT16 ||
 				type == TSON_BT_MAP_UINT32 ||
 				type == TSON_BT_MAP_UINT64;
 	}
 
-	public inline static function isIterable(type:TsonBlockType):Bool {
+	public inline static function isIterable(type:TsonValueType):Bool {
 		return isMap(type) || isArray(type);
 	}
 
-	public inline static function getSizeInBytes(type:TsonBlockType):Int {
+	public inline static function getSizeInBytes(type:TsonValueType):Int {
 		return switch(type) {
 			case TSON_BT_NULL |
 					TSON_BT_FALSE |

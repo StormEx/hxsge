@@ -1,5 +1,6 @@
 package hxsge.format.tson.parts;
 
+import haxe.Int64;
 import haxe.io.BytesInput;
 import haxe.io.Bytes;
 import haxe.io.BytesOutput;
@@ -10,13 +11,13 @@ using hxsge.format.tson.TsonTools;
 class TsonBlock {
 	public var array(default, null):Array<TsonBlock> = null;
 
-	public var type:TsonBlockType;
+	public var type:TsonValueType;
 	public var data(default, set):Dynamic;
-	public var nameIndex:Int;
+	public var nameIndex:Int = -1;
 	public var name:String;
-	public var size(get, never):Float;
+	public var size(get, never):Int;
 
-	public function new(type:TsonBlockType = TsonBlockType.TSON_BT_NULL, data:Dynamic = null, nameIndex:Int = -1,
+	public function new(type:TsonValueType = TsonValueType.TSON_BT_NULL, data:Dynamic = null, nameIndex:Int = -1,
 						name:String = null) {
 		this.type = type;
 		this.data = data;
@@ -25,84 +26,130 @@ class TsonBlock {
 
 	public function write(out:BytesOutput) {
 		var ival:Int;
+		var ival64:Int64;
 		var fval:Float;
 		var sval:String = "";
 		var bval:Bytes = null;
 
 		switch(type) {
-			case TsonBlockType.TSON_BT_NULL |
-					TsonBlockType.TSON_BT_FALSE |
-					TsonBlockType.TSON_BT_TRUE |
-					TsonBlockType.TSON_BT_ESTRING:
-				out.writeInt8(type);
-				out.writeInt16(nameIndex);
-			case TsonBlockType.TSON_BT_UINT8 |
-					TsonBlockType.TSON_BT_UINT16 |
-					TsonBlockType.TSON_BT_UINT32 |
-					TsonBlockType.TSON_BT_UINT64:
-			case TsonBlockType.TSON_BT_INT8:
+			case TsonValueType.TSON_BT_NULL:
+				writeTypeInfo(out);
+			case TsonValueType.TSON_BT_FALSE:
+				writeTypeInfo(out);
+			case TsonValueType.TSON_BT_TRUE:
+				writeTypeInfo(out);
+			case TsonValueType.TSON_BT_ESTRING:
+				writeTypeInfo(out);
+			case TsonValueType.TSON_BT_UINT8:
 				ival = cast data;
 
-				out.writeInt8(type);
-				out.writeInt16(nameIndex);
-				out.writeInt8(ival);
-			case TsonBlockType.TSON_BT_INT16:
+				writeTypeInfo(out);
+				out.writeByte(ival);
+			case TsonValueType.TSON_BT_UINT16:
 				ival = cast data;
 
-				out.writeInt8(type);
-				out.writeInt16(nameIndex);
-				out.writeInt16(ival);
-			case TsonBlockType.TSON_BT_INT32:
+				writeTypeInfo(out);
+				out.writeUInt16(ival);
+			case TsonValueType.TSON_BT_UINT32:
 				ival = cast data;
 
-				out.writeInt8(type);
-				out.writeInt16(nameIndex);
+				writeTypeInfo(out);
 				out.writeInt32(ival);
-			case TsonBlockType.TSON_BT_INT64:
-			case TsonBlockType.TSON_BT_FLOAT32:
+			case TsonValueType.TSON_BT_UINT64:
+				ival64 = cast data;
+
+				writeTypeInfo(out);
+				out.writeInt32(Int64.getLow(ival64));
+				out.writeInt32(Int64.getHigh(ival64));
+			case TsonValueType.TSON_BT_INT8:
+				ival = cast data;
+
+				writeTypeInfo(out);
+				out.writeInt8(ival);
+			case TsonValueType.TSON_BT_INT16:
+				ival = cast data;
+
+				writeTypeInfo(out);
+				out.writeInt16(ival);
+			case TsonValueType.TSON_BT_INT32:
+				ival = cast data;
+
+				writeTypeInfo(out);
+				out.writeInt32(ival);
+			case TsonValueType.TSON_BT_INT64:
+				ival64 = cast data;
+
+				writeTypeInfo(out);
+				out.writeInt32(Int64.getLow(ival64));
+				out.writeInt32(Int64.getHigh(ival64));
+			case TsonValueType.TSON_BT_FLOAT32:
 				fval = cast data;
 
-				out.writeInt8(type);
-				out.writeInt16(nameIndex);
+				writeTypeInfo(out);
 				out.writeFloat(fval);
-			case TsonBlockType.TSON_BT_FLOAT64:
+			case TsonValueType.TSON_BT_FLOAT64:
 				var fval = cast data;
 
-				out.writeInt8(type);
-				out.writeInt16(nameIndex);
+				writeTypeInfo(out);
 				out.writeDouble(fval);
-			case TsonBlockType.TSON_BT_STRING_UINT8 |
-					TsonBlockType.TSON_BT_STRING_UINT16 |
-					TsonBlockType.TSON_BT_STRING_UINT32 |
-					TsonBlockType.TSON_BT_STRING_UINT64:
+			case TsonValueType.TSON_BT_STRING_UINT8:
 				sval = Std.string(data);
 
-				out.writeInt8(type);
-				out.writeInt16(nameIndex);
+				writeTypeInfo(out);
+				out.writeByte(sval.length);
+				out.writeString(sval);
+			case TsonValueType.TSON_BT_STRING_UINT16:
+				sval = Std.string(data);
+
+				writeTypeInfo(out);
+				out.writeUInt16(sval.length);
+				out.writeString(sval);
+			case TsonValueType.TSON_BT_STRING_UINT32:
+				sval = Std.string(data);
+
+				writeTypeInfo(out);
 				out.writeInt32(sval.length);
 				out.writeString(sval);
-			case TsonBlockType.TSON_BT_BINARY_UINT8 |
-					TsonBlockType.TSON_BT_BINARY_UINT16 |
-					TsonBlockType.TSON_BT_BINARY_UINT32 |
-					TsonBlockType.TSON_BT_BINARY_UINT64:
-				var val:BytesOutput = cast data;
-				bval = val.getBytes();
+			case TsonValueType.TSON_BT_STRING_UINT64:
+				sval = Std.string(data);
 
-				out.writeInt8(type);
-				out.writeInt16(nameIndex);
+				writeTypeInfo(out);
+				out.writeInt32(sval.length);
+				out.writeString(sval);
+			case TsonValueType.TSON_BT_BINARY_UINT8:
+				bval = cast data;
+
+				writeTypeInfo(out);
+				out.writeByte(bval.length);
+				out.writeBytes(bval, 0, bval.length);
+			case TsonValueType.TSON_BT_BINARY_UINT16:
+				bval = cast data;
+
+				writeTypeInfo(out);
+				out.writeUInt16(bval.length);
+				out.writeBytes(bval, 0, bval.length);
+			case TsonValueType.TSON_BT_BINARY_UINT32:
+				bval = cast data;
+
+				writeTypeInfo(out);
 				out.writeInt32(bval.length);
 				out.writeBytes(bval, 0, bval.length);
-			case TsonBlockType.TSON_BT_ARRAY_UINT8 |
-					TsonBlockType.TSON_BT_ARRAY_UINT16 |
-					TsonBlockType.TSON_BT_ARRAY_UINT32 |
-					TsonBlockType.TSON_BT_ARRAY_UINT64 |
-					TsonBlockType.TSON_BT_MAP_UINT8 |
-					TsonBlockType.TSON_BT_MAP_UINT16 |
-					TsonBlockType.TSON_BT_MAP_UINT32 |
-					TsonBlockType.TSON_BT_MAP_UINT64:
-				out.writeInt8(type);
-				out.writeInt16(nameIndex);
-				out.writeFloat(size);
+			case TsonValueType.TSON_BT_BINARY_UINT64:
+				bval = cast data;
+
+				writeTypeInfo(out);
+				out.writeInt32(bval.length);
+				out.writeBytes(bval, 0, bval.length);
+			case TsonValueType.TSON_BT_ARRAY_UINT8 |
+					TsonValueType.TSON_BT_ARRAY_UINT16 |
+					TsonValueType.TSON_BT_ARRAY_UINT32 |
+					TsonValueType.TSON_BT_ARRAY_UINT64 |
+					TsonValueType.TSON_BT_MAP_UINT8 |
+					TsonValueType.TSON_BT_MAP_UINT16 |
+					TsonValueType.TSON_BT_MAP_UINT32 |
+					TsonValueType.TSON_BT_MAP_UINT64:
+				writeTypeInfo(out);
+				out.writeInt32(size);
 				out.writeInt32(array.length);
 				for(i in array) {
 					i.write(out);
@@ -111,9 +158,23 @@ class TsonBlock {
 		}
 	}
 
-	static public function read(stream:BytesInput, header:TsonHeader):TsonBlock {
+	inline function writeTypeInfo(out:BytesOutput) {
+		out.writeInt8(type);
+		if(nameIndex != -1) {
+			out.writeInt16(nameIndex);
+		}
+	}
+
+	static function readTypeInfo(stream:BytesInput, block:TsonBlock, withName:Bool) {
+		if(withName) {
+			block.nameIndex = stream.readInt16();
+		}
+	}
+
+	static public function read(stream:BytesInput, header:TsonHeader, withName:Bool = true):TsonBlock {
 		var ival:Int;
 		var fval:Float;
+		var count:Int;
 		var sval:String = "";
 		var bval:Bytes = null;
 
@@ -121,68 +182,115 @@ class TsonBlock {
 		res.type = stream.readInt8();
 
 		switch(res.type) {
-			case TsonBlockType.TSON_BT_NULL |
-					TsonBlockType.TSON_BT_FALSE |
-					TsonBlockType.TSON_BT_TRUE |
-					TsonBlockType.TSON_BT_ESTRING:
-				res.nameIndex = stream.readInt16();
-			case TsonBlockType.TSON_BT_UINT8 |
-					TsonBlockType.TSON_BT_UINT16 |
-					TsonBlockType.TSON_BT_UINT32 |
-					TsonBlockType.TSON_BT_UINT64:
-			case TsonBlockType.TSON_BT_INT8:
-				res.nameIndex = stream.readInt16();
-				ival = stream.readInt8();
+			case TsonValueType.TSON_BT_NULL:
+				readTypeInfo(stream, res, withName);
+				res.data = null;
+			case TsonValueType.TSON_BT_FALSE:
+				readTypeInfo(stream, res, withName);
+				res.data = false;
+			case TsonValueType.TSON_BT_TRUE:
+				readTypeInfo(stream, res, withName);
+				res.data = true;
+			case TsonValueType.TSON_BT_ESTRING:
+				readTypeInfo(stream, res, withName);
+				res.data = "";
+			case TsonValueType.TSON_BT_UINT8:
+				readTypeInfo(stream, res, withName);
+				ival = stream.readByte();
 				res.data = ival;
-			case TsonBlockType.TSON_BT_INT16:
-				res.nameIndex = stream.readInt16();
-				ival = stream.readInt16();
+			case TsonValueType.TSON_BT_UINT16:
+				readTypeInfo(stream, res, withName);
+				ival = stream.readUInt16();
 				res.data = ival;
-			case TsonBlockType.TSON_BT_INT32:
-				res.nameIndex = stream.readInt16();
+			case TsonValueType.TSON_BT_UINT32:
+				readTypeInfo(stream, res, withName);
 				ival = stream.readInt32();
 				res.data = ival;
-			case TsonBlockType.TSON_BT_INT64:
-			case TsonBlockType.TSON_BT_FLOAT32:
-				res.nameIndex = stream.readInt16();
+			case TsonValueType.TSON_BT_UINT64:
+				readTypeInfo(stream, res, withName);
+				ival = stream.readInt32();
+				res.data = ival;
+			case TsonValueType.TSON_BT_INT8:
+				readTypeInfo(stream, res, withName);
+				ival = stream.readInt8();
+				res.data = ival;
+			case TsonValueType.TSON_BT_INT16:
+				readTypeInfo(stream, res, withName);
+				ival = stream.readInt16();
+				res.data = ival;
+			case TsonValueType.TSON_BT_INT32:
+				readTypeInfo(stream, res, withName);
+				ival = stream.readInt32();
+				res.data = ival;
+			case TsonValueType.TSON_BT_INT64:
+				readTypeInfo(stream, res, withName);
+				ival = stream.readInt32();
+				res.data = ival;
+			case TsonValueType.TSON_BT_FLOAT32:
+				readTypeInfo(stream, res, withName);
 				fval = stream.readFloat();
 				res.data = fval;
-			case TsonBlockType.TSON_BT_FLOAT64:
-				res.nameIndex = stream.readInt16();
+			case TsonValueType.TSON_BT_FLOAT64:
+				readTypeInfo(stream, res, withName);
 				fval = stream.readDouble();
 				res.data = fval;
-			case TsonBlockType.TSON_BT_STRING_UINT8 |
-					TsonBlockType.TSON_BT_STRING_UINT16 |
-					TsonBlockType.TSON_BT_STRING_UINT32 |
-					TsonBlockType.TSON_BT_STRING_UINT64:
-				res.nameIndex = stream.readInt16();
+			case TsonValueType.TSON_BT_STRING_UINT8:
+				readTypeInfo(stream, res, withName);
+				ival = stream.readByte();
+				sval = stream.readString(ival);
+				res.data = sval;
+			case TsonValueType.TSON_BT_STRING_UINT16:
+				readTypeInfo(stream, res, withName);
+				ival = stream.readUInt16();
+				sval = stream.readString(ival);
+				res.data = sval;
+			case TsonValueType.TSON_BT_STRING_UINT32 |
+					TsonValueType.TSON_BT_STRING_UINT64:
+				readTypeInfo(stream, res, withName);
 				ival = stream.readInt32();
 				sval = stream.readString(ival);
 				res.data = sval;
-			case TsonBlockType.TSON_BT_BINARY_UINT8 |
-					TsonBlockType.TSON_BT_BINARY_UINT16 |
-					TsonBlockType.TSON_BT_BINARY_UINT32 |
-					TsonBlockType.TSON_BT_BINARY_UINT64:
-				res.nameIndex = stream.readInt16();
+			case TsonValueType.TSON_BT_BINARY_UINT8:
+				readTypeInfo(stream, res, withName);
+				ival = stream.readByte();
+				bval = Bytes.alloc(ival);
+				stream.readBytes(bval, 0, ival);
+				res.data = bval;
+			case TsonValueType.TSON_BT_BINARY_UINT16:
+				readTypeInfo(stream, res, withName);
+				ival = stream.readUInt16();
+				bval = Bytes.alloc(ival);
+				stream.readBytes(bval, 0, ival);
+				res.data = bval;
+			case TsonValueType.TSON_BT_BINARY_UINT32 |
+					TsonValueType.TSON_BT_BINARY_UINT64:
+				readTypeInfo(stream, res, withName);
 				ival = stream.readInt32();
 				bval = Bytes.alloc(ival);
 				stream.readBytes(bval, 0, ival);
-				res.data = new BytesOutput();
-				res.data.writeBytes(bval, 0, bval.length);
-			case TsonBlockType.TSON_BT_ARRAY_UINT8 |
-					TsonBlockType.TSON_BT_ARRAY_UINT16 |
-					TsonBlockType.TSON_BT_ARRAY_UINT32 |
-					TsonBlockType.TSON_BT_ARRAY_UINT64 |
-					TsonBlockType.TSON_BT_MAP_UINT8 |
-					TsonBlockType.TSON_BT_MAP_UINT16 |
-					TsonBlockType.TSON_BT_MAP_UINT32 |
-					TsonBlockType.TSON_BT_MAP_UINT64:
+				res.data = bval;
+			case TsonValueType.TSON_BT_ARRAY_UINT8 |
+					TsonValueType.TSON_BT_ARRAY_UINT16 |
+					TsonValueType.TSON_BT_ARRAY_UINT32 |
+					TsonValueType.TSON_BT_ARRAY_UINT64:
 				res.array = [];
-				res.nameIndex = stream.readInt16();
-				fval = stream.readFloat();
+				readTypeInfo(stream, res, withName);
 				ival = stream.readInt32();
-				for(i in 0...ival) {
-					res.array.push(TsonBlock.read(stream, header));
+				count = stream.readInt32();
+				for(i in 0...count) {
+					res.array.push(TsonBlock.read(stream, header, false));
+				}
+				res.data = res.array;
+			case TsonValueType.TSON_BT_MAP_UINT8 |
+					TsonValueType.TSON_BT_MAP_UINT16 |
+					TsonValueType.TSON_BT_MAP_UINT32 |
+					TsonValueType.TSON_BT_MAP_UINT64:
+				res.array = [];
+				readTypeInfo(stream, res, withName);
+				ival = stream.readInt32();
+				count = stream.readInt32();
+				for(i in 0...count) {
+					res.array.push(TsonBlock.read(stream, header, true));
 				}
 				res.data = res.array;
 			default:
@@ -195,57 +303,65 @@ class TsonBlock {
 		return res;
 	}
 
-	function get_size():Float {
-		var oval:BytesOutput;
+	function get_size():Int {
+		var bval:Bytes;
 		var sval:String;
 
 		return switch(type) {
-			case TsonBlockType.TSON_BT_UINT8 | TsonBlockType.TSON_BT_INT8:
-				(1 + 2 + 1);
-			case TsonBlockType.TSON_BT_UINT16 | TsonBlockType.TSON_BT_INT16:
-				(1 + 2 + 2);
-			case TsonBlockType.TSON_BT_UINT32 |
-					TsonBlockType.TSON_BT_UINT64 |
-					TsonBlockType.TSON_BT_INT32 |
-					TsonBlockType.TSON_BT_INT64 |
-					TsonBlockType.TSON_BT_FLOAT32:
-				(1 + 2 + 4);
-			case TsonBlockType.TSON_BT_FLOAT64:
-				(1 + 2 + 8);
-			case TsonBlockType.TSON_BT_STRING_UINT8 |
-					TsonBlockType.TSON_BT_STRING_UINT16 |
-					TsonBlockType.TSON_BT_STRING_UINT32 |
-					TsonBlockType.TSON_BT_STRING_UINT64:
+			case TsonValueType.TSON_BT_UINT8 | TsonValueType.TSON_BT_INT8:
+				(1 + (nameIndex == -1 ? 0 : 2) + 1);
+			case TsonValueType.TSON_BT_UINT16 | TsonValueType.TSON_BT_INT16:
+				(1 + (nameIndex == -1 ? 0 : 2) + 2);
+			case TsonValueType.TSON_BT_UINT32 |
+					TsonValueType.TSON_BT_UINT64 |
+					TsonValueType.TSON_BT_INT32 |
+					TsonValueType.TSON_BT_INT64 |
+					TsonValueType.TSON_BT_FLOAT32:
+				(1 + (nameIndex == -1 ? 0 : 2) + 4);
+			case TsonValueType.TSON_BT_FLOAT64:
+				(1 + (nameIndex == -1 ? 0 : 2) + 8);
+			case TsonValueType.TSON_BT_STRING_UINT8:
 				sval = cast data;
-				(1 + 2 + 4 + sval.length);
-			case TsonBlockType.TSON_BT_BINARY_UINT8 |
-					TsonBlockType.TSON_BT_BINARY_UINT16 |
-					TsonBlockType.TSON_BT_BINARY_UINT32 |
-					TsonBlockType.TSON_BT_BINARY_UINT64:
-				oval = Std.instance(data, BytesOutput);
-				(1 + 2 + 4 + (oval == null ? 0 : oval.length));
-			case TsonBlockType.TSON_BT_ARRAY_UINT8 |
-					TsonBlockType.TSON_BT_ARRAY_UINT16 |
-					TsonBlockType.TSON_BT_ARRAY_UINT32 |
-					TsonBlockType.TSON_BT_ARRAY_UINT64 |
-					TsonBlockType.TSON_BT_MAP_UINT8 |
-					TsonBlockType.TSON_BT_MAP_UINT16 |
-					TsonBlockType.TSON_BT_MAP_UINT32 |
-					TsonBlockType.TSON_BT_MAP_UINT64:
-				var res:Float = 0;
+				(1 + (nameIndex == -1 ? 0 : 2) + 1 + sval.length);
+			case TsonValueType.TSON_BT_STRING_UINT16:
+				sval = cast data;
+				(1 + (nameIndex == -1 ? 0 : 2) + 2 + sval.length);
+			case TsonValueType.TSON_BT_STRING_UINT32 |
+					TsonValueType.TSON_BT_STRING_UINT64:
+				sval = cast data;
+				(1 + (nameIndex == -1 ? 0 : 2) + 4 + sval.length);
+			case TsonValueType.TSON_BT_BINARY_UINT8:
+				bval = Std.instance(data, Bytes);
+				(1 + (nameIndex == -1 ? 0 : 2) + 1 + (bval == null ? 0 : bval.length));
+			case TsonValueType.TSON_BT_BINARY_UINT16:
+				bval = Std.instance(data, Bytes);
+				(1 + (nameIndex == -1 ? 0 : 2) + 2 + (bval == null ? 0 : bval.length));
+			case TsonValueType.TSON_BT_BINARY_UINT32 |
+					TsonValueType.TSON_BT_BINARY_UINT64:
+				bval = Std.instance(data, Bytes);
+				(1 + (nameIndex == -1 ? 0 : 2) + 4 + (bval == null ? 0 : bval.length));
+			case TsonValueType.TSON_BT_ARRAY_UINT8 |
+					TsonValueType.TSON_BT_ARRAY_UINT16 |
+					TsonValueType.TSON_BT_ARRAY_UINT32 |
+					TsonValueType.TSON_BT_ARRAY_UINT64 |
+					TsonValueType.TSON_BT_MAP_UINT8 |
+					TsonValueType.TSON_BT_MAP_UINT16 |
+					TsonValueType.TSON_BT_MAP_UINT32 |
+					TsonValueType.TSON_BT_MAP_UINT64:
+				var res:Int = 0;
 
 				for(i in array) {
 					res += i.size;
 				}
-				(1 + 2 + 4 + 4 + res);
+				(1 + (nameIndex == -1 ? 0 : 2) + 4 + 4 + res);
 			default:
-				(1 + 2);
+				(1 + (nameIndex == -1 ? 0 : 2));
 		}
 	}
 
 	function set_data(value:Dynamic):Dynamic {
 		data = value;
-		if(TsonBlockType.isArray(type) || TsonBlockType.isMap(type)) {
+		if(TsonValueType.isArray(type) || TsonValueType.isMap(type)) {
 			this.array = cast this.data;
 		}
 

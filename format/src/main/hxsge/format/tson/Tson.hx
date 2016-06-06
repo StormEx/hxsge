@@ -3,7 +3,7 @@ package hxsge.format.tson;
 import haxe.io.Bytes;
 
 class Tson {
-	inline public static var HEADER:String = "SJSON";
+	inline public static var HEADER:String = "TSON";
 
 	static public function parse(data:Bytes):Dynamic {
 		var decoder = new TsonDecoder(data);

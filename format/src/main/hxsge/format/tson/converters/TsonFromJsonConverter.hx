@@ -1,7 +1,7 @@
 package hxsge.format.tson.converters;
 
 import hxsge.format.tson.parts.TsonBlock;
-import hxsge.format.tson.parts.TsonBlockType;
+import hxsge.format.tson.parts.TsonValueType;
 import hxsge.format.tson.parts.TsonHeader;
 import haxe.io.BytesOutput;
 import hxsge.core.debug.Debug;
@@ -63,7 +63,7 @@ class TsonFromJsonConverter implements ITsonConverter {
 								if( field != null || comma == false )
 									invalidChar();
 
-								return new TsonBlock(TsonBlockType.TSON_BT_MAP_UINT32, val, nameIndex);
+								return new TsonBlock(TsonValueType.TSON_BT_MAP_UINT32, val, nameIndex);
 							case ':'.code:
 								if( field == null )
 									invalidChar();
@@ -90,7 +90,7 @@ class TsonFromJsonConverter implements ITsonConverter {
 								// loop
 							case ']'.code:
 								if( comma == false ) invalidChar();
-								return new TsonBlock(TsonBlockType.TSON_BT_ARRAY_UINT32, val, nameIndex);
+								return new TsonBlock(TsonValueType.TSON_BT_ARRAY_UINT32, val, nameIndex);
 							case ','.code:
 								if( comma ) comma = false else invalidChar();
 							default:
@@ -106,27 +106,27 @@ class TsonFromJsonConverter implements ITsonConverter {
 						_pos = save;
 						invalidChar();
 					}
-					return new TsonBlock(TsonBlockType.TSON_BT_TRUE, true, nameIndex);
+					return new TsonBlock(TsonValueType.TSON_BT_TRUE, true, nameIndex);
 				case 'f'.code:
 					var save = _pos;
 					if(nextChar() != 'a'.code || nextChar() != 'l'.code || nextChar() != 's'.code || nextChar() != 'e'.code) {
 						_pos = save;
 						invalidChar();
 					}
-					return new TsonBlock(TsonBlockType.TSON_BT_FALSE, false, nameIndex);
+					return new TsonBlock(TsonValueType.TSON_BT_FALSE, false, nameIndex);
 				case 'n'.code:
 					var save = _pos;
 					if(nextChar() != 'u'.code || nextChar() != 'l'.code || nextChar() != 'l'.code) {
 						_pos = save;
 						invalidChar();
 					}
-					return new TsonBlock(TsonBlockType.TSON_BT_NULL, null, nameIndex);
+					return new TsonBlock(TsonValueType.TSON_BT_NULL, null, nameIndex);
 				case '"'.code:
 					var str:String = parseString();
-					return new TsonBlock(TsonBlockType.TSON_BT_STRING_UINT32, str, nameIndex);
+					return new TsonBlock(TsonValueType.TSON_BT_STRING_UINT32, str, nameIndex);
 				case '0'.code, '1'.code, '2'.code, '3'.code, '4'.code, '5'.code, '6'.code, '7'.code, '8'.code, '9'.code, '-'.code:
 					var num:Dynamic = parseNumber(c);
-					return new TsonBlock(TsonBlockType.TSON_BT_STRING_UINT32, num, nameIndex);
+					return new TsonBlock(TsonValueType.TSON_BT_STRING_UINT32, num, nameIndex);
 				default:
 					invalidChar();
 			}

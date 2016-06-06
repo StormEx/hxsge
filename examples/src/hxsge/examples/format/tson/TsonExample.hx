@@ -10,7 +10,7 @@ import hxsge.loaders.base.LoadersBatch;
 import hxsge.dataprovider.data.DataProviderInfo;
 import hxsge.dataprovider.DataProviderManager;
 import hxsge.format.tson.TsonEncoder;
-import hxsge.format.tson.parts.TsonBlockType;
+import hxsge.format.tson.parts.TsonValueType;
 import haxe.io.BytesOutput;
 import hxsge.format.json.Json;
 import haxe.io.Bytes;
@@ -58,11 +58,12 @@ class TsonExample {
 		Log.log("begin: TSON example.");
 		var json:String = '{"resources":[{"list":[{"name":"gfx/triple/triplejewels.rage","meta":""},{"name":"gfx/mystery/mystery_jewels.rage"}]},{"list":[{"name":"sfx/menu_buttons/press_spin.mp3"}]},{"list":[{"name":"sfx/reel_spins/reel_spin_1.swf","meta":{"data":[{"name":"SoundSymbol","type":"sound"}]}},{"name":"sfx/reel_spins/reel_spin_2.swf","meta":{"data":[{"name":"SoundSymbol","type":"sound"}]}},{"name":"sfx/reel_spins/reel_spin_3.swf","meta":{"data":[{"name":"SoundSymbol","type":"sound"}]}},{"name":"sfx/reel_spins/reel_spin_4.swf","meta":{"data":[{"name":"SoundSymbol","type":"sound"}]}}],"tags":["sound"]},{"list":[{"name":"sfx/reel_stops/reel_stop1.mp3"},{"name":"sfx/reel_stops/reel_stop2.mp3"},{"name":"sfx/reel_stops/reel_stop3.mp3"},{"name":"sfx/menu_buttons/max_bet.mp3"},{"name":"sfx/bang_ups/credit_bang_3_seconds_small.mp3"},{"name":"sfx/bang_ups/credit_bang_6_seconds_medium.mp3"},{"name":"sfx/bang_ups/credit_bang_10_seconds_large.mp3"},{"name":"sfx/bang_ups/credit_bang_14_seconds_top.mp3"},{"name":"sfx/menu_buttons/decrease_bet1.mp3"},{"name":"sfx/menu_buttons/decrease_bet2.mp3"},{"name":"sfx/menu_buttons/decrease_bet3.mp3"},{"name":"sfx/menu_buttons/decrease_bet4.mp3"},{"name":"sfx/menu_buttons/decrease_bet5.mp3"},{"name":"sfx/menu_buttons/decrease_bet6.mp3"},{"name":"sfx/menu_buttons/decrease_bet7.mp3"},{"name":"sfx/menu_buttons/decrease_bet8.mp3"},{"name":"sfx/menu_buttons/increase_bet1.mp3"},{"name":"sfx/menu_buttons/increase_bet2.mp3"},{"name":"sfx/menu_buttons/increase_bet3.mp3"},{"name":"sfx/menu_buttons/increase_bet4.mp3"},{"name":"sfx/menu_buttons/increase_bet5.mp3"},{"name":"sfx/menu_buttons/increase_bet6.mp3"},{"name":"sfx/menu_buttons/increase_bet7.mp3"},{"name":"sfx/menu_buttons/increase_bet8.mp3"},{"name":"sfx/bonus_triggers/bonus_trigger_1.mp3"},{"name":"sfx/bonus_triggers/bonus_trigger_2.mp3"},{"name":"sfx/bonus_triggers/bonus_trigger_3.mp3"},{"name":"sfx/bonus_triggered/bonus_triggered.mp3"}],"type":"asynchronous"},{"tags":["sound"],"list":[{"name":"sfx/reel_spins/casino_background.swf","meta":{"data":[{"name":"SoundSymbol","type":"sound"}]}}],"type":"asynchronous"}],"platforms":["flash","js"],"name":"game_1000_1011","dependencies":["preloader","common"],"version":"0.0.1","requiredAppVersion":"0.1.17","temp":{"0":{"type":"asynchronous"},"1":{"list":[{"name":"sfx/reel_stops/blabalblablablablablab.mp3"}],"type":"asynchronous"}}}';
 		Debug.trace(Tson.stringify(Tson.convert(json)));
+
 		var ld:DataLoader = new DataLoader("d:/StormEx/temp/game_1000_1011/meta.bundle");
 		ld.finished.addOnce(onBundleDataLoaded);
 		ld.load();
 
-		var sjl:DataLoader = new DataLoader("d:/StormEx/hxsge/examples/build/nodejs/sample.sjson");
+		var sjl:DataLoader = new DataLoader("d:/StormEx/hxsge/examples/build/nodejs/sample.tson");
 		sjl.finished.addOnce(onSJSLoaded);
 		sjl.load();
 		Log.log("end: TSON example.");
@@ -135,9 +136,7 @@ class TsonExample {
 					str = str.substr("d:/StormEx/temp/game_1000_1011/".length);
 					var obj:TsonBlock = data.get(str);
 					if(obj != null) {
-						var out:BytesOutput = new BytesOutput();
-						out.writeBytes(i.content, 0, i.content.length);
-						obj.change(TsonBlockType.TSON_BT_BINARY_UINT32, out);
+						obj.change(TsonValueType.TSON_BT_BINARY_UINT32, i.content);
 					}
 				}
 			}
@@ -146,7 +145,7 @@ class TsonExample {
 
 #if nodejs
 		var bbb:js.node.Buffer = new js.node.Buffer(cast TsonEncoder.fromBlock(tson.header, tson.root).getData());
-		js.node.Fs.writeFile("build/nodejs/sample.sjson", bbb, "binary", onFileWriteFinished);
+		js.node.Fs.writeFile("build/nodejs/sample.tson", bbb, "binary", onFileWriteFinished);
 #end
 	}
 
@@ -157,8 +156,8 @@ class TsonExample {
 		if(block != null) {
 			var out:TsonBlock = Std.instance(block[3].data[1].data[27].data[1], TsonBlock);
 			if(out != null) {
-				var stream:BytesOutput = cast out.data;
-				var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo("d:/StormEx/temp/game_1000_1011/" + block[3].data[1].data[27].data[0].data, stream.getBytes()));
+				var stream:Bytes = cast out.data;
+				var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo("d:/StormEx/temp/game_1000_1011/" + block[3].data[1].data[27].data[0].data, stream));
 				if(dp != null) {
 					dp.finished.addOnce(onDPFinished);
 					dp.load();

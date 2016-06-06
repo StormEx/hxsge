@@ -1,6 +1,6 @@
--main hxsge.examples.dataprovider.DataProviderExample
+-main hxsge.examples.format.tson.TsonExample
 
--swf-header 912:40:40:FF0000
+-swf-header 300:300:40:FFFFFF
 
 -lib format
 -lib actuate

@@ -1,5 +1,6 @@
 package hxsge.format.tson;
 
+import hxsge.core.debug.Debug;
 import hxsge.format.json.Json;
 import hxsge.format.tson.parts.TsonBlock;
 import hxsge.format.tson.parts.TsonHeader;
@@ -42,7 +43,7 @@ class TsonDecoder {
 			if(reader != null) {
 				header = TsonHeader.read(reader);
 				if(header.isSuccess) {
-					block = TsonBlock.read(reader, header);
+					block = TsonBlock.read(reader, header, false);
 				}
 			}
 		}

@@ -1,7 +1,7 @@
 package hxsge.format.tson;
 
 import hxsge.format.tson.parts.TsonBlock;
-import hxsge.format.tson.parts.TsonBlockType;
+import hxsge.format.tson.parts.TsonValueType;
 
 using hxsge.core.utils.StringTools;
 using hxsge.core.utils.ArrayTools;
@@ -25,7 +25,7 @@ class TsonTools {
 		return true;
 	}
 
-	public static function change(block:TsonBlock, type:TsonBlockType, data:Dynamic) {
+	public static function change(block:TsonBlock, type:TsonValueType, data:Dynamic) {
 		@:privateAccess block.type = type;
 		@:privateAccess block.data = data;
 	}
@@ -88,27 +88,27 @@ class TsonTools {
 		}
 
 		return switch(block.type) {
-			case TsonBlockType.TSON_BT_NULL:
+			case TsonValueType.TSON_BT_NULL:
 				null;
-			case TsonBlockType.TSON_BT_FALSE:
+			case TsonValueType.TSON_BT_FALSE:
 				false;
-			case TsonBlockType.TSON_BT_TRUE:
+			case TsonValueType.TSON_BT_TRUE:
 				true;
-			case TsonBlockType.TSON_BT_ESTRING:
+			case TsonValueType.TSON_BT_ESTRING:
 				"";
-			case TsonBlockType.TSON_BT_ARRAY_UINT8 |
-			TsonBlockType.TSON_BT_ARRAY_UINT16 |
-			TsonBlockType.TSON_BT_ARRAY_UINT32 |
-			TsonBlockType.TSON_BT_ARRAY_UINT64:
+			case TsonValueType.TSON_BT_ARRAY_UINT8 |
+			TsonValueType.TSON_BT_ARRAY_UINT16 |
+			TsonValueType.TSON_BT_ARRAY_UINT32 |
+			TsonValueType.TSON_BT_ARRAY_UINT64:
 				var arr:Array<Dynamic> = [];
 				for(val in block.array) {
 					arr.push(toDynamic(val, names));
 				}
 				arr;
-			case TsonBlockType.TSON_BT_MAP_UINT8 |
-			TsonBlockType.TSON_BT_MAP_UINT16 |
-			TsonBlockType.TSON_BT_MAP_UINT32 |
-			TsonBlockType.TSON_BT_MAP_UINT64:
+			case TsonValueType.TSON_BT_MAP_UINT8 |
+			TsonValueType.TSON_BT_MAP_UINT16 |
+			TsonValueType.TSON_BT_MAP_UINT32 |
+			TsonValueType.TSON_BT_MAP_UINT64:
 				var res:Dynamic = {};
 				for(val in block.array) {
 					Reflect.setField(res, names.get(val.nameIndex), toDynamic(val, names));
@@ -124,10 +124,10 @@ class TsonTools {
 	}
 
 	public static function isMap(block:TsonBlock):Bool {
-		return block == null ? false : (TsonBlockType.isMap(block.type) && block.array.isNotEmpty());
+		return block == null ? false : (TsonValueType.isMap(block.type) && block.array.isNotEmpty());
 	}
 
 	public static function isArray(block:TsonBlock):Bool {
-		return block == null ? false : (TsonBlockType.isArray(block.type) && block.array.isNotEmpty());
+		return block == null ? false : (TsonValueType.isArray(block.type) && block.array.isNotEmpty());
 	}
 }
