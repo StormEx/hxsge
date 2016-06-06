@@ -45,7 +45,7 @@ class SerializerMacro {
 
 	static function buildDeserialize():Field {
 		var knd:Function = {
-			args: [{name:"__data__", type:macro :Dynamic}],
+			args: [{name:"__data__", type:macro :Dynamic}, {name:"objectInput", type:macro :hxsge.io.object.IObjectInput, value:macro null}],
 			ret: macro :Void,
 			expr: buildDeserializeExpr()
 		};
