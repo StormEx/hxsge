@@ -28,10 +28,10 @@ class TsonEncoder {
 	public function fromJson(json:String):Bytes {
 		_converter = new TsonFromJsonConverter(json);
 
-		return _converter.sjson;
+		return _converter.tson;
 	}
 
 	public static function fromBlock(header:TsonHeader, block:TsonBlock) {
-		return (new TsonFromBlockConverter(header, block)).sjson;
+		return (new TsonFromBlockConverter(header, block)).tson;
 	}
 }

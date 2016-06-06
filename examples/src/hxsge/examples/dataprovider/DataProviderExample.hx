@@ -276,7 +276,7 @@ class DataProviderExample {
 	}
 
 	static function onFileWriteFinished(e:Dynamic) {
-		Debug.trace("sjson file saved successfully...");
+		Debug.trace("tson file saved successfully...");
 	}
 
 //	macro static function generateClass<T>(name:String) {

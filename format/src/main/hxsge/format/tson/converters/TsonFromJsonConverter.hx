@@ -8,7 +8,7 @@ import hxsge.core.debug.Debug;
 import haxe.io.Bytes;
 
 class TsonFromJsonConverter implements ITsonConverter {
-	public var sjson(default, null):Bytes;
+	public var tson(default, null):Bytes;
 
 	var _names:Map<String, Int>;
 	var _namesCount:Int = 0;
@@ -17,7 +17,7 @@ class TsonFromJsonConverter implements ITsonConverter {
 	var _pos:Int;
 
 	public function new(json:String) {
-		sjson = convert(json);
+		tson = convert(json);
 	}
 
 	function convert(json:String):Bytes {
@@ -39,7 +39,7 @@ class TsonFromJsonConverter implements ITsonConverter {
 			}
 		}
 		catch(e:Dynamic) {
-			Debug.trace("SJSON parse failed");
+			Debug.trace("TSON parse failed");
 		}
 
 		return out.getBytes();

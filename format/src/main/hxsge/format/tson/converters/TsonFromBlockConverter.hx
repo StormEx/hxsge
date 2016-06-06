@@ -6,7 +6,7 @@ import hxsge.format.tson.parts.TsonHeader;
 import haxe.io.Bytes;
 
 class TsonFromBlockConverter {
-	public var sjson(default, null):Bytes;
+	public var tson(default, null):Bytes;
 
 	var _names:Map<String, Int>;
 	var _namesCount:Int = 0;
@@ -24,6 +24,6 @@ class TsonFromBlockConverter {
 			}
 		}
 
-		sjson = out.getBytes();
+		tson = out.getBytes();
 	}
 }

@@ -115,11 +115,11 @@ class TsonExample {
 			data = map;
 			tson = dec;
 
-			fillSJSON();
+			fillTSON();
 		}
 	}
 
-	static function fillSJSON() {
+	static function fillTSON() {
 		var batch:LoadersBatch = new LoadersBatch();
 		for(val in data.keys()) {
 			batch.add(new DataLoader("d:/StormEx/temp/game_1000_1011/" + val));
@@ -167,7 +167,7 @@ class TsonExample {
 	}
 
 	static function onFileWriteFinished(e:Dynamic) {
-		Debug.trace("sjson file saved successfully...");
+		Debug.trace("tson file saved successfully...");
 //#if nodejs
 //		var jsl:NodeJsDataLoader = new NodeJsDataLoader("build/nodejs/sample.sjson");
 //		jsl.finished.addOnce(onNodeJsFileLoaded);
