@@ -124,10 +124,14 @@ class TsonTools {
 	}
 
 	public static function isMap(block:TsonBlock):Bool {
-		return block == null ? false : (TsonValueType.isMap(block.type) && block.array.isNotEmpty());
+		return block == null ? false : (TsonValueType.isMap(block.type) && block.array != null);
 	}
 
 	public static function isArray(block:TsonBlock):Bool {
-		return block == null ? false : (TsonValueType.isArray(block.type) && block.array.isNotEmpty());
+		return block == null ? false : (TsonValueType.isArray(block.type) && block.array != null);
+	}
+
+	public static function isIterable(block:TsonBlock):Bool {
+		return block == null ? false : TsonValueType.isIterable(block.type);
 	}
 }

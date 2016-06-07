@@ -5,6 +5,7 @@
 -lib format
 -lib actuate
 -lib haxeui
+-lib angular.haxe
 
 -cp src
 -cp ../assets/src/main
