@@ -59,8 +59,8 @@ class TsonBlock {
 				ival64 = cast data;
 
 				writeTypeInfo(out);
-				out.writeInt32(Int64.getLow(ival64));
-				out.writeInt32(Int64.getHigh(ival64));
+				out.writeInt32(ival64.low);
+				out.writeInt32(ival64.high);
 			case TsonValueType.TSON_BT_INT8:
 				ival = cast data;
 
@@ -80,8 +80,8 @@ class TsonBlock {
 				ival64 = cast data;
 
 				writeTypeInfo(out);
-				out.writeInt32(Int64.getLow(ival64));
-				out.writeInt32(Int64.getHigh(ival64));
+				out.writeInt32(ival64.low);
+				out.writeInt32(ival64.high);
 			case TsonValueType.TSON_BT_FLOAT32:
 				fval = cast data;
 
