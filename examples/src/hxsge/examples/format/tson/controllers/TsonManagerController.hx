@@ -30,8 +30,7 @@ class TsonManagerController {
 
 		_scope.set("managerData", _data);
 		_scope.set("treeOptions", {
-			nodeChildren: "children",
-			dirSelectable: false
+			nodeChildren: "children"
 		});
 		_scope.set("newTsonFile", newTsonFile);
 		_scope.set("loadTsonFile", loadTsonFile);
