@@ -40,7 +40,11 @@ class TypePathMacro {
 		return switch(Type.typeof(tp.name)) {
 			case ValueType.TClass(c):
 				switch(Context.getType(tp.name)) {
+#if (haxe_ver >= 3.3)
+					case haxe.macro.Type.TAbstract(_, _):
+#else
 					case haxe.macro.Type.TAbstract:
+#end
 						true;
 					default:
 						false;
