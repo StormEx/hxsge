@@ -32,6 +32,7 @@ class JsDataLoader extends BaseLoader {
 
 	function onLoaded(e:Dynamic) {
 		content = Bytes.ofData(new Uint8Array(untyped _request.response).buffer);
+
 		performComplete();
 	}
 
