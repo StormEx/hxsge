@@ -1,0 +1,76 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+#tsonbody {
+    position: absolute;
+    bottom: 0;
+    top: 35px;
+    width: 60%;
+}
+.content-column-scroll-region {
+    overflow: scroll;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 7px;
+}
+.tson-tree-node-action {
+    width: 18px;
+    height: 18px;
+}
+.tree-node-label-muted {
+    color: #bbbbbb;
+    font-style: italic;
+    font-weight: lighter;
+    font-size: smaller;
+}
+
+#toolbar.tson-toolbar {
+    padding: 4px;
+    border: solid 1px #aaaaaa;
+    background-color: #eeeeee;
+    margin-left: 0px;
+}
+
+#tsontree button.btn.btn-xs{
+    padding: 0;
+}
+
+#tsonproperty {
+    position: absolute;
+    bottom: 0;
+    top: 35px;
+    right: 4px;
+    width: 40%;
+}
+span.tson-property-label {
+    width: 80px;
+    text-align: left;
+}
+button.tson-property-label {
+    width: 81px;
+    background-color: #eeeeee;
+    text-align: left;
+}
+input.tson-property-label-readonly {
+    width: 80px;
+    display: none;
+    text-align: left;
+}
+div.tson-property-group-body {
+    padding: 1px;
+}
+.tson-property {
+    width: 100%;
+}
+div.tson-property-group-header {
+    padding: 4px 8px;
+}
+div.tson-property-group {
+    margin-bottom: 1px;
+}

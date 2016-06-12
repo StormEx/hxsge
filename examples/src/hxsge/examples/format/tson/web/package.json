@@ -1,0 +1,17 @@
+{
+  "name": "tsonmanager",
+  "version": "0.0.1",
+  "main": "index.html",
+  "window": {
+    "title": "tson manager",
+    "toolbar": true,
+    "frame": true,
+    "width": 800,
+    "height": 600,
+    "position": "center",
+    "show": true,
+    "resizable": true
+  },
+  "dependencies": {
+  }
+}
