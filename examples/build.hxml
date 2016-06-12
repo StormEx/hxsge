@@ -3,9 +3,10 @@
 -swf-header 300:300:40:FFFFFF
 
 -lib format
--lib actuate
--lib haxeui
 -lib angular.haxe
+-lib hxnodejs
+
+-D nodejs
 
 -cp src
 -cp ../assets/src/main
