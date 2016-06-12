@@ -10,7 +10,8 @@
     "height": 600,
     "position": "center",
     "show": true,
-    "resizable": true
+    "resizable": true,
+    "icon": "icon.png"
   },
   "dependencies": {
   }
