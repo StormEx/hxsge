@@ -5,6 +5,7 @@ import haxe.io.BytesOutput;
 import haxe.io.BytesInput;
 
 using hxsge.core.utils.StringTools;
+using hxsge.format.tson.parts.TsonValueTypeTools;
 
 class TsonHeader {
 	public var format(default, null):String;
@@ -74,7 +75,7 @@ class TsonHeader {
 		var keySize:Int;
 
 		_keyType = getKeyType();
-		keySize = TsonValueType.getSizeInBytes(_keyType);
+		keySize = _keyType.getSizeInBytes();
 
 		stream.writeString(Tson.HEADER);
 		for(k in names.keys()) {

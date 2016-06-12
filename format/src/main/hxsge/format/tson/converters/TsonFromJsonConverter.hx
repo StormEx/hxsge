@@ -35,7 +35,7 @@ class TsonFromJsonConverter implements ITsonConverter {
 			if(out != null) {
 				header = new TsonHeader(_names);
 				header.write(out);
-				res.write(out);
+				res.write(out, header);
 			}
 		}
 		catch(e:Dynamic) {

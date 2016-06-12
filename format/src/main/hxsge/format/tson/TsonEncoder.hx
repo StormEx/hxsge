@@ -8,6 +8,7 @@ import hxsge.format.tson.converters.ITsonConverter;
 import haxe.io.Bytes;
 
 using hxsge.core.utils.StringTools;
+using hxsge.format.tson.TsonTools;
 
 class TsonEncoder {
 	var _names:Map<String, Int>;
@@ -31,7 +32,7 @@ class TsonEncoder {
 		return _converter.tson;
 	}
 
-	public static function fromBlock(header:TsonHeader, block:TsonBlock) {
-		return (new TsonFromBlockConverter(header, block)).tson;
+	public static function fromBlock(block:TsonBlock):Bytes {
+		return (new TsonFromBlockConverter(block.createHeader(), block)).tson;
 	}
 }

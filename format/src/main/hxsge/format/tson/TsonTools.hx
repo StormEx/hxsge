@@ -1,10 +1,13 @@
 package hxsge.format.tson;
 
+import hxsge.core.debug.Debug;
+import hxsge.format.tson.parts.TsonHeader;
 import hxsge.format.tson.parts.TsonBlock;
 import hxsge.format.tson.parts.TsonValueType;
 
 using hxsge.core.utils.StringTools;
 using hxsge.core.utils.ArrayTools;
+using hxsge.format.tson.parts.TsonValueTypeTools;
 
 class TsonTools {
 	public static function add(block:TsonBlock, newBlock:TsonBlock):Bool {
@@ -28,6 +31,10 @@ class TsonTools {
 	public static function change(block:TsonBlock, type:TsonValueType, data:Dynamic) {
 		@:privateAccess block.type = type;
 		@:privateAccess block.data = data;
+	}
+
+	public static function changeType(block:TsonBlock, type:TsonValueType) {
+
 	}
 
 	public static function blockByName(block:TsonBlock, name:String):TsonBlock {
@@ -119,19 +126,30 @@ class TsonTools {
 		}
 	}
 
+	public static function createHeader(block:TsonBlock):TsonHeader {
+		var map:Map<String, Int> = new Map();
+		var names:Array<String> = block.getNames();
+
+		for(i in 0...names.length) {
+			map.set(names[i], i);
+		}
+
+		return new TsonHeader(map);
+	}
+
 	public static function getData<T>(block:TsonBlock):T {
 		return block == null ? null : cast block.data;
 	}
 
 	public static function isMap(block:TsonBlock):Bool {
-		return block == null ? false : (TsonValueType.isMap(block.type) && block.array != null);
+		return block == null ? false : (block.type.isMap() && block.array != null);
 	}
 
 	public static function isArray(block:TsonBlock):Bool {
-		return block == null ? false : (TsonValueType.isArray(block.type) && block.array != null);
+		return block == null ? false : (block.type.isArray() && block.array != null);
 	}
 
 	public static function isIterable(block:TsonBlock):Bool {
-		return block == null ? false : TsonValueType.isIterable(block.type);
+		return block == null ? false : block.type.isIterable();
 	}
 }

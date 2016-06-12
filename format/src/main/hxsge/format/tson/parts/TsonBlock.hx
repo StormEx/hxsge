@@ -7,6 +7,8 @@ import haxe.io.BytesOutput;
 
 using hxsge.core.utils.StringTools;
 using hxsge.format.tson.TsonTools;
+using hxsge.format.tson.parts.TsonValueTypeTools;
+using hxsge.core.utils.ArrayTools;
 
 class TsonBlock {
 	public var array(default, null):Array<TsonBlock> = null;
@@ -22,9 +24,26 @@ class TsonBlock {
 		this.type = type;
 		this.data = data;
 		this.nameIndex = nameIndex;
+		this.name = name;
 	}
 
-	public function write(out:BytesOutput) {
+	public function clone():TsonBlock {
+		var block:TsonBlock = new TsonBlock(type, null, nameIndex, name);
+		if(array != null) {
+			block.array = [];
+			for(a in array) {
+				block.array.push(a.clone());
+			}
+			block.data = block.array;
+		}
+		else {
+			block.data = data;
+		}
+
+		return block;
+	}
+
+	public function write(out:BytesOutput, header:TsonHeader) {
 		var ival:Int;
 		var ival64:Int64;
 		var fval:Float;
@@ -33,111 +52,111 @@ class TsonBlock {
 
 		switch(type) {
 			case TsonValueType.TSON_BT_NULL:
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 			case TsonValueType.TSON_BT_FALSE:
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 			case TsonValueType.TSON_BT_TRUE:
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 			case TsonValueType.TSON_BT_ESTRING:
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 			case TsonValueType.TSON_BT_UINT8:
 				ival = cast data;
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeByte(ival);
 			case TsonValueType.TSON_BT_UINT16:
 				ival = cast data;
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeUInt16(ival);
 			case TsonValueType.TSON_BT_UINT32:
 				ival = cast data;
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeInt32(ival);
 			case TsonValueType.TSON_BT_UINT64:
 				ival64 = cast data;
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeInt32(ival64.low);
 				out.writeInt32(ival64.high);
 			case TsonValueType.TSON_BT_INT8:
 				ival = cast data;
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeInt8(ival);
 			case TsonValueType.TSON_BT_INT16:
 				ival = cast data;
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeInt16(ival);
 			case TsonValueType.TSON_BT_INT32:
 				ival = cast data;
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeInt32(ival);
 			case TsonValueType.TSON_BT_INT64:
 				ival64 = cast data;
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeInt32(ival64.low);
 				out.writeInt32(ival64.high);
 			case TsonValueType.TSON_BT_FLOAT32:
 				fval = cast data;
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeFloat(fval);
 			case TsonValueType.TSON_BT_FLOAT64:
 				var fval = cast data;
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeDouble(fval);
 			case TsonValueType.TSON_BT_STRING_UINT8:
 				sval = Std.string(data);
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeByte(sval.length);
 				out.writeString(sval);
 			case TsonValueType.TSON_BT_STRING_UINT16:
 				sval = Std.string(data);
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeUInt16(sval.length);
 				out.writeString(sval);
 			case TsonValueType.TSON_BT_STRING_UINT32:
 				sval = Std.string(data);
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeInt32(sval.length);
 				out.writeString(sval);
 			case TsonValueType.TSON_BT_STRING_UINT64:
 				sval = Std.string(data);
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeInt32(sval.length);
 				out.writeString(sval);
 			case TsonValueType.TSON_BT_BINARY_UINT8:
 				bval = cast data;
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeByte(bval.length);
 				out.writeBytes(bval, 0, bval.length);
 			case TsonValueType.TSON_BT_BINARY_UINT16:
 				bval = cast data;
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeUInt16(bval.length);
 				out.writeBytes(bval, 0, bval.length);
 			case TsonValueType.TSON_BT_BINARY_UINT32:
 				bval = cast data;
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeInt32(bval.length);
 				out.writeBytes(bval, 0, bval.length);
 			case TsonValueType.TSON_BT_BINARY_UINT64:
 				bval = cast data;
 
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeInt32(bval.length);
 				out.writeBytes(bval, 0, bval.length);
 			case TsonValueType.TSON_BT_ARRAY_UINT8 |
@@ -148,20 +167,20 @@ class TsonBlock {
 					TsonValueType.TSON_BT_MAP_UINT16 |
 					TsonValueType.TSON_BT_MAP_UINT32 |
 					TsonValueType.TSON_BT_MAP_UINT64:
-				writeTypeInfo(out);
+				writeTypeInfo(out, header);
 				out.writeInt32(size);
 				out.writeInt32(array.length);
 				for(i in array) {
-					i.write(out);
+					i.write(out, header);
 				}
 			default:
 		}
 	}
 
-	inline function writeTypeInfo(out:BytesOutput) {
+	inline function writeTypeInfo(out:BytesOutput, header:TsonHeader) {
 		out.writeInt8(type);
-		if(nameIndex != -1) {
-			out.writeInt16(nameIndex);
+		if(header.names.exists(name)) {
+			out.writeInt16(header.names.get(name));
 		}
 	}
 
@@ -303,6 +322,27 @@ class TsonBlock {
 		return res;
 	}
 
+	public function getNames():Array<String> {
+		var res:Array<String> = [];
+		var temp:Array<String> = [];
+
+		if(name.isNotEmpty() && res.indexOf(name) == -1) {
+			res.push(name);
+		}
+		if(array.isNotEmpty()) {
+			for(a in array) {
+				temp = a.getNames();
+				for(t in temp) {
+					if(res.indexOf(t) == -1) {
+						res.push(t);
+					}
+				}
+			}
+		}
+
+		return res;
+	}
+
 	function get_size():Int {
 		var bval:Bytes;
 		var sval:String;
@@ -361,7 +401,7 @@ class TsonBlock {
 
 	function set_data(value:Dynamic):Dynamic {
 		data = value;
-		if(TsonValueType.isArray(type) || TsonValueType.isMap(type)) {
+		if(type.isArray() || type.isMap()) {
 			this.array = cast this.data;
 		}
 

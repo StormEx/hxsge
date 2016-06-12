@@ -1,5 +1,6 @@
 package hxsge.format.tson.converters;
 
+import hxsge.core.debug.Debug;
 import haxe.io.BytesOutput;
 import hxsge.format.tson.parts.TsonBlock;
 import hxsge.format.tson.parts.TsonHeader;
@@ -20,8 +21,11 @@ class TsonFromBlockConverter {
 		try {
 			if(out != null) {
 				header.write(out);
-				block.write(out);
+				block.write(out, header);
 			}
+		}
+		catch(e:Dynamic) {
+			Debug.trace(e);
 		}
 
 		tson = out.getBytes();

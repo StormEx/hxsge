@@ -25,6 +25,7 @@ import hxsge.core.log.Log;
 import hxsge.format.tson.parts.TsonBlock;
 import hxsge.format.tson.TsonDecoder;
 import hxsge.io.object.tson.TsonObjectInput;
+import hxsge.examples.format.tson.TsonManager;
 
 
 #if (js || nodejs)
@@ -160,7 +161,7 @@ class TsonExample {
 //		SJsonEncoder.fromBlock(sjson.header, sjson.root);
 
 #if nodejs
-		var bbb:js.node.Buffer = new js.node.Buffer(cast TsonEncoder.fromBlock(tson.header, tson.root).getData());
+		var bbb:js.node.Buffer = new js.node.Buffer(cast TsonEncoder.fromBlock(tson.root).getData());
 		js.node.Fs.writeFile("build/nodejs/sample.tson", bbb, "binary", onFileWriteFinished);
 #end
 	}
