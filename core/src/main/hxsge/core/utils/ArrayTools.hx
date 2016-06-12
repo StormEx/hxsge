@@ -9,6 +9,10 @@ class ArrayTools {
 		return !isEmpty(a);
 	}
 
+	inline public static function safeGet<T>(a:Array<T>):Array<T> {
+		return a == null ? [] : a;
+	}
+
 	inline public static function last<T>(a:Array<T>):Null<T> {
 		var r:Null<T> = null;
 		if (a != null && a.length > 0) {
