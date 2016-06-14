@@ -2,7 +2,7 @@ package hxsge.examples.format.tson;
 
 //#if nodejs
 import angular.Angular;
-import js.jquery.JQuery;
+import js.JQuery;
 import js.Browser;
 import angular.service.Scope;
 

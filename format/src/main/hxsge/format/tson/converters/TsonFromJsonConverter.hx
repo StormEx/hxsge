@@ -10,8 +10,7 @@ import haxe.io.Bytes;
 class TsonFromJsonConverter implements ITsonConverter {
 	public var tson(default, null):Bytes;
 
-	var _names:Map<String, Int>;
-	var _namesCount:Int = 0;
+	var _names:Array<String>;
 
 	var _string:String;
 	var _pos:Int;
@@ -24,8 +23,7 @@ class TsonFromJsonConverter implements ITsonConverter {
 		var out:BytesOutput = new BytesOutput();
 		var header:TsonHeader;
 
-		_names = new Map();
-		_namesCount = 0;
+		_names = [];
 		_string = json;
 		_pos = 0;
 
@@ -262,18 +260,13 @@ class TsonFromJsonConverter implements ITsonConverter {
 	}
 
 	function setName(name:String) {
-		if(!_names.exists(name)) {
-			_names.set(name, _namesCount);
-			_namesCount++;
+		if(_names.indexOf(name) == -1) {
+			_names.push(name);
 		}
 	}
 
 	function getNameIndex(name:String):Int {
-		if(_names.exists(name)) {
-			return _names.get(name);
-		}
-
-		return -1;
+		return _names.indexOf(name);
 	}
 
 	inline function nextChar() {

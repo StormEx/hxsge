@@ -12,23 +12,21 @@ class TsonHeader {
 	public var keys(default, null):Map<Int, String>;
 	public var names(default, null):Map<String, Int>;
 
-	public var isSuccess(get, never):Bool;
+	public var isValid(get, never):Bool;
 
 	var _nameType:TsonValueType = TsonValueType.TSON_BT_STRING_UINT8;
 	var _keyType:TsonValueType = TsonValueType.TSON_BT_STRING_UINT8;
 
-	public function new(names:Map<String, Int> = null) {
+	public function new(names:Array<String> = null) {
 		format = Tson.HEADER;
 
-		this.names = names;
+		this.names = new Map();
+		this.keys = new Map();
 		if(names != null) {
-			keys = new Map();
-			for(k in names.keys()) {
-				keys.set(names.get(k), k);
+			for(i in 0...names.length) {
+				this.keys.set(i, names[i]);
+				this.names.set(names[i], i);
 			}
-		}
-		else {
-			this.keys = null;
 		}
 	}
 
@@ -44,7 +42,7 @@ class TsonHeader {
 
 		try {
 			header.format = stream.readString(Tson.HEADER.length);
-			if(header.isSuccess) {
+			if(header.isValid) {
 				size = stream.readInt32();
 				keyType = stream.readInt8();
 				nameType = stream.readInt8();
@@ -184,7 +182,7 @@ class TsonHeader {
 		return stream.readString(len);
 	}
 
-	inline function get_isSuccess():Bool {
+	inline function get_isValid():Bool {
 		return format == Tson.HEADER;
 	}
 }

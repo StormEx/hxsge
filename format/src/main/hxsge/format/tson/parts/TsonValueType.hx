@@ -42,4 +42,12 @@ package hxsge.format.tson.parts;
 	public inline static function getDefault():TsonValueType {
 		return TSON_BT_NULL;
 	}
+
+	public inline static function min():Int {
+		return TSON_BT_NULL;
+	}
+
+	public inline static function max():Int {
+		return TSON_BT_MAP_UINT64;
+	}
 }

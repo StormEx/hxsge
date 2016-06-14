@@ -42,7 +42,7 @@ class TsonDecoder {
 		try {
 			if(reader != null) {
 				header = TsonHeader.read(reader);
-				if(header.isSuccess) {
+				if(header.isValid) {
 					block = TsonBlock.read(reader, header, false);
 				}
 			}

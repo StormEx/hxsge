@@ -1,5 +1,6 @@
 package hxsge.examples.format.tson;
 
+import Type.ValueType;
 import hxsge.examples.format.tson.models.TsonManagerModel;
 import hxsge.examples.format.tson.controllers.TsonManagerController;
 import hxsge.dataprovider.providers.swf.SwfDataProviderProxy;
@@ -54,12 +55,52 @@ class TsonExample {
 	public function new() {
 	}
 
+	static function tracetype(v:Dynamic) {
+		switch(Type.typeof(v)) {
+			case ValueType.TNull:
+				Debug.trace("type: null");
+			case ValueType.TInt:
+				Debug.trace("type: int");
+			case ValueType.TFloat:
+				Debug.trace("type: float");
+			case ValueType.TBool:
+				Debug.trace("type: bool");
+			case ValueType.TObject:
+				Debug.trace("type: object");
+			case ValueType.TFunction:
+				Debug.trace("type: function");
+			case ValueType.TClass(t):
+				if(Std.is(v, Array)) {
+					Debug.trace("type: class array");
+				}
+				if(Std.is(v, Bytes)) {
+					Debug.trace("type: class bytes");
+				}
+				if(Std.is(v, String)) {
+					Debug.trace("type: class string");
+				}
+			case ValueType.TEnum(t):
+				Debug.trace("type: enum " + t);
+			default:
+				Debug.trace("type: unknown");
+		}
+	}
+
 	public static function main() {
 		Log.addLogger(new TraceLogger());
 
 		DataProviderManager.add(new ImageDataProviderProxy());
 		DataProviderManager.add(new SoundDataProviderProxy());
 		DataProviderManager.add(new SwfDataProviderProxy());
+
+		tracetype(null);
+		tracetype(10);
+		tracetype(100.12);
+		tracetype(true);
+		tracetype("asdfasf");
+		tracetype(Bytes.alloc(100));
+		tracetype({val:"asldkfj"});
+		tracetype(["asdfasdf"]);
 
 //		Log.log("==============================================================================");
 //		Log.log("begin: TSON example.");

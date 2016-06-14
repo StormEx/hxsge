@@ -4,7 +4,7 @@ import haxe.io.Bytes;
 import hxsge.format.base.BytesReader;
 import hxsge.format.tson.parts.TsonBlock;
 
-class TSonReader extends BytesReader {
+class TsonReader extends BytesReader {
 	public var tson(get, never):TsonBlock;
 
 	var _decoder:TsonDecoder;

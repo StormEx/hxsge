@@ -127,14 +127,9 @@ class TsonTools {
 	}
 
 	public static function createHeader(block:TsonBlock):TsonHeader {
-		var map:Map<String, Int> = new Map();
 		var names:Array<String> = block.getNames();
 
-		for(i in 0...names.length) {
-			map.set(names[i], i);
-		}
-
-		return new TsonHeader(map);
+		return new TsonHeader(names);
 	}
 
 	public static function getData<T>(block:TsonBlock):T {
