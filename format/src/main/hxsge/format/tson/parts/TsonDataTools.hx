@@ -1,6 +1,7 @@
 package hxsge.format.tson.parts;
 
 import haxe.io.Bytes;
+
 using hxsge.core.utils.StringTools;
 using hxsge.format.tson.parts.TsonValueTypeTools;
 
