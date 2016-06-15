@@ -44,43 +44,43 @@ using hxsge.format.tson.data.TsonValueTypeTools;
 
 	public static inline function convertType(blockType:TsonValueType):TsonPropertyDataType {
 		return switch(blockType) {
-			case TsonValueType.TSON_BT_NULL:
+			case TsonValueType.NULL:
 				TsonPropertyDataType.NULL;
-			case TsonValueType.TSON_BT_FALSE |
-			TsonValueType.TSON_BT_TRUE:
+			case TsonValueType.FALSE |
+			TsonValueType.TRUE:
 				TsonPropertyDataType.BOOL;
-			case TsonValueType.TSON_BT_UINT8 |
-			TsonValueType.TSON_BT_UINT16 |
-			TsonValueType.TSON_BT_UINT32 |
-			TsonValueType.TSON_BT_UINT64 |
-			TsonValueType.TSON_BT_INT8 |
-			TsonValueType.TSON_BT_INT16 |
-			TsonValueType.TSON_BT_INT32 |
-			TsonValueType.TSON_BT_INT64:
+			case TsonValueType.UINT8 |
+			TsonValueType.UINT16 |
+			TsonValueType.UINT32 |
+			TsonValueType.UINT64 |
+			TsonValueType.INT8 |
+			TsonValueType.INT16 |
+			TsonValueType.INT32 |
+			TsonValueType.INT64:
 				TsonPropertyDataType.INT;
-			case TsonValueType.TSON_BT_FLOAT32 |
-			TsonValueType.TSON_BT_FLOAT64:
+			case TsonValueType.FLOAT32 |
+			TsonValueType.FLOAT64:
 				TsonPropertyDataType.FLOAT;
-			case TsonValueType.TSON_BT_BINARY_UINT8 |
-			TsonValueType.TSON_BT_BINARY_UINT16 |
-			TsonValueType.TSON_BT_BINARY_UINT32 |
-			TsonValueType.TSON_BT_BINARY_UINT64:
+			case TsonValueType.BINARY_UINT8 |
+			TsonValueType.BINARY_UINT16 |
+			TsonValueType.BINARY_UINT32 |
+			TsonValueType.BINARY_UINT64:
 				TsonPropertyDataType.BINARY;
-			case TsonValueType.TSON_BT_ESTRING |
-			TsonValueType.TSON_BT_STRING_UINT8 |
-			TsonValueType.TSON_BT_STRING_UINT16 |
-			TsonValueType.TSON_BT_STRING_UINT32 |
-			TsonValueType.TSON_BT_STRING_UINT64:
+			case TsonValueType.ESTRING |
+			TsonValueType.STRING_UINT8 |
+			TsonValueType.STRING_UINT16 |
+			TsonValueType.STRING_UINT32 |
+			TsonValueType.STRING_UINT64:
 				TsonPropertyDataType.STRING;
-			case TsonValueType.TSON_BT_ARRAY_UINT8 |
-			TsonValueType.TSON_BT_ARRAY_UINT16 |
-			TsonValueType.TSON_BT_ARRAY_UINT32 |
-			TsonValueType.TSON_BT_ARRAY_UINT64:
+			case TsonValueType.ARRAY_UINT8 |
+			TsonValueType.ARRAY_UINT16 |
+			TsonValueType.ARRAY_UINT32 |
+			TsonValueType.ARRAY_UINT64:
 				TsonPropertyDataType.ARRAY;
-			case TsonValueType.TSON_BT_MAP_UINT8 |
-			TsonValueType.TSON_BT_MAP_UINT16 |
-			TsonValueType.TSON_BT_MAP_UINT32 |
-			TsonValueType.TSON_BT_MAP_UINT64:
+			case TsonValueType.MAP_UINT8 |
+			TsonValueType.MAP_UINT16 |
+			TsonValueType.MAP_UINT32 |
+			TsonValueType.MAP_UINT64:
 				TsonPropertyDataType.OBJECT;
 			default:
 				TsonPropertyDataType.NULL;

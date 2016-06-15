@@ -43,71 +43,71 @@ class TsonDataWriter {
 		}
 
 		switch(data.type) {
-			case TsonValueType.TSON_BT_UINT8:
+			case TsonValueType.UINT8:
 				stream.writeByte(data.data);
-			case TsonValueType.TSON_BT_UINT16:
+			case TsonValueType.UINT16:
 				stream.writeUInt16(data.data);
-			case TsonValueType.TSON_BT_UINT32:
+			case TsonValueType.UINT32:
 				stream.writeInt32(data.data);
-			case TsonValueType.TSON_BT_UINT64:
+			case TsonValueType.UINT64:
 				stream.writeInt32(data.data.low);
 				stream.writeInt32(data.data.high);
-			case TsonValueType.TSON_BT_INT8:
+			case TsonValueType.INT8:
 				stream.writeInt8(data.data);
-			case TsonValueType.TSON_BT_INT16:
+			case TsonValueType.INT16:
 				stream.writeInt16(data.data);
-			case TsonValueType.TSON_BT_INT32:
+			case TsonValueType.INT32:
 				stream.writeInt32(data.data);
-			case TsonValueType.TSON_BT_INT64:
+			case TsonValueType.INT64:
 				stream.writeInt32(data.data.low);
 				stream.writeInt32(data.data.high);
-			case TsonValueType.TSON_BT_FLOAT32:
+			case TsonValueType.FLOAT32:
 				stream.writeFloat(data.data);
-			case TsonValueType.TSON_BT_FLOAT64:
+			case TsonValueType.FLOAT64:
 				stream.writeDouble(data.data);
-			case TsonValueType.TSON_BT_STRING_UINT8:
+			case TsonValueType.STRING_UINT8:
 				stream.writeByte(data.data.length);
 				stream.writeString(data.data);
-			case TsonValueType.TSON_BT_STRING_UINT16:
+			case TsonValueType.STRING_UINT16:
 				stream.writeUInt16(data.data.length);
 				stream.writeString(data.data);
-			case TsonValueType.TSON_BT_STRING_UINT32 |
-			TsonValueType.TSON_BT_STRING_UINT64:
+			case TsonValueType.STRING_UINT32 |
+			TsonValueType.STRING_UINT64:
 				stream.writeInt32(data.data.length);
 				stream.writeString(data.data);
-			case TsonValueType.TSON_BT_BINARY_UINT8:
+			case TsonValueType.BINARY_UINT8:
 				stream.writeByte(data.data.length);
 				stream.writeBytes(data.data, 0, data.data.length);
-			case TsonValueType.TSON_BT_BINARY_UINT16:
+			case TsonValueType.BINARY_UINT16:
 				stream.writeUInt16(data.data.length);
 				stream.writeBytes(data.data, 0, data.data.length);
-			case TsonValueType.TSON_BT_BINARY_UINT32 |
-			TsonValueType.TSON_BT_BINARY_UINT64:
+			case TsonValueType.BINARY_UINT32 |
+			TsonValueType.BINARY_UINT64:
 				stream.writeInt32(data.data.length);
 				stream.writeBytes(data.data, 0, data.data.length);
-			case TsonValueType.TSON_BT_ARRAY_UINT8:
+			case TsonValueType.ARRAY_UINT8:
 				stream.writeInt32(data.size());
 				stream.writeByte(data.data.length);
 				var arr:Array<TsonData> = data.data;
 				for(d in arr) {
 					writeBlock(header, d, stream, false);
 				}
-			case TsonValueType.TSON_BT_ARRAY_UINT16:
+			case TsonValueType.ARRAY_UINT16:
 				stream.writeInt32(data.size());
 				stream.writeUInt16(data.data.length);
 				var arr:Array<TsonData> = data.data;
 				for(d in arr) {
 					writeBlock(header, d, stream, false);
 				}
-			case TsonValueType.TSON_BT_ARRAY_UINT32 |
-					TsonValueType.TSON_BT_ARRAY_UINT64:
+			case TsonValueType.ARRAY_UINT32 |
+					TsonValueType.ARRAY_UINT64:
 				stream.writeInt32(data.size());
 				stream.writeInt32(data.data.length);
 				var arr:Array<TsonData> = data.data;
 				for(d in arr) {
 					writeBlock(header, d, stream, false);
 				}
-			case TsonValueType.TSON_BT_MAP_UINT8:
+			case TsonValueType.MAP_UINT8:
 				stream.writeInt32(data.size());
 				stream.writeByte(data.data.length);
 				var arr:Array<TsonData> = data.data;
@@ -115,15 +115,15 @@ class TsonDataWriter {
 				for(d in arr) {
 					writeBlock(header, d, stream, true);
 				}
-			case TsonValueType.TSON_BT_MAP_UINT16:
+			case TsonValueType.MAP_UINT16:
 				stream.writeInt32(data.size());
 				stream.writeUInt16(data.data.length);
 				var arr:Array<TsonData> = data.data;
 				for(d in arr) {
 					writeBlock(header, d, stream, true);
 				}
-			case TsonValueType.TSON_BT_MAP_UINT32 |
-					TsonValueType.TSON_BT_MAP_UINT64:
+			case TsonValueType.MAP_UINT32 |
+					TsonValueType.MAP_UINT64:
 				stream.writeInt32(data.size());
 				stream.writeInt32(data.data.length);
 				var arr:Array<TsonData> = data.data;
@@ -169,9 +169,9 @@ class TsonDataWriter {
 
 	static function writeKey(stream:BytesOutput, type:TsonValueType, key:Int) {
 		return switch(type) {
-			case TsonValueType.TSON_BT_UINT8:
+			case TsonValueType.UINT8:
 				stream.writeInt8(key);
-			case TsonValueType.TSON_BT_UINT16:
+			case TsonValueType.UINT16:
 				stream.writeInt16(key);
 			default:
 				stream.writeInt32(key);
@@ -180,9 +180,9 @@ class TsonDataWriter {
 
 	static function writeName(stream:BytesOutput, type:TsonValueType, name:String) {
 		switch(type) {
-			case TsonValueType.TSON_BT_STRING_UINT8:
+			case TsonValueType.STRING_UINT8:
 				stream.writeInt8(name.length);
-			case TsonValueType.TSON_BT_STRING_UINT16:
+			case TsonValueType.STRING_UINT16:
 				stream.writeInt16(name.length);
 			default:
 				stream.writeInt32(name.length);
@@ -191,7 +191,7 @@ class TsonDataWriter {
 	}
 
 	static function getKeyType(names:Array<String>):TsonValueType  {
-		var type:TsonValueType = TsonValueType.TSON_BT_UINT32;
+		var type:TsonValueType = TsonValueType.UINT32;
 		var count:Int = 0;
 
 		for(i in names) {
@@ -199,10 +199,10 @@ class TsonDataWriter {
 		}
 
 		if(count < 0xFF) {
-			type = TsonValueType.TSON_BT_UINT8;
+			type = TsonValueType.UINT8;
 		}
 		else if(count < 0xFFFF) {
-			type = TsonValueType.TSON_BT_UINT16;
+			type = TsonValueType.UINT16;
 		}
 		else if(count >= 0xFFFFFFFF) {
 			throw "can't write more than 0xFFFFFFFF unique fields...";
@@ -212,13 +212,13 @@ class TsonDataWriter {
 	}
 
 	static function getNameType(size:Int):TsonValueType  {
-		var type:TsonValueType = TsonValueType.TSON_BT_UINT32;
+		var type:TsonValueType = TsonValueType.UINT32;
 
 		if(size < 0xFF) {
-			type = TsonValueType.TSON_BT_UINT8;
+			type = TsonValueType.UINT8;
 		}
 		else if(size < 0xFFFF) {
-			type = TsonValueType.TSON_BT_UINT16;
+			type = TsonValueType.UINT16;
 		}
 		else if(size >= 0xFFFFFFFF) {
 			throw "key can't be greater than 4 bytes...";

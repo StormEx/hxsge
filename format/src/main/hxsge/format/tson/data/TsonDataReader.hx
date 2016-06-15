@@ -39,102 +39,102 @@ class TsonDataReader {
 		}
 
 		switch(type) {
-			case TsonValueType.TSON_BT_FALSE:
+			case TsonValueType.FALSE:
 				res.change(type, false);
-			case TsonValueType.TSON_BT_TRUE:
+			case TsonValueType.TRUE:
 				res.change(type, true);
-			case TsonValueType.TSON_BT_ESTRING:
+			case TsonValueType.ESTRING:
 				res.change(type, "");
-			case TsonValueType.TSON_BT_UINT8:
+			case TsonValueType.UINT8:
 				res.change(type, stream.readByte());
-			case TsonValueType.TSON_BT_UINT16:
+			case TsonValueType.UINT16:
 				res.change(type, stream.readUInt16());
-			case TsonValueType.TSON_BT_UINT32:
+			case TsonValueType.UINT32:
 				res.change(type, stream.readInt32());
-			case TsonValueType.TSON_BT_UINT64:
+			case TsonValueType.UINT64:
 				var low:Int = stream.readInt32();
 				var high:Int = stream.readInt32();
 
 				res.change(type, Int64.make(high, low));
-			case TsonValueType.TSON_BT_INT8:
+			case TsonValueType.INT8:
 				res.change(type, stream.readInt8());
-			case TsonValueType.TSON_BT_INT16:
+			case TsonValueType.INT16:
 				res.change(type, stream.readInt16());
-			case TsonValueType.TSON_BT_INT32:
+			case TsonValueType.INT32:
 				res.change(type, stream.readInt32());
-			case TsonValueType.TSON_BT_INT64:
+			case TsonValueType.INT64:
 				var low:Int = stream.readInt32();
 				var high:Int = stream.readInt32();
 
 				res.change(type, Int64.make(high, low));
-			case TsonValueType.TSON_BT_FLOAT32:
+			case TsonValueType.FLOAT32:
 				res.change(type, stream.readFloat());
-			case TsonValueType.TSON_BT_FLOAT64:
+			case TsonValueType.FLOAT64:
 				res.change(type, stream.readDouble());
-			case TsonValueType.TSON_BT_STRING_UINT8:
+			case TsonValueType.STRING_UINT8:
 				var size:Int = stream.readByte();
 				res.change(type, stream.readString(size));
-			case TsonValueType.TSON_BT_STRING_UINT16:
+			case TsonValueType.STRING_UINT16:
 				var size:Int = stream.readUInt16();
 				res.change(type, stream.readString(size));
-			case TsonValueType.TSON_BT_STRING_UINT32 |
-			TsonValueType.TSON_BT_STRING_UINT64:
+			case TsonValueType.STRING_UINT32 |
+			TsonValueType.STRING_UINT64:
 				var size:Int = stream.readInt32();
 				res.change(type, stream.readString(size));
-			case TsonValueType.TSON_BT_BINARY_UINT8:
+			case TsonValueType.BINARY_UINT8:
 				var size:Int = stream.readByte();
 				var b:Bytes = Bytes.alloc(size);
 				stream.readBytes(b, 0, size);
 				res.change(type, b);
-			case TsonValueType.TSON_BT_BINARY_UINT16:
+			case TsonValueType.BINARY_UINT16:
 				var size:Int = stream.readUInt16();
 				var b:Bytes = Bytes.alloc(size);
 				stream.readBytes(b, 0, size);
 				res.change(type, b);
-			case TsonValueType.TSON_BT_BINARY_UINT32 |
-			TsonValueType.TSON_BT_BINARY_UINT64:
+			case TsonValueType.BINARY_UINT32 |
+			TsonValueType.BINARY_UINT64:
 				var size:Int = stream.readInt32();
 				var b:Bytes = Bytes.alloc(size);
 				stream.readBytes(b, 0, size);
 				res.change(type, b);
-			case TsonValueType.TSON_BT_ARRAY_UINT8:
+			case TsonValueType.ARRAY_UINT8:
 				var size:Int = stream.readInt32();
 				var len:Int = stream.readByte();
 				for(i in 0...len) {
 					children.push(readBlock(header, stream, res, false));
 				}
 				res.change(type, children);
-			case TsonValueType.TSON_BT_ARRAY_UINT16:
+			case TsonValueType.ARRAY_UINT16:
 				var size:Int = stream.readInt32();
 				var len:Int = stream.readUInt16();
 				for(i in 0...len) {
 					children.push(readBlock(header, stream, res, false));
 				}
 				res.change(type, children);
-			case TsonValueType.TSON_BT_ARRAY_UINT32 |
-			TsonValueType.TSON_BT_ARRAY_UINT64:
+			case TsonValueType.ARRAY_UINT32 |
+			TsonValueType.ARRAY_UINT64:
 				var size:Int = stream.readInt32();
 				var len:Int = stream.readByte();
 				for(i in 0...len) {
 					children.push(readBlock(header, stream, res, false));
 				}
 				res.change(type, children);
-			case TsonValueType.TSON_BT_MAP_UINT8:
+			case TsonValueType.MAP_UINT8:
 				var size:Int = stream.readInt32();
 				var len:Int = stream.readByte();
 				for(i in 0...len) {
 					children.push(readBlock(header, stream, res, true));
 				}
 				res.change(type, children);
-			case TsonValueType.TSON_BT_MAP_UINT16:
+			case TsonValueType.MAP_UINT16:
 				var size:Int = stream.readInt32();
 				var len:Int = stream.readUInt16();
 				for(i in 0...len) {
 					children.push(readBlock(header, stream, res, true));
 				}
 				res.change(type, children);
-			case TsonValueType.TSON_BT_MAP_UINT32 |
-			TsonValueType.TSON_BT_MAP_UINT64:
+			case TsonValueType.MAP_UINT32 |
+			TsonValueType.MAP_UINT64:
 				var size:Int = stream.readInt32();
 				var len:Int = stream.readByte();
 				for(i in 0...len) {
@@ -142,7 +142,7 @@ class TsonDataReader {
 				}
 				res.change(type, children);
 			default:
-				res.change(TsonValueType.TSON_BT_NULL, null);
+				res.change(TsonValueType.NULL, null);
 		}
 
 		return res;
@@ -188,9 +188,9 @@ class TsonDataReader {
 
 	static function readKey(stream:BytesInput, type:TsonValueType):Int {
 		return switch(type) {
-			case TsonValueType.TSON_BT_UINT8:
+			case TsonValueType.UINT8:
 				stream.readByte();
-			case TsonValueType.TSON_BT_UINT16:
+			case TsonValueType.UINT16:
 				stream.readUInt16();
 			default:
 				stream.readInt32();
@@ -201,9 +201,9 @@ class TsonDataReader {
 		var len:Int;
 
 		switch(type) {
-			case TsonValueType.TSON_BT_STRING_UINT8:
+			case TsonValueType.STRING_UINT8:
 				len = stream.readInt8();
-			case TsonValueType.TSON_BT_STRING_UINT16:
+			case TsonValueType.STRING_UINT16:
 				len = stream.readUInt16();
 			default:
 				len = stream.readInt32();

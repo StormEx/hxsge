@@ -10,36 +10,36 @@ class TsonDataTools {
 	inline static public function changeByData(data:TsonData, value:Dynamic):TsonData {
 		switch(Type.typeof(value)) {
 			case ValueType.TNull:
-				data.type = TsonValueType.TSON_BT_NULL;
+				data.type = TsonValueType.NULL;
 				data.data = null;
 			case ValueType.TInt:
 				if((value & 0x000000FF) == value) {
-					data.type = value < 0 ? TsonValueType.TSON_BT_INT8 : TsonValueType.TSON_BT_UINT8;
+					data.type = value < 0 ? TsonValueType.INT8 : TsonValueType.UINT8;
 				}
 				else if((value & 0x0000FFFF) == value) {
-					data.type = value < 0 ? TsonValueType.TSON_BT_INT16 : TsonValueType.TSON_BT_UINT16;
+					data.type = value < 0 ? TsonValueType.INT16 : TsonValueType.UINT16;
 				}
 				else {
-					data.type = value < 0 ? TsonValueType.TSON_BT_INT32 : TsonValueType.TSON_BT_UINT32;
+					data.type = value < 0 ? TsonValueType.INT32 : TsonValueType.UINT32;
 				}
 
 				data.data = value;
 			case ValueType.TFloat:
-				data.type = TsonValueType.TSON_BT_FLOAT64;
+				data.type = TsonValueType.FLOAT64;
 				data.data = value;
 			case ValueType.TBool:
-				data.type = value == true ? TsonValueType.TSON_BT_TRUE : TsonValueType.TSON_BT_FALSE;
+				data.type = value == true ? TsonValueType.TRUE : TsonValueType.FALSE;
 				data.data = value;
 			case ValueType.TObject:
 				var len:Int = value.data == null ? 0 : value.data.length;
 				if(len < 0xFF) {
-					data.type = TsonValueType.TSON_BT_MAP_UINT8;
+					data.type = TsonValueType.MAP_UINT8;
 				}
 				else if(len < 0xFFFF) {
-					data.type = TsonValueType.TSON_BT_MAP_UINT16;
+					data.type = TsonValueType.MAP_UINT16;
 				}
 				else {
-					data.type = TsonValueType.TSON_BT_MAP_UINT32;
+					data.type = TsonValueType.MAP_UINT32;
 				}
 
 				data.data = value.data;
@@ -51,13 +51,13 @@ class TsonDataTools {
 				if(Std.is(value, Array)) {
 					var len:Int = value == null ? 0 : value.length;
 					if(len < 0xFF) {
-						data.type = TsonValueType.TSON_BT_ARRAY_UINT8;
+						data.type = TsonValueType.ARRAY_UINT8;
 					}
 					else if(len < 0xFFFF) {
-						data.type = TsonValueType.TSON_BT_ARRAY_UINT16;
+						data.type = TsonValueType.ARRAY_UINT16;
 					}
 					else {
-						data.type = TsonValueType.TSON_BT_ARRAY_UINT32;
+						data.type = TsonValueType.ARRAY_UINT32;
 					}
 
 					data.data = len == 0 ? [] : value;
@@ -69,13 +69,13 @@ class TsonDataTools {
 				if(Std.is(value, Bytes)) {
 					var len:Int = value.length;
 					if(len < 0xFF) {
-						data.type = TsonValueType.TSON_BT_BINARY_UINT8;
+						data.type = TsonValueType.BINARY_UINT8;
 					}
 					else if(len < 0xFFFF) {
-						data.type = TsonValueType.TSON_BT_BINARY_UINT16;
+						data.type = TsonValueType.BINARY_UINT16;
 					}
 					else {
-						data.type = TsonValueType.TSON_BT_BINARY_UINT32;
+						data.type = TsonValueType.BINARY_UINT32;
 					}
 
 					data.data = value;
@@ -83,22 +83,22 @@ class TsonDataTools {
 				if(Std.is(value, String)) {
 					var len:Int = value.length;
 					if(len == 0) {
-						data.type = TsonValueType.TSON_BT_ESTRING;
+						data.type = TsonValueType.ESTRING;
 					}
 					else if(len < 0xFF) {
-						data.type = TsonValueType.TSON_BT_STRING_UINT8;
+						data.type = TsonValueType.STRING_UINT8;
 					}
 					else if(len < 0xFFFF) {
-						data.type = TsonValueType.TSON_BT_STRING_UINT16;
+						data.type = TsonValueType.STRING_UINT16;
 					}
 					else {
-						data.type = TsonValueType.TSON_BT_STRING_UINT32;
+						data.type = TsonValueType.STRING_UINT32;
 					}
 
 					data.data = value;
 				}
 			default:
-				data.type = TsonValueType.TSON_BT_NULL;
+				data.type = TsonValueType.NULL;
 				data.data = null;
 		}
 
@@ -135,28 +135,28 @@ class TsonDataTools {
 		}
 
 		return switch(data.type) {
-			case TsonValueType.TSON_BT_NULL:
+			case TsonValueType.NULL:
 				null;
-			case TsonValueType.TSON_BT_FALSE:
+			case TsonValueType.FALSE:
 				false;
-			case TsonValueType.TSON_BT_TRUE:
+			case TsonValueType.TRUE:
 				true;
-			case TsonValueType.TSON_BT_ESTRING:
+			case TsonValueType.ESTRING:
 				"";
-			case TsonValueType.TSON_BT_ARRAY_UINT8 |
-			TsonValueType.TSON_BT_ARRAY_UINT16 |
-			TsonValueType.TSON_BT_ARRAY_UINT32 |
-			TsonValueType.TSON_BT_ARRAY_UINT64:
+			case TsonValueType.ARRAY_UINT8 |
+			TsonValueType.ARRAY_UINT16 |
+			TsonValueType.ARRAY_UINT32 |
+			TsonValueType.ARRAY_UINT64:
 				var arr:Array<Dynamic> = [];
 				var children:Array<TsonData> = cast data.data;
 				for(val in children) {
 					arr.push(toDynamic(val));
 				}
 				arr;
-			case TsonValueType.TSON_BT_MAP_UINT8 |
-			TsonValueType.TSON_BT_MAP_UINT16 |
-			TsonValueType.TSON_BT_MAP_UINT32 |
-			TsonValueType.TSON_BT_MAP_UINT64:
+			case TsonValueType.MAP_UINT8 |
+			TsonValueType.MAP_UINT16 |
+			TsonValueType.MAP_UINT32 |
+			TsonValueType.MAP_UINT64:
 				var res:Dynamic = {};
 				var children:Array<TsonData> = cast data.data;
 				for(val in children) {
