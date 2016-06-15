@@ -12,7 +12,7 @@ import hxsge.core.batch.Batch;
 import hxsge.loaders.base.LoadersBatch;
 import hxsge.dataprovider.data.DataProviderInfo;
 import hxsge.dataprovider.DataProviderManager;
-import hxsge.format.tson.TsonEncoder;
+//import hxsge.format.tson.TsonEncoder;
 import hxsge.format.tson.parts.TsonValueType;
 import haxe.io.BytesOutput;
 import hxsge.format.json.Json;
@@ -24,8 +24,8 @@ import hxsge.core.debug.Debug;
 import hxsge.core.log.TraceLogger;
 import hxsge.core.log.Log;
 import hxsge.format.tson.parts.TsonBlock;
-import hxsge.format.tson.TsonDecoder;
-import hxsge.io.object.tson.TsonObjectInput;
+//import hxsge.format.tson.TsonDecoder;
+//import hxsge.io.object.tson.TsonObjectInput;
 import hxsge.examples.format.tson.TsonManager;
 
 
@@ -46,11 +46,11 @@ import flash.events.MouseEvent;
 using hxsge.core.utils.ArrayTools;
 using hxsge.loaders.utils.LoaderTools;
 using StringTools;
-using hxsge.format.tson.TsonTools;
+//using hxsge.format.tson.TsonTools;
 
 class TsonExample {
-	static var data:Map<String, TsonBlock>;
-	static var tson:TsonDecoder;
+//	static var data:Map<String, TsonBlock>;
+//	static var tson:TsonDecoder;
 
 	public function new() {
 	}
@@ -79,6 +79,9 @@ class TsonExample {
 				if(Std.is(v, String)) {
 					Debug.trace("type: class string");
 				}
+				if(Std.is(v, Map)) {
+					Debug.trace("type: class map");
+				}
 			case ValueType.TEnum(t):
 				Debug.trace("type: enum " + t);
 			default:
@@ -100,7 +103,9 @@ class TsonExample {
 		tracetype("asdfasf");
 		tracetype(Bytes.alloc(100));
 		tracetype({val:"asldkfj"});
-		tracetype(["asdfasdf"]);
+		var m:Map<String, Int> = ["asdfasdf"=>10, "asldkfj"=>5];
+		tracetype(m);
+		tracetype(20);
 
 //		Log.log("==============================================================================");
 //		Log.log("begin: TSON example.");
@@ -127,121 +132,121 @@ class TsonExample {
 		new TsonManager();
 	}
 
-	static function onBundleDataLoaded(l:ILoader) {
-		if(l.isSuccess()) {
-			var d:Bytes = Std.instance(l.content, Bytes);
-			var json:Dynamic = Json.parse(d.toString());
-			var res:Array<Dynamic> = Reflect.field(json, "resources");
-			if(res != null) {
-				for(r in res) {
-					var list:Array<Dynamic> = Reflect.field(r, "list");
-					if(list != null) {
-						for(l in list) {
-							if(Reflect.hasField(l, "name") && !Reflect.hasField(l, "data")) {
-								Reflect.setField(l, "data", {});
-							}
-						}
-					}
-				}
-			}
-			var sj:Bytes = Tson.convert(Json.stringify(json));
-			var dec:TsonDecoder = new TsonDecoder(sj);
-			var arr:Array<TsonBlock> = cast dec.root.data;
-			var map:Map<String, TsonBlock> = new Map();
-			for(el in arr) {
-				if(el.name == "resources") {
-					var arrr:Array<TsonBlock> = cast el.data;
-
-					for(ell in arrr) {
-						var bb:Array<TsonBlock> = (new TsonObjectInput(ell)).readField("list");
-						if(bb != null) {
-							var inn:Array<TsonBlock> = bb;
-							for(inel in inn) {
-								var name:String = (new TsonObjectInput(inel)).readField("name");
-								var inres:Array<TsonBlock> = cast inel.data;
-								for(val in inres) {
-									if(val.name == "data") {
-										map.set(name, val);
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-
-			data = map;
-			tson = dec;
-
-			fillTSON();
-		}
-	}
-
-	static function fillTSON() {
-		var batch:LoadersBatch = new LoadersBatch();
-		for(val in data.keys()) {
-			batch.add(new DataLoader("d:/StormEx/temp/game_1000_1011/" + val));
-		}
-		batch.finished.addOnce(onBatchFinished);
-		batch.handle();
-	}
-
-	static function onBatchFinished(batch:Batch<ILoader>) {
-		if(batch.isCompleted) {
-			for(i in batch.items) {
-				if(!i.errors.isError) {
-					var str:String = i.url;
-					str = str.substr("d:/StormEx/temp/game_1000_1011/".length);
-					var obj:TsonBlock = data.get(str);
-					if(obj != null) {
-						obj.change(TsonValueType.TSON_BT_BINARY_UINT32, i.content);
-					}
-				}
-			}
-		}
-//		SJsonEncoder.fromBlock(sjson.header, sjson.root);
-
-#if nodejs
-		var bbb:js.node.Buffer = new js.node.Buffer(cast TsonEncoder.fromBlock(tson.root).getData());
-		js.node.Fs.writeFile("build/nodejs/sample.tson", bbb, "binary", onFileWriteFinished);
-#end
-	}
-
-	static function onSJSLoaded(l:ILoader) {
-		var d:Bytes = cast l.content;
-		var dec:TsonDecoder = new TsonDecoder(d);
-		var block:Array<TsonBlock> = (new TsonObjectInput(dec.root)).readField("resources");
-		if(block != null) {
-			var out:TsonBlock = Std.instance(block[3].data[1].data[27].data[1], TsonBlock);
-			if(out != null) {
-				var stream:Bytes = cast out.data;
-				var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo("d:/StormEx/temp/game_1000_1011/" + block[3].data[1].data[27].data[0].data, stream));
-				if(dp != null) {
-					dp.finished.addOnce(onDPFinished);
-					dp.load();
-				}
-			}
-		}
-	}
-
-	static function onFileWriteFinished(e:Dynamic) {
-		Debug.trace("tson file saved successfully...");
+//	static function onBundleDataLoaded(l:ILoader) {
+//		if(l.isSuccess()) {
+//			var d:Bytes = Std.instance(l.content, Bytes);
+//			var json:Dynamic = Json.parse(d.toString());
+//			var res:Array<Dynamic> = Reflect.field(json, "resources");
+//			if(res != null) {
+//				for(r in res) {
+//					var list:Array<Dynamic> = Reflect.field(r, "list");
+//					if(list != null) {
+//						for(l in list) {
+//							if(Reflect.hasField(l, "name") && !Reflect.hasField(l, "data")) {
+//								Reflect.setField(l, "data", {});
+//							}
+//						}
+//					}
+//				}
+//			}
+//			var sj:Bytes = Tson.convert(Json.stringify(json));
+//			var dec:TsonDecoder = new TsonDecoder(sj);
+//			var arr:Array<TsonBlock> = cast dec.root.data;
+//			var map:Map<String, TsonBlock> = new Map();
+//			for(el in arr) {
+//				if(el.name == "resources") {
+//					var arrr:Array<TsonBlock> = cast el.data;
+//
+//					for(ell in arrr) {
+//						var bb:Array<TsonBlock> = (new TsonObjectInput(ell)).readField("list");
+//						if(bb != null) {
+//							var inn:Array<TsonBlock> = bb;
+//							for(inel in inn) {
+//								var name:String = (new TsonObjectInput(inel)).readField("name");
+//								var inres:Array<TsonBlock> = cast inel.data;
+//								for(val in inres) {
+//									if(val.name == "data") {
+//										map.set(name, val);
+//									}
+//								}
+//							}
+//						}
+//					}
+//				}
+//			}
+//
+//			data = map;
+//			tson = dec;
+//
+//			fillTSON();
+//		}
+//	}
+//
+//	static function fillTSON() {
+//		var batch:LoadersBatch = new LoadersBatch();
+//		for(val in data.keys()) {
+//			batch.add(new DataLoader("d:/StormEx/temp/game_1000_1011/" + val));
+//		}
+//		batch.finished.addOnce(onBatchFinished);
+//		batch.handle();
+//	}
+//
+//	static function onBatchFinished(batch:Batch<ILoader>) {
+//		if(batch.isCompleted) {
+//			for(i in batch.items) {
+//				if(!i.errors.isError) {
+//					var str:String = i.url;
+//					str = str.substr("d:/StormEx/temp/game_1000_1011/".length);
+//					var obj:TsonBlock = data.get(str);
+//					if(obj != null) {
+//						obj.change(TsonValueType.TSON_BT_BINARY_UINT32, i.content);
+//					}
+//				}
+//			}
+//		}
+////		SJsonEncoder.fromBlock(sjson.header, sjson.root);
+//
 //#if nodejs
-//		var jsl:NodeJsDataLoader = new NodeJsDataLoader("build/nodejs/sample.sjson");
-//		jsl.finished.addOnce(onNodeJsFileLoaded);
-//		jsl.load();
+//		var bbb:js.node.Buffer = new js.node.Buffer(cast TsonEncoder.fromBlock(tson.root).getData());
+//		js.node.Fs.writeFile("build/nodejs/sample.tson", bbb, "binary", onFileWriteFinished);
 //#end
-	}
-
-	static function onDPFinished(provider:IDataProvider) {
-		var sdp:SoundDataProvider = cast provider;
-
-		if(sdp != null && !sdp.errors.isError) {
-			Debug.trace("sound data provider loaded successfuly");
-			sdp.sound.create(1, 0.1).play(0);
-		}
-		else {
-			Debug.trace("can't load sound data provider");
-		}
-	}
+//	}
+//
+//	static function onSJSLoaded(l:ILoader) {
+//		var d:Bytes = cast l.content;
+//		var dec:TsonDecoder = new TsonDecoder(d);
+//		var block:Array<TsonBlock> = (new TsonObjectInput(dec.root)).readField("resources");
+//		if(block != null) {
+//			var out:TsonBlock = Std.instance(block[3].data[1].data[27].data[1], TsonBlock);
+//			if(out != null) {
+//				var stream:Bytes = cast out.data;
+//				var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo("d:/StormEx/temp/game_1000_1011/" + block[3].data[1].data[27].data[0].data, stream));
+//				if(dp != null) {
+//					dp.finished.addOnce(onDPFinished);
+//					dp.load();
+//				}
+//			}
+//		}
+//	}
+//
+//	static function onFileWriteFinished(e:Dynamic) {
+//		Debug.trace("tson file saved successfully...");
+////#if nodejs
+////		var jsl:NodeJsDataLoader = new NodeJsDataLoader("build/nodejs/sample.sjson");
+////		jsl.finished.addOnce(onNodeJsFileLoaded);
+////		jsl.load();
+////#end
+//	}
+//
+//	static function onDPFinished(provider:IDataProvider) {
+//		var sdp:SoundDataProvider = cast provider;
+//
+//		if(sdp != null && !sdp.errors.isError) {
+//			Debug.trace("sound data provider loaded successfuly");
+//			sdp.sound.create(1, 0.1).play(0);
+//		}
+//		else {
+//			Debug.trace("can't load sound data provider");
+//		}
+//	}
 }

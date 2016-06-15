@@ -13,10 +13,12 @@ using hxsge.format.tson.parts.TsonDataTools;
 
 class TsonDataWriter {
 	public static function write(data:TsonData, stream:BytesOutput) {
+		Debug.assert(data != null);
+
 		var header:TsonHeader = writeHeader(data, stream);
 
 		if(header == null) {
-			throw "can't create header by tson data..."
+			throw "can't create header by tson data...";
 		}
 
 		writeBlock(header, data, stream, false);
@@ -88,41 +90,48 @@ class TsonDataWriter {
 			case TsonValueType.TSON_BT_ARRAY_UINT8:
 				stream.writeInt32(data.size());
 				stream.writeByte(data.data.length);
-				for(d in data.data) {
-					write(d, stream, header, false);
+				var arr:Array<TsonData> = data.data;
+				for(d in arr) {
+					writeBlock(header, d, stream, false);
 				}
 			case TsonValueType.TSON_BT_ARRAY_UINT16:
 				stream.writeInt32(data.size());
 				stream.writeUInt16(data.data.length);
-				for(d in data.data) {
-					write(d, stream, header, false);
+				var arr:Array<TsonData> = data.data;
+				for(d in arr) {
+					writeBlock(header, d, stream, false);
 				}
 			case TsonValueType.TSON_BT_ARRAY_UINT32 |
 					TsonValueType.TSON_BT_ARRAY_UINT64:
 				stream.writeInt32(data.size());
 				stream.writeInt32(data.data.length);
-				for(d in data.data) {
-					write(d, stream, header, false);
+				var arr:Array<TsonData> = data.data;
+				for(d in arr) {
+					writeBlock(header, d, stream, false);
 				}
 			case TsonValueType.TSON_BT_MAP_UINT8:
 				stream.writeInt32(data.size());
 				stream.writeByte(data.data.length);
-				for(d in data.data) {
-					write(d, stream, header, true);
+				var arr:Array<TsonData> = data.data;
+				for(d in arr) {
+					writeBlock(header, d, stream, true);
 				}
 			case TsonValueType.TSON_BT_MAP_UINT16:
 				stream.writeInt32(data.size());
 				stream.writeUInt16(data.data.length);
-				for(d in data.data) {
-					write(d, stream, header, true);
+				var arr:Array<TsonData> = data.data;
+				for(d in arr) {
+					writeBlock(header, d, stream, true);
 				}
 			case TsonValueType.TSON_BT_MAP_UINT32 |
 					TsonValueType.TSON_BT_MAP_UINT64:
 				stream.writeInt32(data.size());
 				stream.writeInt32(data.data.length);
-				for(d in data.data) {
-					write(d, stream, header, true);
+				var arr:Array<TsonData> = data.data;
+				for(d in arr) {
+					writeBlock(header, d, stream, true);
 				}
+			default:
 		}
 	}
 
@@ -232,7 +241,7 @@ class TsonDataWriter {
 		return header;
 	}
 
-	function writeKey(stream:BytesOutput, type:TsonValueType, key:Int) {
+	static function writeKey(stream:BytesOutput, type:TsonValueType, key:Int) {
 		return switch(type) {
 			case TsonValueType.TSON_BT_UINT8:
 				stream.writeInt8(key);
@@ -243,7 +252,7 @@ class TsonDataWriter {
 		}
 	}
 
-	function writeName(stream:BytesOutput, type:TsonValueType, name:String) {
+	static function writeName(stream:BytesOutput, type:TsonValueType, name:String) {
 		switch(type) {
 			case TsonValueType.TSON_BT_STRING_UINT8:
 				stream.writeInt8(name.length);
@@ -255,7 +264,7 @@ class TsonDataWriter {
 		stream.writeString(name);
 	}
 
-	function getKeyType(names:Array<String>):TsonValueType  {
+	static function getKeyType(names:Array<String>):TsonValueType  {
 		var type:TsonValueType = TsonValueType.TSON_BT_UINT32;
 		var count:Int = 0;
 
@@ -276,7 +285,7 @@ class TsonDataWriter {
 		return type;
 	}
 
-	function getNameType(size:Int):TsonValueType  {
+	static function getNameType(size:Int):TsonValueType  {
 		var type:TsonValueType = TsonValueType.TSON_BT_UINT32;
 
 		if(size < 0xFF) {
@@ -292,14 +301,15 @@ class TsonDataWriter {
 		return type;
 	}
 
-	function getUniqueNames(data:TsonData, out:Array<String> = null):Array<String> {
+	static function getUniqueNames(data:TsonData, out:Array<String> = null):Array<String> {
 		var res:Array<String> = (out == null ? [] : out);
 
 		if(data.name.isNotEmpty() && res.indexOf(data.name) == -1) {
 			res.push(data.name);
 		}
 		if(data.type.isIterable() && data.data != null) {
-			for(d in data.data) {
+			var arr:Array<TsonData> = data.data;
+			for(d in arr) {
 				getUniqueNames(d, res);
 			}
 		}

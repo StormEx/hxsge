@@ -8,9 +8,9 @@ using hxsge.core.utils.StringTools;
 using hxsge.format.tson.parts.TsonValueTypeTools;
 
 class TsonHeader {
-	public var format(default, null):String;
-	public var keys(default, null):Map<Int, String>;
-	public var names(default, null):Map<String, Int>;
+	public var format:String;
+	public var keys:Map<Int, String>;
+	public var names:Map<String, Int>;
 
 	public var isValid(get, never):Bool;
 

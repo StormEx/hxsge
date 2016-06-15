@@ -11,26 +11,27 @@ using hxsge.format.tson.parts.TsonDataEditTools;
 using hxsge.core.utils.StringTools;
 
 class TsonDataReader {
-	public static function read(stream:BytesInput, parent:TsonData):TsonBlock {
-		var header:TsonHeader = readHeader();
+	public static function read(stream:BytesInput):TsonData {
+		var header:TsonHeader = readHeader(stream);
 
 		if(header == null) {
 			throw "wrong header of tson data...";
 		}
 
-		readBlock(stream, parent, false);
+		return readBlock(header, stream, null, false);
 	}
 
-	static function readBlock(stream:BytesInput, parent:TsonData, isName:Bool) {
+	static function readBlock(header:TsonHeader, stream:BytesInput, parent:TsonData, isName:Bool):TsonData {
 		var res:TsonData = null;
 		var type:TsonValueType;
 		var children:Array<TsonData> = [];
 
 		type = stream.readInt8();
 		if(!type.isValid()) {
-			throw "not valid tson data type..."
+			throw "not valid tson data type...";
 		}
 
+		Debug.trace("type: " + type);
 		res = new TsonData(parent);
 		if(isName) {
 			var index:Int = stream.readInt16();
@@ -100,7 +101,7 @@ class TsonDataReader {
 				var size:Int = stream.readInt32();
 				var len:Int = stream.readByte();
 				for(i in 0...len) {
-					children.push(TsonDataReader.read(header, stream, res, false));
+					children.push(readBlock(header, stream, res, false));
 				}
 				res.change(type, children);
 				children = null;
@@ -108,7 +109,7 @@ class TsonDataReader {
 				var size:Int = stream.readInt32();
 				var len:Int = stream.readUInt16();
 				for(i in 0...len) {
-					children.push(TsonDataReader.read(header, stream, res, false));
+					children.push(readBlock(header, stream, res, false));
 				}
 				res.change(type, children);
 				children = null;
@@ -117,7 +118,7 @@ class TsonDataReader {
 				var size:Int = stream.readInt32();
 				var len:Int = stream.readByte();
 				for(i in 0...len) {
-					children.push(TsonDataReader.read(header, stream, res, false));
+					children.push(readBlock(header, stream, res, false));
 				}
 				res.change(type, children);
 				children = null;
@@ -125,7 +126,7 @@ class TsonDataReader {
 				var size:Int = stream.readInt32();
 				var len:Int = stream.readByte();
 				for(i in 0...len) {
-					children.push(TsonDataReader.read(header, stream, res, false));
+					children.push(readBlock(header, stream, res, false));
 				}
 				res.change(type, children);
 				children = null;
@@ -133,7 +134,7 @@ class TsonDataReader {
 				var size:Int = stream.readInt32();
 				var len:Int = stream.readUInt16();
 				for(i in 0...len) {
-					children.push(TsonDataReader.read(header, stream, res, false));
+					children.push(readBlock(header, stream, res, false));
 				}
 				res.change(type, children);
 				children = null;
@@ -142,13 +143,15 @@ class TsonDataReader {
 				var size:Int = stream.readInt32();
 				var len:Int = stream.readByte();
 				for(i in 0...len) {
-					children.push(TsonDataReader.read(header, stream, res, true));
+					children.push(readBlock(header, stream, res, true));
 				}
 				res.change(type, children);
 				children = null;
 			default:
 				res.data = null;
 		}
+
+		Debug.trace("data: " + res.name + " : " + Std.string(res.data));
 
 		return res;
 	}

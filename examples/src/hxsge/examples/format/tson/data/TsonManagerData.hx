@@ -1,16 +1,16 @@
 package hxsge.examples.format.tson.data;
 
+import hxsge.format.tson.parts.TsonData;
 import hxsge.photon.Signal.Signal0;
-import hxsge.core.debug.Debug;
-import hxsge.format.tson.parts.TsonBlock;
 
 using hxsge.core.utils.ArrayTools;
 
 class TsonManagerData {
-	public var tson(default, set):TsonBlock;
+	public var tson(default, set):TsonData;
 	public var treeData:Array<TsonNode> = [];
 	public var types:Array<TsonPropertyDataType> = [];
 	public var propertyGroups(get, never):Array<TsonPropertyGroup>;
+	public var loading:Bool = false;
 
 	public var changed(default, null):Signal0;
 
@@ -24,10 +24,12 @@ class TsonManagerData {
 		types = TsonPropertyDataType.getTypesForChoose();
 
 		changed = new Signal0();
+
+		rebuildData();
 	}
 
 	public function isLoaded():Bool {
-		return tson != null;
+		return !loading;
 	}
 
 	public function copyNode(node:TsonNode) {
@@ -36,7 +38,7 @@ class TsonManagerData {
 
 	public function cutNode(node:TsonNode) {
 		_node = node;
-		node.root.cutChild(node);
+		node.parent.cutChild(node);
 	}
 
 	public function pasteNode(node:TsonNode) {
@@ -76,20 +78,18 @@ class TsonManagerData {
 
 	function rebuildData() {
 		_selectedNode = null;
-		treeData = [new TsonNode(tson, update, "root", null)];
+		treeData = [new TsonNode(tson, null, update)];
 	}
 
 	public function getGroups():Array<TsonPropertyGroup> {
 		return propertyGroups;
 	}
 
-	public function getChanges():TsonBlock {
-//		return tson;
-
-		return treeData[0].getBlock();
+	public function getChanges():TsonData {
+		return treeData[0].getData();
 	}
 
-	function set_tson(value:TsonBlock):TsonBlock {
+	function set_tson(value:TsonData):TsonData {
 		if(tson != value) {
 			tson = value;
 

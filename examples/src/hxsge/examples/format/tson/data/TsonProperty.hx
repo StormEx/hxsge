@@ -58,28 +58,10 @@ class TsonProperty {
 			return;
 		}
 
+		info = option;
 		switch(type) {
 			case TsonPropertyType.NODE_TYPE:
-				switch(option) {
-					case TsonPropertyDataType.NULL:
-						data = TsonValueType.TSON_BT_NULL;
-					case TsonPropertyDataType.BOOL:
-						data = TsonValueType.TSON_BT_TRUE;
-					case TsonPropertyDataType.INT:
-						data = TsonValueType.TSON_BT_INT8;
-					case TsonPropertyDataType.FLOAT:
-						data = TsonValueType.TSON_BT_FLOAT32;
-					case TsonPropertyDataType.STRING:
-						data = TsonValueType.TSON_BT_STRING_UINT8;
-					case TsonPropertyDataType.BINARY:
-						data = TsonValueType.TSON_BT_BINARY_UINT8;
-					case TsonPropertyDataType.ARRAY:
-						data = TsonValueType.TSON_BT_ARRAY_UINT8;
-					case TsonPropertyDataType.OBJECT:
-						data = TsonValueType.TSON_BT_MAP_UINT8;
-					default:
-						data = TsonValueType.TSON_BT_NULL;
-				}
+				data = option;
 			case TsonPropertyType.BOOL_VALUE:
 				data = (option == "true" ? true : false);
 			default:
@@ -120,7 +102,7 @@ class TsonProperty {
 				info = data;
 			case TsonPropertyType.NODE_TYPE:
 				dataType = TsonPropertyDataType.OPTIONS;
-				info = TsonPropertyDataType.convertType(data);
+				info = data;
 			case TsonPropertyType.BOOL_VALUE:
 				dataType = TsonPropertyDataType.OPTIONS;
 				info = Std.string(data);
