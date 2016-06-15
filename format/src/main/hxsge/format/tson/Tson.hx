@@ -1,15 +1,14 @@
 package hxsge.format.tson;
 
-import haxe.io.BytesOutput;
-import hxsge.format.tson.parts.TsonDataWriter;
-import hxsge.format.tson.parts.TsonData;
+import hxsge.format.tson.converters.TsonFromDataConverter;
+import hxsge.format.tson.data.TsonData;
 import hxsge.format.tson.converters.TsonFromJsonConverter;
 import hxsge.format.json.Json;
 import haxe.io.BytesInput;
-import hxsge.format.tson.parts.TsonDataReader;
+import hxsge.format.tson.data.TsonDataReader;
 import haxe.io.Bytes;
 
-using hxsge.format.tson.parts.TsonDataTools;
+using hxsge.format.tson.data.TsonDataTools;
 
 class Tson {
 	inline public static var HEADER:String = "TSON";
@@ -27,9 +26,6 @@ class Tson {
 	}
 
 	static public function convertData(data:TsonData):Bytes {
-		var stream:BytesOutput = new BytesOutput();
-		TsonDataWriter.write(data, stream);
-
-		return stream.getBytes();
+		return (new TsonFromDataConverter(data)).tson;
 	}
 }

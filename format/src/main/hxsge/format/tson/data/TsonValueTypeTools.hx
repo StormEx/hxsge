@@ -1,4 +1,4 @@
-package hxsge.format.tson.parts;
+package hxsge.format.tson.data;
 
 class TsonValueTypeTools {
 	public inline static function isValue(type:TsonValueType):Bool {

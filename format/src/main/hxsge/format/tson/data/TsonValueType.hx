@@ -1,4 +1,4 @@
-package hxsge.format.tson.parts;
+package hxsge.format.tson.data;
 
 @:enum abstract TsonValueType(Int) from Int to Int {
 	var TSON_BT_NULL = 0;

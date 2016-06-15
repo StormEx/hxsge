@@ -1,9 +1,8 @@
 package hxsge.format.tson.converters;
 
-import hxsge.format.tson.parts.TsonDataWriter;
-import hxsge.format.tson.parts.TsonData;
-import hxsge.format.tson.parts.TsonValueType;
-import hxsge.format.tson.parts.TsonHeader;
+import hxsge.format.tson.data.TsonDataWriter;
+import hxsge.format.tson.data.TsonData;
+import hxsge.format.tson.data.TsonHeader;
 import haxe.io.BytesOutput;
 import hxsge.core.debug.Debug;
 import haxe.io.Bytes;
@@ -33,9 +32,6 @@ class TsonFromJsonConverter implements ITsonConverter {
 			res = parseJson();
 			if(out != null) {
 				TsonDataWriter.write(res, out);
-//				header = new TsonHeader(_names);
-//				header.write(out);
-//				res.write(out, header);
 			}
 		}
 		catch(e:Dynamic) {
@@ -63,7 +59,7 @@ class TsonFromJsonConverter implements ITsonConverter {
 								if( field != null || comma == false )
 									invalidChar();
 
-								return new TsonData(null, val, name);
+								return TsonData.create(val, name, parent);
 							case ':'.code:
 								if( field == null )
 									invalidChar();
@@ -90,7 +86,7 @@ class TsonFromJsonConverter implements ITsonConverter {
 								// loop
 							case ']'.code:
 								if( comma == false ) invalidChar();
-								return new TsonData(null, val, name);
+								return TsonData.create(val, name, parent);
 							case ','.code:
 								if( comma ) comma = false else invalidChar();
 							default:
@@ -106,27 +102,27 @@ class TsonFromJsonConverter implements ITsonConverter {
 						_pos = save;
 						invalidChar();
 					}
-					return new TsonData(null, true, name);
+					return TsonData.create(true, name, parent);
 				case 'f'.code:
 					var save = _pos;
 					if(nextChar() != 'a'.code || nextChar() != 'l'.code || nextChar() != 's'.code || nextChar() != 'e'.code) {
 						_pos = save;
 						invalidChar();
 					}
-					return new TsonData(null, false, name);
+					return TsonData.create(false, name, parent);
 				case 'n'.code:
 					var save = _pos;
 					if(nextChar() != 'u'.code || nextChar() != 'l'.code || nextChar() != 'l'.code) {
 						_pos = save;
 						invalidChar();
 					}
-					return new TsonData(null, null, name);
+					return TsonData.create(null, name, parent);
 				case '"'.code:
 					var str:String = parseString();
-					return new TsonData(null, str, name);
+					return TsonData.create(str, name, parent);
 				case '0'.code, '1'.code, '2'.code, '3'.code, '4'.code, '5'.code, '6'.code, '7'.code, '8'.code, '9'.code, '-'.code:
 					var num:Dynamic = parseNumber(c);
-					return new TsonData(null, num, name);
+					return TsonData.create(num, name, parent);
 				default:
 					invalidChar();
 			}

@@ -1,13 +1,13 @@
-package hxsge.format.tson.parts;
+package hxsge.format.tson.data;
 
+import hxsge.format.tson.data.TsonValueType;
 import hxsge.core.debug.Debug;
 import haxe.io.Bytes;
 import haxe.Int64;
-import hxsge.format.tson.parts.TsonHeader;
+import hxsge.format.tson.data.TsonHeader;
 import haxe.io.BytesInput;
 
-using hxsge.format.tson.parts.TsonValueTypeTools;
-using hxsge.format.tson.parts.TsonDataEditTools;
+using hxsge.format.tson.data.TsonValueTypeTools;
 using hxsge.core.utils.StringTools;
 
 class TsonDataReader {
@@ -104,7 +104,6 @@ class TsonDataReader {
 					children.push(readBlock(header, stream, res, false));
 				}
 				res.change(type, children);
-				children = null;
 			case TsonValueType.TSON_BT_ARRAY_UINT16:
 				var size:Int = stream.readInt32();
 				var len:Int = stream.readUInt16();
@@ -112,7 +111,6 @@ class TsonDataReader {
 					children.push(readBlock(header, stream, res, false));
 				}
 				res.change(type, children);
-				children = null;
 			case TsonValueType.TSON_BT_ARRAY_UINT32 |
 			TsonValueType.TSON_BT_ARRAY_UINT64:
 				var size:Int = stream.readInt32();
@@ -121,23 +119,20 @@ class TsonDataReader {
 					children.push(readBlock(header, stream, res, false));
 				}
 				res.change(type, children);
-				children = null;
 			case TsonValueType.TSON_BT_MAP_UINT8:
 				var size:Int = stream.readInt32();
 				var len:Int = stream.readByte();
 				for(i in 0...len) {
-					children.push(readBlock(header, stream, res, false));
+					children.push(readBlock(header, stream, res, true));
 				}
 				res.change(type, children);
-				children = null;
 			case TsonValueType.TSON_BT_MAP_UINT16:
 				var size:Int = stream.readInt32();
 				var len:Int = stream.readUInt16();
 				for(i in 0...len) {
-					children.push(readBlock(header, stream, res, false));
+					children.push(readBlock(header, stream, res, true));
 				}
 				res.change(type, children);
-				children = null;
 			case TsonValueType.TSON_BT_MAP_UINT32 |
 			TsonValueType.TSON_BT_MAP_UINT64:
 				var size:Int = stream.readInt32();
@@ -146,12 +141,9 @@ class TsonDataReader {
 					children.push(readBlock(header, stream, res, true));
 				}
 				res.change(type, children);
-				children = null;
 			default:
-				res.data = null;
+				res.change(TsonValueType.TSON_BT_NULL, null);
 		}
-
-		Debug.trace("data: " + res.name + " : " + Std.string(res.data));
 
 		return res;
 	}

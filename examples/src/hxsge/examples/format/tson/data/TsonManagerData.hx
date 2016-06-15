@@ -1,6 +1,6 @@
 package hxsge.examples.format.tson.data;
 
-import hxsge.format.tson.parts.TsonData;
+import hxsge.format.tson.data.TsonData;
 import hxsge.photon.Signal.Signal0;
 
 using hxsge.core.utils.ArrayTools;

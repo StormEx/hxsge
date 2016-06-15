@@ -13,7 +13,7 @@ import hxsge.loaders.base.LoadersBatch;
 import hxsge.dataprovider.data.DataProviderInfo;
 import hxsge.dataprovider.DataProviderManager;
 //import hxsge.format.tson.TsonEncoder;
-import hxsge.format.tson.parts.TsonValueType;
+import hxsge.format.tson.data.TsonValueType;
 import haxe.io.BytesOutput;
 import hxsge.format.json.Json;
 import haxe.io.Bytes;
@@ -23,7 +23,7 @@ import hxsge.format.tson.Tson;
 import hxsge.core.debug.Debug;
 import hxsge.core.log.TraceLogger;
 import hxsge.core.log.Log;
-import hxsge.format.tson.parts.TsonBlock;
+//import hxsge.format.tson.parts.TsonBlock;
 //import hxsge.format.tson.TsonDecoder;
 //import hxsge.io.object.tson.TsonObjectInput;
 import hxsge.examples.format.tson.TsonManager;
@@ -79,9 +79,6 @@ class TsonExample {
 				if(Std.is(v, String)) {
 					Debug.trace("type: class string");
 				}
-				if(Std.is(v, Map)) {
-					Debug.trace("type: class map");
-				}
 			case ValueType.TEnum(t):
 				Debug.trace("type: enum " + t);
 			default:
@@ -103,8 +100,6 @@ class TsonExample {
 		tracetype("asdfasf");
 		tracetype(Bytes.alloc(100));
 		tracetype({val:"asldkfj"});
-		var m:Map<String, Int> = ["asdfasdf"=>10, "asldkfj"=>5];
-		tracetype(m);
 		tracetype(20);
 
 //		Log.log("==============================================================================");

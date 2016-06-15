@@ -1,14 +1,15 @@
 package hxsge.examples.format.tson.data;
 
-import hxsge.format.tson.parts.TsonData;
+import hxsge.core.debug.Debug;
+import hxsge.format.tson.data.TsonData;
 import hxsge.core.IClonable;
 import hxsge.core.IDisposable;
 import hxsge.core.math.MathFloatTools;
 import hxsge.core.memory.Memory;
-import hxsge.format.tson.parts.TsonValueType;
+import hxsge.format.tson.data.TsonValueType;
 
 using hxsge.core.utils.StringTools;
-using hxsge.format.tson.parts.TsonValueTypeTools;
+using hxsge.format.tson.data.TsonValueTypeTools;
 using hxsge.core.math.MathFloatTools;
 using hxsge.core.utils.ArrayTools;
 
@@ -42,7 +43,7 @@ class TsonNode implements IDisposable implements IClonable<TsonNode> {
 			this._name = data.name;
 
 			children = [];
-			if(_data != null && type == TsonPropertyDataType.ARRAY) {
+			if(_data != null && (type == TsonPropertyDataType.ARRAY || type == TsonPropertyDataType.OBJECT)) {
 				var arr:Array<TsonData> = cast data.data;
 				for(i in arr) {
 					insertChild(new TsonNode(i, this, _callback));
@@ -250,23 +251,24 @@ class TsonNode implements IDisposable implements IClonable<TsonNode> {
 		return !isRoot();
 	}
 
-	public function getData():TsonData {
+	public function getData(parent:TsonData = null):TsonData {
 		var res:TsonData = null;
 
 		if(type == TsonPropertyDataType.ARRAY || type == TsonPropertyDataType.OBJECT) {
 			var arr:Array<TsonData> = [];
+
 			for(c in children) {
-				arr.push(c.getData());
+				arr.push(c.getData(res));
 			}
 			if(type == TsonPropertyDataType.ARRAY) {
-				res = new TsonData(null, arr, _name);
+				res = TsonData.create(arr, _name, parent);
 			}
 			else {
-				res = new TsonData(null, arr, _name);
+				res = TsonData.create({data: arr}, _name, parent);
 			}
 		}
 		else {
-			res = new TsonData(null, _data, _name);
+			res = TsonData.create(_data, _name, parent);
 		}
 
 		return res;

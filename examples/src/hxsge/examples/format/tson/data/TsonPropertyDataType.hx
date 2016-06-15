@@ -1,9 +1,9 @@
 package hxsge.examples.format.tson.data;
 
 import hxsge.core.utils.Pair;
-import hxsge.format.tson.parts.TsonValueType;
+import hxsge.format.tson.data.TsonValueType;
 
-using hxsge.format.tson.parts.TsonValueTypeTools;
+using hxsge.format.tson.data.TsonValueTypeTools;
 
 @:enum abstract TsonPropertyDataType(String) from String to String {
 	var NULL = "null";

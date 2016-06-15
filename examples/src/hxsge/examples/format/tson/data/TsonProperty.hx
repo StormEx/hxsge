@@ -6,7 +6,7 @@ import hxsge.loaders.data.JsDataLoader;
 import js.JQuery;
 import js.Browser;
 import js.html.InputElement;
-import hxsge.format.tson.parts.TsonValueType;
+import hxsge.format.tson.data.TsonValueType;
 import hxsge.core.debug.Debug;
 import hxsge.core.memory.Memory;
 import hxsge.photon.Signal;

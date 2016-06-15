@@ -1,15 +1,15 @@
-package hxsge.format.tson.parts;
+package hxsge.format.tson.data;
 
 import haxe.io.Bytes;
 import haxe.Int64;
 import hxsge.core.debug.Debug;
-import hxsge.format.tson.parts.TsonHeader;
+import hxsge.format.tson.data.TsonHeader;
 import haxe.io.BytesOutput;
 
 using hxsge.core.utils.StringTools;
 using hxsge.core.utils.ArrayTools;
-using hxsge.format.tson.parts.TsonValueTypeTools;
-using hxsge.format.tson.parts.TsonDataTools;
+using hxsge.format.tson.data.TsonValueTypeTools;
+using hxsge.format.tson.data.TsonDataTools;
 
 class TsonDataWriter {
 	public static function write(data:TsonData, stream:BytesOutput) {
@@ -31,9 +31,7 @@ class TsonDataWriter {
 		var sval:String = "";
 		var bval:Bytes = null;
 
-		var type:TsonValueType = handleType(data);
-
-		if(!type.isValid()) {
+		if(!data.type.isValid()) {
 			Debug.trace("not valid tson data type for writing...");
 
 			return;
@@ -44,7 +42,7 @@ class TsonDataWriter {
 			stream.writeInt16(data.name.isEmpty() ? -1 : header.names.get(data.name));
 		}
 
-		switch(type) {
+		switch(data.type) {
 			case TsonValueType.TSON_BT_UINT8:
 				stream.writeByte(data.data);
 			case TsonValueType.TSON_BT_UINT16:
@@ -113,6 +111,7 @@ class TsonDataWriter {
 				stream.writeInt32(data.size());
 				stream.writeByte(data.data.length);
 				var arr:Array<TsonData> = data.data;
+				Debug.trace("len:" + arr.length);
 				for(d in arr) {
 					writeBlock(header, d, stream, true);
 				}
@@ -133,79 +132,6 @@ class TsonDataWriter {
 				}
 			default:
 		}
-	}
-
-	static function handleType(data:TsonData):TsonValueType {
-		var type:TsonValueType = TsonValueType.getDefault();
-
-		if(type.isInt()) {
-			var value:Int = data.data;
-			if((value & 0x000000FF) == value) {
-				return value < 0 ? TsonValueType.TSON_BT_INT8 : TsonValueType.TSON_BT_UINT8;
-			}
-			else if((value & 0x0000FFFF) == value) {
-				return value < 0 ? TsonValueType.TSON_BT_INT16 : TsonValueType.TSON_BT_UINT16;
-			}
-			else {
-				return value < 0 ? TsonValueType.TSON_BT_INT32 : TsonValueType.TSON_BT_UINT32;
-			}
-		}
-		else if(type.isFloat()) {
-			return TsonValueType.TSON_BT_FLOAT64;
-		}
-		else if(type.isString()) {
-			var str:String = data.data;
-			if(str.length == 0) {
-				return TsonValueType.TSON_BT_ESTRING;
-			}
-			else if(str.length < 0xFF) {
-				return TsonValueType.TSON_BT_STRING_UINT8;
-			}
-			else if(str.length < 0xFFFF) {
-				return TsonValueType.TSON_BT_STRING_UINT16;
-			}
-			else {
-				return TsonValueType.TSON_BT_STRING_UINT32;
-			}
-		}
-		else if(type.isBinary()) {
-			var len:Int = data.data.length;
-			if(len < 0xFF) {
-				return TsonValueType.TSON_BT_BINARY_UINT8;
-			}
-			else if(len < 0xFFFF) {
-				return TsonValueType.TSON_BT_BINARY_UINT16;
-			}
-			else {
-				return TsonValueType.TSON_BT_BINARY_UINT32;
-			}
-		}
-		else if(type.isArray()) {
-			var len:Int = data.data == null ? 0 : data.data.length;
-			if(len < 0xFF) {
-				return TsonValueType.TSON_BT_ARRAY_UINT8;
-			}
-			else if(len < 0xFFFF) {
-				return TsonValueType.TSON_BT_ARRAY_UINT16;
-			}
-			else {
-				return TsonValueType.TSON_BT_ARRAY_UINT32;
-			}
-		}
-		else if(type.isMap()) {
-			var len:Int = data.data == null ? 0 : data.data.length;
-			if(len < 0xFF) {
-				return TsonValueType.TSON_BT_MAP_UINT8;
-			}
-			else if(len < 0xFFFF) {
-				return TsonValueType.TSON_BT_MAP_UINT16;
-			}
-			else {
-				return TsonValueType.TSON_BT_MAP_UINT32;
-			}
-		}
-
-		return type;
 	}
 
 	static function writeHeader(data:TsonData, stream:BytesOutput):TsonHeader {
