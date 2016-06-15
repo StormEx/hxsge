@@ -59,7 +59,7 @@ class TsonFromJsonConverter implements ITsonConverter {
 								if( field != null || comma == false )
 									invalidChar();
 
-								return TsonData.create(val, name, parent);
+								return TsonData.create({data:val}, name, parent);
 							case ':'.code:
 								if( field == null )
 									invalidChar();

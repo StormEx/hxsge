@@ -31,7 +31,6 @@ class TsonDataReader {
 			throw "not valid tson data type...";
 		}
 
-		Debug.trace("type: " + type);
 		res = new TsonData(parent);
 		if(isName) {
 			var index:Int = stream.readInt16();

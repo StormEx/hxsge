@@ -77,7 +77,7 @@ class TsonNode implements IDisposable implements IClonable<TsonNode> {
 			name = "tson document";
 		}
 		else {
-			name = _name.isEmpty() ? (type == TsonPropertyDataType.ARRAY ? "[" + Std.string(index) + "]" : "default") : _name;
+			name = parent.type == TsonPropertyDataType.ARRAY ? "[" + Std.string(index) + "]" : (_name.isEmpty() ? "default" : _name);
 		}
 	}
 
