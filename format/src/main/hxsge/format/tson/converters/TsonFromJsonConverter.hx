@@ -1,8 +1,8 @@
 package hxsge.format.tson.converters;
 
-import hxsge.format.tson.parts.TsonBlock;
-import hxsge.format.tson.parts.TsonValueType;
-import hxsge.format.tson.parts.TsonHeader;
+import hxsge.format.tson.data.TsonDataWriter;
+import hxsge.format.tson.data.TsonData;
+import hxsge.format.tson.data.TsonHeader;
 import haxe.io.BytesOutput;
 import hxsge.core.debug.Debug;
 import haxe.io.Bytes;
@@ -27,13 +27,11 @@ class TsonFromJsonConverter implements ITsonConverter {
 		_string = json;
 		_pos = 0;
 
-		var res:TsonBlock = null;
+		var res:TsonData = null;
 		try {
 			res = parseJson();
 			if(out != null) {
-				header = new TsonHeader(_names);
-				header.write(out);
-				res.write(out, header);
+				TsonDataWriter.write(res, out);
 			}
 		}
 		catch(e:Dynamic) {
@@ -43,7 +41,7 @@ class TsonFromJsonConverter implements ITsonConverter {
 		return out.getBytes();
 	}
 
-	function parseJson(nameIndex:Int = -1):TsonBlock {
+	function parseJson(name:String = null, parent:TsonData = null):TsonData {
 		while(true) {
 			var c = nextChar();
 
@@ -51,7 +49,7 @@ class TsonFromJsonConverter implements ITsonConverter {
 				case ' '.code, '\r'.code, '\n'.code, '\t'.code:
 					// loop
 				case '{'.code:
-					var val = [], block:TsonBlock = null, field = null, comma : Null<Bool> = null;
+					var val = [], block:TsonData = null, field = null, comma : Null<Bool> = null;
 					while( true ) {
 						var c = nextChar();
 						switch( c ) {
@@ -61,11 +59,11 @@ class TsonFromJsonConverter implements ITsonConverter {
 								if( field != null || comma == false )
 									invalidChar();
 
-								return new TsonBlock(TsonValueType.TSON_BT_MAP_UINT32, val, nameIndex);
+								return TsonData.create({data:val}, name, parent);
 							case ':'.code:
 								if( field == null )
 									invalidChar();
-								block = parseJson(getNameIndex(field));
+								block = parseJson(field);
 								val.push(block);
 								field = null;
 								comma = true;
@@ -88,7 +86,7 @@ class TsonFromJsonConverter implements ITsonConverter {
 								// loop
 							case ']'.code:
 								if( comma == false ) invalidChar();
-								return new TsonBlock(TsonValueType.TSON_BT_ARRAY_UINT32, val, nameIndex);
+								return TsonData.create(val, name, parent);
 							case ','.code:
 								if( comma ) comma = false else invalidChar();
 							default:
@@ -104,27 +102,27 @@ class TsonFromJsonConverter implements ITsonConverter {
 						_pos = save;
 						invalidChar();
 					}
-					return new TsonBlock(TsonValueType.TSON_BT_TRUE, true, nameIndex);
+					return TsonData.create(true, name, parent);
 				case 'f'.code:
 					var save = _pos;
 					if(nextChar() != 'a'.code || nextChar() != 'l'.code || nextChar() != 's'.code || nextChar() != 'e'.code) {
 						_pos = save;
 						invalidChar();
 					}
-					return new TsonBlock(TsonValueType.TSON_BT_FALSE, false, nameIndex);
+					return TsonData.create(false, name, parent);
 				case 'n'.code:
 					var save = _pos;
 					if(nextChar() != 'u'.code || nextChar() != 'l'.code || nextChar() != 'l'.code) {
 						_pos = save;
 						invalidChar();
 					}
-					return new TsonBlock(TsonValueType.TSON_BT_NULL, null, nameIndex);
+					return TsonData.create(null, name, parent);
 				case '"'.code:
 					var str:String = parseString();
-					return new TsonBlock(TsonValueType.TSON_BT_STRING_UINT32, str, nameIndex);
+					return TsonData.create(str, name, parent);
 				case '0'.code, '1'.code, '2'.code, '3'.code, '4'.code, '5'.code, '6'.code, '7'.code, '8'.code, '9'.code, '-'.code:
 					var num:Dynamic = parseNumber(c);
-					return new TsonBlock(TsonValueType.TSON_BT_STRING_UINT32, num, nameIndex);
+					return TsonData.create(num, name, parent);
 				default:
 					invalidChar();
 			}

@@ -11,16 +11,19 @@ class TsonPropertyGroup implements IDisposable {
 	public var properties:Array<TsonProperty> = [];
 
 	public var changed(default, null):Signal2<TsonPropertyGroup, TsonProperty>;
+	public var loadSpawned(default, null):Signal2<TsonPropertyGroup, TsonProperty>;
 
 	public function new(name:String) {
 		this.name = name;
 
 		changed = new Signal2();
+		loadSpawned = new Signal2();
 	}
 
 	public function dispose() {
 		Memory.disposeIterable(properties);
 		Memory.dispose(changed);
+		Memory.dispose(loadSpawned);
 	}
 
 	public function add(property:TsonProperty) {
@@ -28,6 +31,7 @@ class TsonPropertyGroup implements IDisposable {
 			properties.push(property);
 			property.changed.add(onPropertyChanged);
 			property.updated.add(onPropertyUpdated);
+			property.loadSpawned.add(onPropertyLoadSpawned);
 		}
 	}
 
@@ -49,5 +53,9 @@ class TsonPropertyGroup implements IDisposable {
 
 	function onPropertyUpdated(prop:TsonProperty) {
 		changed.emit(this, prop);
+	}
+
+	function onPropertyLoadSpawned(prop:TsonProperty) {
+		loadSpawned.emit(this, prop);
 	}
 }

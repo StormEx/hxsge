@@ -1,16 +1,16 @@
 package hxsge.examples.format.tson.data;
 
+import hxsge.format.tson.data.TsonData;
 import hxsge.photon.Signal.Signal0;
-import hxsge.core.debug.Debug;
-import hxsge.format.tson.parts.TsonBlock;
 
 using hxsge.core.utils.ArrayTools;
 
 class TsonManagerData {
-	public var tson(default, set):TsonBlock;
+	public var tson(default, set):TsonData;
 	public var treeData:Array<TsonNode> = [];
 	public var types:Array<TsonPropertyDataType> = [];
 	public var propertyGroups(get, never):Array<TsonPropertyGroup>;
+	public var loading:Bool = false;
 
 	public var changed(default, null):Signal0;
 
@@ -18,38 +18,47 @@ class TsonManagerData {
 	var _propObj:Dynamic;
 	var _propMeta:Dynamic;
 
-	var _node:TsonNode = null;
+	var _copy:TsonNode = null;
+	var _cut:TsonNode = null;
 
 	public function new() {
 		types = TsonPropertyDataType.getTypesForChoose();
 
 		changed = new Signal0();
+
+		rebuildData();
 	}
 
 	public function isLoaded():Bool {
-		return tson != null;
+		return !loading;
 	}
 
 	public function copyNode(node:TsonNode) {
-		_node = node.clone();
+		_cut = null;
+		_copy = node;
 	}
 
 	public function cutNode(node:TsonNode) {
-		_node = node;
-		node.root.cutChild(node);
+		_copy = null;
+		_cut = node;
+		node.parent.cutChild(node);
 	}
 
 	public function pasteNode(node:TsonNode) {
-		node.insertChild(_node);
-		_node = null;
+		if(_cut != null) {
+			node.insertChild(_cut);
+			_cut = null;
+		}
+		else {
+			node.insertChild(_copy.clone());
+		}
 	}
 
 	public function isBuffered():Bool {
-		return _node != null;
+		return _cut != null || _copy != null;
 	}
 
 	public function selectNode(node:TsonNode, selected:Bool) {
-//		_selectedNode = selected ? node : null;
 		if(_selectedNode != node) {
 			_selectedNode = node;
 			changed.emit();
@@ -76,20 +85,18 @@ class TsonManagerData {
 
 	function rebuildData() {
 		_selectedNode = null;
-		treeData = [new TsonNode(tson, update, "root", null)];
+		treeData = [new TsonNode(tson, null, update)];
 	}
 
 	public function getGroups():Array<TsonPropertyGroup> {
 		return propertyGroups;
 	}
 
-	public function getChanges():TsonBlock {
-//		return tson;
-
-		return treeData[0].getBlock();
+	public function getChanges():TsonData {
+		return treeData[0].getData();
 	}
 
-	function set_tson(value:TsonBlock):TsonBlock {
+	function set_tson(value:TsonData):TsonData {
 		if(tson != value) {
 			tson = value;
 
