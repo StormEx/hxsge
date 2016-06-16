@@ -7,11 +7,17 @@ import hxsge.core.IDisposable;
 import hxsge.core.math.MathFloatTools;
 import hxsge.core.memory.Memory;
 import hxsge.format.tson.data.TsonValueType;
+import hxsge.loaders.data.JsFileLoader;
+import hxsge.loaders.base.ILoader;
+import js.JQuery;
+import js.Browser;
+import js.html.InputElement;
 
 using hxsge.core.utils.StringTools;
 using hxsge.format.tson.data.TsonValueTypeTools;
 using hxsge.core.math.MathFloatTools;
 using hxsge.core.utils.ArrayTools;
+using hxsge.loaders.utils.LoaderTools;
 
 class TsonNode implements IDisposable implements IClonable<TsonNode> {
 	static var ROOT_NAME:String = "tson document";
@@ -134,6 +140,7 @@ class TsonNode implements IDisposable implements IClonable<TsonNode> {
 				default:
 			}
 			group.changed.add(onGroupChanged);
+			group.loadSpawned.add(onLoadSpawned);
 			propertyGroups.push(group);
 
 			group = new TsonPropertyGroup("Specific");
@@ -298,6 +305,39 @@ class TsonNode implements IDisposable implements IClonable<TsonNode> {
 		fillName();
 		fillInfo();
 		fillProperties();
+	}
+
+	function onLoadSpawned(group:TsonPropertyGroup, prop:TsonProperty) {
+		if(type == TsonPropertyDataType.BINARY) {
+			loadFile();
+		}
+	}
+
+	function loadFile() {
+		var dialog:InputElement = Browser.document.createInputElement();
+		dialog.type = 'file';
+		dialog.multiple = false;
+
+		var q = new JQuery(dialog);
+		q.change(function(event:JqEvent) {
+			var sjl:JsFileLoader = new JsFileLoader(dialog.files[0]);
+			sjl.finished.addOnce(onFileLoaded);
+			sjl.load();
+		});
+		q.click();
+	}
+
+	function onFileLoaded(loader:ILoader) {
+		if(loader.isSuccess()) {
+			_data = loader.content;
+
+			fillInfo();
+			fillProperties();
+
+			if(_callback != null) {
+				_callback();
+			}
+		}
 	}
 
 	function onGroupChanged(group:TsonPropertyGroup, prop:TsonProperty) {

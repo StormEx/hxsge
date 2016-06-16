@@ -4,9 +4,6 @@
 
 -lib format
 -lib angular.haxe
--lib hxnodejs
-
--D nodejs
 
 -cp src
 -cp ../assets/src/main

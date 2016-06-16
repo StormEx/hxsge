@@ -113,7 +113,7 @@ class TsonManagerController {
 		q.click();
 #else
 		var elem:AnchorElement = Browser.document.createAnchorElement();
-		elem.href = js.html.URL.createObjectURL(new Blob([TsonEncoder.fromBlock(_data.getChanges()).getData()]));
+		elem.href = js.html.URL.createObjectURL(new Blob([Tson.convertData(_data.getChanges()).getData()]));
 		elem.download = "temp.tson";
 		elem.click();
 #end

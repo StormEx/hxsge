@@ -77,6 +77,10 @@
 					>
 							{{node.name}}
 							<span ng-if="node.info.length > 0">: </span><span class="tree-node-label-muted">{{node.info}}</span>
+							<button type="button" class="btn btn-xs btn-default tson-tree-node-action" ng-click="node.loadFile()" ng-if="node.isBinary()"
+									title="Load binary file" data-placement="bottom">
+								<span class="glyphicon glyphicon-option-horizontal"></span>
+							</button>
 							<span class="tree-node-label-muted" ng-if="node.isRoot() == false"> - </span>
 							<button type="button" class="btn btn-xs btn-info tson-tree-node-action" ng-click="node.duplicateNode()" ng-if="node.isDuplicable()"
 									title="Duplicate node" data-placement="bottom">

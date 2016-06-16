@@ -18,7 +18,8 @@ class TsonManagerData {
 	var _propObj:Dynamic;
 	var _propMeta:Dynamic;
 
-	var _node:TsonNode = null;
+	var _copy:TsonNode = null;
+	var _cut:TsonNode = null;
 
 	public function new() {
 		types = TsonPropertyDataType.getTypesForChoose();
@@ -33,25 +34,31 @@ class TsonManagerData {
 	}
 
 	public function copyNode(node:TsonNode) {
-		_node = node.clone();
+		_cut = null;
+		_copy = node;
 	}
 
 	public function cutNode(node:TsonNode) {
-		_node = node;
+		_copy = null;
+		_cut = node;
 		node.parent.cutChild(node);
 	}
 
 	public function pasteNode(node:TsonNode) {
-		node.insertChild(_node);
-		_node = null;
+		if(_cut != null) {
+			node.insertChild(_cut);
+			_cut = null;
+		}
+		else {
+			node.insertChild(_copy.clone());
+		}
 	}
 
 	public function isBuffered():Bool {
-		return _node != null;
+		return _cut != null || _copy != null;
 	}
 
 	public function selectNode(node:TsonNode, selected:Bool) {
-//		_selectedNode = selected ? node : null;
 		if(_selectedNode != node) {
 			_selectedNode = node;
 			changed.emit();
