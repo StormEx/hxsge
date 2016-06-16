@@ -1,4 +1,4 @@
-package hxsge.examples.format.tson.data;
+package hxsge.format.tools.tson.data;
 
 @:enum abstract TsonPropertyType(String) from String to String {
 	var NODE_NAME = "node_name";

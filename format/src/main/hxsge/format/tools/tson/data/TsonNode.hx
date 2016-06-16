@@ -1,6 +1,5 @@
-package hxsge.examples.format.tson.data;
+package hxsge.format.tools.tson.data;
 
-import hxsge.core.debug.Debug;
 import hxsge.format.tson.data.TsonData;
 import hxsge.core.IClonable;
 import hxsge.core.IDisposable;

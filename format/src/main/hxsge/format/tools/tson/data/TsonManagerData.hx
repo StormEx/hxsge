@@ -1,4 +1,4 @@
-package hxsge.examples.format.tson.data;
+package hxsge.format.tools.tson.data;
 
 import hxsge.format.tson.data.TsonData;
 import hxsge.photon.Signal.Signal0;
@@ -110,3 +110,4 @@ class TsonManagerData {
 		return _selectedNode == null ? [] : _selectedNode.propertyGroups.safeGet();
 	}
 }
+

@@ -1,34 +1,22 @@
-package hxsge.examples.format.tson.controllers;
+package hxsge.format.tools.tson.controllers;
 
-//#if nodejs
+import hxsge.format.tools.tson.data.TsonManagerData;
 import haxe.io.BytesInput;
 import hxsge.format.tson.data.TsonDataReader;
-import hxsge.format.tson.data.TsonDataWriter;
 import hxsge.format.tson.data.TsonData;
-import hxsge.loaders.data.JsFileLoader;
 import js.html.AnchorElement;
-import js.html.LinkElement;
 import js.html.Uint8Array;
-import haxe.io.BytesData;
 import hxsge.core.debug.Debug;
 import haxe.io.Bytes;
 import js.html.Blob;
-import hxsge.loaders.data.JsDataLoader;
-//import hxsge.format.tson.TsonEncoder;
-import hxsge.format.tson.data.TsonValueType;
-//import hxsge.format.tson.TsonDecoder;
 import hxsge.format.tson.Tson;
-import hxsge.loaders.base.ILoader;
-import hxsge.loaders.data.DataLoader;
 import js.JQuery.JqEvent;
 import js.JQuery;
-import hxsge.examples.format.tson.data.TsonManagerData;
-import hxsge.examples.format.tson.models.TsonManagerModel;
-import hxsge.core.debug.Debug;
-//import hxsge.format.tson.parts.TsonBlock;
 import angular.service.Scope;
 import js.Browser;
 import js.html.InputElement;
+import hxsge.loaders.data.JsFileLoader;
+import hxsge.loaders.base.ILoader;
 
 using hxsge.loaders.utils.LoaderTools;
 
@@ -38,7 +26,7 @@ class TsonManagerController {
 	var _fileName:String = "";
 	var _tson:Bytes;
 
-	public function new(scope:Scope, model:TsonManagerModel) {
+	public function new(scope:Scope) {
 		_data = new TsonManagerData();
 		_data.changed.add(onDataChanged);
 
@@ -97,7 +85,7 @@ class TsonManagerController {
 			_fileName = dialog.value;
 			try {
 				var d:TsonData = _data.getChanges();
-				var b:Bytes = Tson.convertData(d);//TsonEncoder.fromBlock(_data.getChanges());
+				var b:Bytes = Tson.convertData(d);
 				var bbb:js.node.Buffer = new js.node.Buffer(b.length);
 				var arr:Uint8Array = new Uint8Array(b.getData());
 				for(i in 0...arr.length) {
@@ -125,8 +113,7 @@ class TsonManagerController {
 	function onTsonLoaded(loader:ILoader) {
 		if(loader.isSuccess()) {
 			_tson = loader.content;
-//			var decoder:TsonDecoder = new TsonDecoder(_tson);
-			_data.tson = TsonDataReader.read(new BytesInput(_tson));//decoder.root;
+			_data.tson = TsonDataReader.read(new BytesInput(_tson));
 			Debug.trace("tson file loaded successfully");
 		}
 		else {
@@ -146,4 +133,3 @@ class TsonManagerController {
 		});
 	}
 }
-//#end

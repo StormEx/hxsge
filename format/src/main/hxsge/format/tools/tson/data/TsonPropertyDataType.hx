@@ -1,4 +1,4 @@
-package hxsge.examples.format.tson.data;
+package hxsge.format.tools.tson.data;
 
 import hxsge.core.utils.Pair;
 import hxsge.format.tson.data.TsonValueType;

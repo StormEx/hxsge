@@ -1,9 +1,10 @@
--main hxsge.examples.format.tson.TsonExample
+-main hxsge.examples.dataprovider.DataProviderExample
 
--swf-header 300:300:40:FFFFFF
+-swf-header 912:40:40:FF0000
 
 -lib format
--lib angular.haxe
+-lib actuate
+-lib haxeui
 
 -cp src
 -cp ../assets/src/main
