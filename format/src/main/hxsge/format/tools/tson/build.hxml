@@ -1,17 +1,40 @@
+## JavaScript node.js
 -main hxsge.format.tools.tson.Main
 
--lib format
+-D hxnodejs
+-D nodejs
+
+-lib hxnodejs
 -lib angular.haxe
 
 -cp ../../../../../../src
--cp ../../../../../../../assets/src/main
--cp ../../../../../../../dataprovider/src/main
 -cp ../../../../../../../loaders/src/main
 -cp ../../../../../../../format/src/main
 -cp ../../../../../../../core/src/main
 -cp ../../../../../../../swamp/src/main
--cp ../../../../../../../forge/src/main
 -cp ../../../../../../../photon/src/main
--cp ../../../../../../../io/src/main
 
 -debug
+
+-js ../../../../../../build/tsonmanager/nodejs/test.js
+
+--next
+
+## JavaScript
+-main hxsge.format.tools.tson.Main
+
+-lib hxnodejs
+-lib angular.haxe
+
+-cp ../../../../../../src
+-cp ../../../../../../../loaders/src/main
+-cp ../../../../../../../format/src/main
+-cp ../../../../../../../core/src/main
+-cp ../../../../../../../swamp/src/main
+-cp ../../../../../../../photon/src/main
+
+-debug
+
+-js ../../../../../../build/tsonmanager/js/test.js
+
+--next
