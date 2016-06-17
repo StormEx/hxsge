@@ -1,0 +1,40 @@
+## JavaScript node.js
+-main hxsge.format.tools.bundle.Main
+
+-D hxnodejs
+-D nodejs
+
+-lib hxnodejs
+-lib angular.haxe
+
+-cp ../../../../../../src
+-cp ../../../../../../../loaders/src/main
+-cp ../../../../../../../format/src/main
+-cp ../../../../../../../core/src/main
+-cp ../../../../../../../swamp/src/main
+-cp ../../../../../../../photon/src/main
+
+-debug
+
+-js ../../../../../../build/bundlemanager/nodejs/bundlemanager.js
+
+--next
+
+## JavaScript
+-main hxsge.format.tools.bundle.Main
+
+-lib hxnodejs
+-lib angular.haxe
+
+-cp ../../../../../../src
+-cp ../../../../../../../loaders/src/main
+-cp ../../../../../../../format/src/main
+-cp ../../../../../../../core/src/main
+-cp ../../../../../../../swamp/src/main
+-cp ../../../../../../../photon/src/main
+
+-debug
+
+-js ../../../../../../build/bundlemanager/js/bundlemanager.js
+
+--next
