@@ -2,6 +2,7 @@ package hxsge.photon;
 
 import haxe.Constraints.Function;
 
+@:allow(hxsge.photon.SignalTools)
 class Signal<T:Function> {
 	var _functions:Array<T> = [];
 	var _flags:Array<SignalFlagType> = [];
@@ -26,15 +27,19 @@ class Signal<T:Function> {
 		return res;
 	}
 
-	public function add(func:T, type:SignalFlagType = SignalFlagType.NONE) {
+	inline public function add(func:T, type:SignalFlagType = SignalFlagType.NONE) {
 		if(check(func) == -1) {
-			_functions.push(func);
-			_flags.push(type);
+			addSlot(func, type);
 		}
 	}
 
 	inline public function addOnce(func:T) {
 		add(func, SignalFlagType.ONCE);
+	}
+
+	inline function addSlot(func:T, type:SignalFlagType = SignalFlagType.NONE) {
+		_functions.push(func);
+		_flags.push(type);
 	}
 
 	inline public function remove(func:T) {
