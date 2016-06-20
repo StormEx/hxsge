@@ -1,5 +1,8 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.assets.data.SoundAsset;
+import hxsge.assets.data.SoundAsset;
+import hxsge.assets.data.Asset;
 import hxsge.format.sounds.SoundReader;
 import haxe.io.BytesOutput;
 import hxsge.loaders.base.LoadersBatch;
@@ -53,6 +56,8 @@ using StringTools;
 using hxsge.photon.SignalTools;
 
 class DataProviderExample {
+	static var _manager:AssetManager;
+
 	public function new() {
 	}
 
@@ -83,6 +88,7 @@ class DataProviderExample {
 		var zbundle_file:String = "d:/StormEx/temp/game_1000_1011/game_1000_1011.zip";
 		var tbundle_file:String = "d:/StormEx/temp/game_1000_1011/meta.tson";
 		var zbundle_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/game_1000_1011/game_1000_1011.zip";
+		var tbundle_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/game_1000_1011/meta.tson";
 		var mp3_file:String = "c:/Downloads/bundles/mega_bonus/sfx/bonanza_bonus/win_plaque.mp3";
 		var mp3_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/sfx/bonanza_bonus/win_plaque.mp3";
 		var wav_file:String = "c:/Downloads/bonusintro.wav";
@@ -195,35 +201,50 @@ class DataProviderExample {
 		Log.log("==============================================================================");
 
 #if flash
-		Log.log("assets test");
-		var manager:AssetManager = new AssetManager();
-		var bundle:Bundle = null;
-		haxe.ui.toolkit.core.Toolkit.init();
-		haxe.ui.toolkit.core.Toolkit.openFullscreen(function(root:haxe.ui.toolkit.core.Root) {
-			var button:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
-			var ubutton:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
-			ubutton.text = "unload";
-			ubutton.x = 49;
-			button.text = "load";
-			var ti:haxe.ui.toolkit.controls.TextInput = new haxe.ui.toolkit.controls.TextInput();
-			ti.text = zbundle_url;
-			ti.x = 112;
-			ti.width = 800;
-			ti.height = button.height;
-			button.addEventListener(MouseEvent.CLICK, function(e) {
-				bundle = manager.getBundle(ti.text);
-				bundle.finished.addOnce(function(b:Bundle){Log.log("bundle loaded: " + b.url + (b.isSuccess ? "" : " with errors..."));});
-				bundle.load();
-			});
-			ubutton.addEventListener(MouseEvent.CLICK, function(e) {
-				Memory.dispose(bundle);
-			});
-			root.addChild(button);
-			root.addChild(ubutton);
-			root.addChild(ti);
-		});
-		Log.log("==============================================================================");
+//		Log.log("assets test");
+//		var manager:AssetManager = new AssetManager();
+//		var bundle:Bundle = null;
+//		haxe.ui.toolkit.core.Toolkit.init();
+//		haxe.ui.toolkit.core.Toolkit.openFullscreen(function(root:haxe.ui.toolkit.core.Root) {
+//			var button:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
+//			var ubutton:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
+//			ubutton.text = "unload";
+//			ubutton.x = 49;
+//			button.text = "load";
+//			var ti:haxe.ui.toolkit.controls.TextInput = new haxe.ui.toolkit.controls.TextInput();
+//			ti.text = zbundle_url;
+//			ti.x = 112;
+//			ti.width = 800;
+//			ti.height = button.height;
+//			button.addEventListener(MouseEvent.CLICK, function(e) {
+//				bundle = manager.getBundle(ti.text);
+//				bundle.finished.addOnce(function(b:Bundle){Log.log("bundle loaded: " + b.url + (b.isSuccess ? "" : " with errors..."));});
+//				bundle.load();
+//			});
+//			ubutton.addEventListener(MouseEvent.CLICK, function(e) {
+//				Memory.dispose(bundle);
+//			});
+//			root.addChild(button);
+//			root.addChild(ubutton);
+//			root.addChild(ti);
+//		});
+//		Log.log("==============================================================================");
 #end
+
+		loadBundle(tbundle_url);
+	}
+
+	static function loadBundle(path:String) {
+		var bundle:Bundle = null;
+		bundle = AssetManager.assets.getBundle(path);
+		bundle.finished.addOnce(function(b:Bundle){
+			Log.log("bundle loaded: " + b.url + (b.isSuccess ? "" : " with errors..."));
+			var sa:SoundAsset = AssetManager.assets.getAsset(path.substring(0, path.indexOf("meta.tson")) + "sfx/reel_spins/casino_background.swf/SoundSymbol", SoundAsset);
+			if(sa != null) {
+				sa.create(1,1).play();
+			}
+		});
+		bundle.load();
 	}
 
 	static function toSignal0() {
