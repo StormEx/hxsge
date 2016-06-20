@@ -3,7 +3,6 @@ package hxsge.assets.data.bundle.dataprovider.meta;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.core.platforms.Platforms;
 import hxsge.core.debug.error.Error;
-import haxe.io.Bytes;
 import hxsge.format.base.IReader;
 import hxsge.assets.data.bundle.format.bundle.BundleReader;
 import hxsge.assets.data.bundle.format.bundle.BundleData;
@@ -23,9 +22,7 @@ class MetaBundleDataProvider extends DataProvider {
 	}
 
 	override function prepareData() {
-		_reader = new BundleReader(_data);
-		_reader.finished.addOnce(onDataPrepared);
-		_reader.read();
+		throw "need to override...";
 	}
 
 	function onDataPrepared(reader:IReader) {

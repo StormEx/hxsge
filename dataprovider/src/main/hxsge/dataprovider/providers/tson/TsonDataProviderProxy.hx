@@ -1,15 +1,15 @@
-package hxsge.assets.data.bundle.dataprovider.meta;
+package hxsge.dataprovider.providers.tson;
 
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.dataprovider.providers.base.DataProviderProxy;
 
-class MetaBundleDataProviderProxy extends DataProviderProxy {
+class TsonDataProviderProxy extends DataProviderProxy {
 	public function new() {
-		super("bundle");
+		super("tson");
 	}
 
 	override public function create(info:IDataProviderInfo):IDataProvider {
-		return new BundleDataProvider(info);
+		return new TsonDataProvider(info);
 	}
 }

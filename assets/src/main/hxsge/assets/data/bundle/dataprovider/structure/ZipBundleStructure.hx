@@ -1,7 +1,7 @@
 package hxsge.assets.data.bundle.dataprovider.structure;
 
+import hxsge.assets.data.bundle.dataprovider.meta.JsonMetaBundleDataProvider;
 import hxsge.core.debug.error.Error;
-import hxsge.assets.data.bundle.dataprovider.meta.MetaBundleDataProvider;
 import haxe.zip.Entry;
 import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.dataprovider.providers.zip.ZipDataProvider;
@@ -9,7 +9,7 @@ import haxe.io.Path;
 import hxsge.dataprovider.data.DataProviderInfo;
 import hxsge.dataprovider.data.IDataProviderInfo;
 
-class ZipBundleStructure extends BundleStructure {
+class ZipBundleStructure extends JsonBundleStructure {
 	var _zip:ZipDataProvider;
 
 	public function new(info:IDataProviderInfo) {
@@ -26,7 +26,7 @@ class ZipBundleStructure extends BundleStructure {
 		if(!_zip.errors.isError) {
 			var bundles:Array<Entry> = _zip.filter(~/^(.*.bundle).*/, _zip.files);
 			if(bundles.length > 0) {
-				_provider = new MetaBundleDataProvider(new DataProviderInfo(null, _zip.unzip(bundles[0])));
+				_provider = new JsonMetaBundleDataProvider(new DataProviderInfo(null, _zip.unzip(bundles[0])));
 				_provider.finished.addOnce(onMetaFinished);
 				_provider.load();
 			}
@@ -41,10 +41,6 @@ class ZipBundleStructure extends BundleStructure {
 
 			finished.emit(this);
 		}
-	}
-
-	override function getDependencyUrl(name:String):String {
-		return Path.normalize(Path.directory(_info.url) + "/" + name + ".zip");
 	}
 
 	override function getInfo(name:String, tags:Array<String>, meta:Dynamic):IDataProviderInfo {

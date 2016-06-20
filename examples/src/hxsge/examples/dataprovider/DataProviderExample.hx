@@ -50,6 +50,7 @@ import flash.events.MouseEvent;
 using hxsge.core.utils.ArrayTools;
 using hxsge.loaders.utils.LoaderTools;
 using StringTools;
+using hxsge.photon.SignalTools;
 
 class DataProviderExample {
 	public function new() {
@@ -80,6 +81,7 @@ class DataProviderExample {
 		var jxr_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/game/10Ten10.jxr";
 		var bundle_file:String = "d:/StormEx/temp/game_1000_1011/meta.bundle";
 		var zbundle_file:String = "d:/StormEx/temp/game_1000_1011/game_1000_1011.zip";
+		var tbundle_file:String = "d:/StormEx/temp/game_1000_1011/meta.tson";
 		var zbundle_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/game_1000_1011/game_1000_1011.zip";
 		var mp3_file:String = "c:/Downloads/bundles/mega_bonus/sfx/bonanza_bonus/win_plaque.mp3";
 		var mp3_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/sfx/bonanza_bonus/win_plaque.mp3";

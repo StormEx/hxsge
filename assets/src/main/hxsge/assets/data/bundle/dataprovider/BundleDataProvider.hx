@@ -1,5 +1,7 @@
 package hxsge.assets.data.bundle.dataprovider;
 
+import hxsge.assets.data.bundle.dataprovider.structure.TsonBundleStructure;
+import hxsge.assets.data.bundle.dataprovider.structure.JsonBundleStructure;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.dataprovider.providers.base.ProviderBatch;
 import hxsge.dataprovider.DataProviderManager;
@@ -44,11 +46,14 @@ class BundleDataProvider extends DataProvider {
 	}
 
 	override function prepareData() {
-		if(Path.extension(info.url) == "zip") {
-			_structure = new ZipBundleStructure(info);
-		}
-		else {
-			_structure = new BundleStructure(info);
+		var ext:String = Path.extension(info.url);
+		switch(ext) {
+			case "zip":
+				_structure = new ZipBundleStructure(info);
+			case "tson":
+				_structure = new TsonBundleStructure(info);
+			default:
+				_structure = new JsonBundleStructure(info);
 		}
 		_structure.finished.addOnce(onDataPrepared);
 		_structure.load();

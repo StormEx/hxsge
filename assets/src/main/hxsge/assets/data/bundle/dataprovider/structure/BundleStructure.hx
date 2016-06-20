@@ -1,15 +1,14 @@
 package hxsge.assets.data.bundle.dataprovider.structure;
 
+import hxsge.dataprovider.data.DataProviderInfo;
+import haxe.io.Path;
+import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.assets.data.bundle.format.bundle.BundleResourceData;
 import hxsge.assets.data.bundle.format.bundle.BundleResourceType;
-import haxe.io.Path;
-import hxsge.dataprovider.data.DataProviderInfo;
-import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.core.memory.Memory;
 import hxsge.core.IDisposable;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.photon.Signal;
-import hxsge.assets.data.bundle.dataprovider.meta.MetaBundleDataProvider;
 import hxsge.assets.data.bundle.format.bundle.BundleData;
 import hxsge.dataprovider.data.IDataProviderInfo;
 
@@ -17,7 +16,7 @@ using hxsge.core.utils.ArrayTools;
 using hxsge.core.utils.StringTools;
 
 class BundleStructure implements IDisposable {
-	public var data(get, never):BundleData;
+	public var data(default, null):BundleData;
 	public var errors(default, null):ErrorHolder;
 
 	public var dependencies(default, null):Array<String> = [];
@@ -27,7 +26,7 @@ class BundleStructure implements IDisposable {
 	public var finished(default, null):Signal1<BundleStructure>;
 
 	var _info:IDataProviderInfo;
-	var _provider:MetaBundleDataProvider;
+	var _provider:IDataProvider;
 
 	public function new(info:IDataProviderInfo) {
 		_info = info;
@@ -53,20 +52,6 @@ class BundleStructure implements IDisposable {
 		}
 	}
 
-	function performLoad() {
-		_provider = new MetaBundleDataProvider(_info);
-		_provider.finished.addOnce(onMetaFinished);
-		_provider.load();
-	}
-
-	function onMetaFinished(provider:IDataProvider) {
-		if(!provider.errors.isError) {
-			prepareData();
-		}
-
-		finished.emit(this);
-	}
-
 	function prepareData() {
 		var tags:Array<String> = [];
 		if(data != null && data.isHasResources) {
@@ -87,8 +72,12 @@ class BundleStructure implements IDisposable {
 		}
 	}
 
+	function performLoad() {
+		throw "need to override...";
+	}
+
 	function getDependencyUrl(name:String):String {
-		return Path.normalize(Path.directory(_info.url) + "/" + name + "/meta.bundle");
+		return Path.normalize(Path.directory(_info.url) + "/" + name);
 	}
 
 	function getInfo(name:String, tags:Array<String>, meta:Dynamic):IDataProviderInfo {
@@ -104,9 +93,5 @@ class BundleStructure implements IDisposable {
 		}
 
 		return meta;
-	}
-
-	inline function get_data():BundleData {
-		return _provider != null ? _provider.data : null;
 	}
 }
