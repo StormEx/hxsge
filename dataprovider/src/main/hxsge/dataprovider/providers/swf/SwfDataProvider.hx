@@ -6,10 +6,8 @@ import hxsge.core.utils.progress.IProgress;
 import hxsge.core.debug.error.Error;
 import hxsge.format.base.IReader;
 import hxsge.format.swf.SwfReader;
-import hxsge.format.sounds.Sound;
 import hxsge.format.images.Image;
 import flash.display.Loader;
-import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.dataprovider.providers.swf.data.SwfMetaDataType;
 import hxsge.core.platforms.Platforms;
 import hxsge.core.debug.Debug;
@@ -20,8 +18,8 @@ import hxsge.dataprovider.providers.base.DataProvider;
 using hxsge.core.utils.StringTools;
 
 class SwfDataProvider extends DataProvider {
-	public var images(default, null):Array<Image> = [];
-	public var sounds(default, null):Array<ISoundData> = [];
+	public var images(default, null):Map<String, Image>;
+	public var sounds(default, null):Map<String, ISoundData>;
 //	public var videos(default, null):Array<Image> = [];
 
 	var _meta:SwfMetaData;
@@ -30,6 +28,9 @@ class SwfDataProvider extends DataProvider {
 
 	public function new(info:IDataProviderInfo) {
 		super(info);
+
+		images = new Map();
+		sounds = new Map();
 
 		setMeta(info.meta);
 	}
@@ -60,12 +61,12 @@ class SwfDataProvider extends DataProvider {
 					case SwfMetaDataType.IMAGE:
 						var img:Image = _reader.getImage(d.name);
 						if(img != null) {
-							images.push(img);
+							images.set(d.name, img);
 						}
 					case SwfMetaDataType.SOUND:
 						var snd:ISoundData = _reader.getSound(d.name);
 						if(snd != null) {
-							sounds.push(snd);
+							sounds.set(d.name, snd);
 						}
 					case SwfMetaDataType.VIDEO:
 					default:

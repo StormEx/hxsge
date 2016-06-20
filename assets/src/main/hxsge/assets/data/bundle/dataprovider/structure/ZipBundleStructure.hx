@@ -1,11 +1,11 @@
 package hxsge.assets.data.bundle.dataprovider.structure;
 
+import hxsge.assets.data.bundle.format.bundle.BundleResourceData;
 import hxsge.assets.data.bundle.dataprovider.meta.JsonMetaBundleDataProvider;
 import hxsge.core.debug.error.Error;
 import haxe.zip.Entry;
 import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.dataprovider.providers.zip.ZipDataProvider;
-import haxe.io.Path;
 import hxsge.dataprovider.data.DataProviderInfo;
 import hxsge.dataprovider.data.IDataProviderInfo;
 
@@ -43,13 +43,13 @@ class ZipBundleStructure extends JsonBundleStructure {
 		}
 	}
 
-	override function getInfo(name:String, tags:Array<String>, meta:Dynamic):IDataProviderInfo {
-		var dir:String = name;
+	override function getInfo(resourceData:BundleResourceData, tags:Array<String>):IDataProviderInfo {
+		var dir:String = resourceData.name;
 		var dpi:DataProviderInfo = null;
 
 		for(f in _zip.files) {
-			if(f.fileName == name) {
-				dpi = new DataProviderInfo(dir, _zip.unzip(f), getMeta(meta));
+			if(f.fileName == resourceData.name) {
+				dpi = new DataProviderInfo(dir, _zip.unzip(f), getMeta(resourceData.meta));
 
 				break;
 			}

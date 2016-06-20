@@ -1,9 +1,9 @@
 package hxsge.assets.data.bundle.dataprovider.structure;
 
+import hxsge.assets.data.bundle.format.bundle.BundleResourceData;
 import hxsge.dataprovider.data.DataProviderInfo;
 import haxe.io.Path;
 import hxsge.dataprovider.providers.base.IDataProvider;
-import hxsge.assets.data.bundle.format.bundle.BundleResourceData;
 import hxsge.assets.data.bundle.format.bundle.BundleResourceType;
 import hxsge.core.memory.Memory;
 import hxsge.core.IDisposable;
@@ -63,9 +63,9 @@ class BundleStructure implements IDisposable {
 				for(r in data.resources[i].list) {
 					switch(data.resources[i].type) {
 						case BundleResourceType.ASYNCHRONOUS:
-							asyncData.push(getInfo(r.name, data.resources[i].tags, r.meta));
+							asyncData.push(getInfo(r, data.resources[i].tags));
 						default:
-							syncData.push(getInfo(r.name, data.resources[i].tags, r.meta));
+							syncData.push(getInfo(r, data.resources[i].tags));
 					}
 				}
 			}
@@ -80,11 +80,11 @@ class BundleStructure implements IDisposable {
 		return Path.normalize(Path.directory(_info.url) + "/" + name);
 	}
 
-	function getInfo(name:String, tags:Array<String>, meta:Dynamic):IDataProviderInfo {
-		var ext:String = Path.extension(name);
-		var dir:String = Path.directory(_info.url) + "/" + name;
+	function getInfo(resourceData:BundleResourceData, tags:Array<String>):IDataProviderInfo {
+		var ext:String = Path.extension(resourceData.name);
+		var dir:String = Path.directory(_info.url) + "/" + resourceData.name;
 
-		return new DataProviderInfo(dir, null, getMeta(meta));
+		return new DataProviderInfo(dir, resourceData.data, getMeta(resourceData.meta));
 	}
 
 	function getMeta(meta:Dynamic):Dynamic {

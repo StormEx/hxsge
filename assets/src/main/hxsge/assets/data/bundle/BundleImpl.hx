@@ -1,5 +1,6 @@
 package hxsge.assets.data.bundle;
 
+import hxsge.dataprovider.providers.swf.SwfDataProvider;
 import hxsge.dataprovider.providers.images.ImageDataProvider;
 import hxsge.assets.data.SoundAsset;
 import hxsge.dataprovider.providers.sounds.SoundDataProvider;
@@ -103,18 +104,25 @@ class BundleImpl extends RefCount {
 					try {
 						if(Std.is(d, SoundDataProvider)) {
 							item = new SoundAsset(d.info.url, d);
+							res.push(item);
+							resources.push(item);
 						}
-						if(Std.is(d, ImageDataProvider)) {
+						else if(Std.is(d, ImageDataProvider)) {
 							item = new Asset(d.info.url, d);
+							res.push(item);
+							resources.push(item);
+						}
+						else if(Std.is(d, SwfDataProvider)) {
+							var swfp:SwfDataProvider = Std.instance(d, SwfDataProvider);
+							for(s in swfp.sounds.keys()) {
+								item = new SoundAsset(d.info.url, d, s);
+								res.push(item);
+								resources.push(item);
+							}
 						}
 					}
 					catch(e:Dynamic) {
 						item = null;
-					}
-
-					if(item != null) {
-						res.push(item);
-						resources.push(item);
 					}
 				}
 			}
