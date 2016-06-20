@@ -27,16 +27,21 @@ class FlashDataLoader extends BaseLoader {
 			performComplete();
 		}
 
-		_urlRequest = new URLRequest(url);
-		_urlRequest.method = URLRequestMethod.GET;
+		try {
+			_urlRequest = new URLRequest(url);
+			_urlRequest.method = URLRequestMethod.GET;
 
-		_loader = new URLLoader();
-		_loader.dataFormat = URLLoaderDataFormat.BINARY;
-		_loader.addEventListener(Event.COMPLETE, onComplete);
-		_loader.addEventListener(IOErrorEvent.IO_ERROR, onError);
-		_loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onError);
-		_loader.addEventListener(ProgressEvent.PROGRESS, onProgress);
-		_loader.load(_urlRequest);
+			_loader = new URLLoader();
+			_loader.dataFormat = URLLoaderDataFormat.BINARY;
+			_loader.addEventListener(Event.COMPLETE, onComplete);
+			_loader.addEventListener(IOErrorEvent.IO_ERROR, onError);
+			_loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onError);
+			_loader.addEventListener(ProgressEvent.PROGRESS, onProgress);
+			_loader.load(_urlRequest);
+		}
+		catch(e:Dynamic) {
+			performFail("can't create flash loader...", e);
+		}
 	}
 
 	override function calculateProgress():IProgress {

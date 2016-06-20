@@ -76,9 +76,9 @@ class BaseLoader implements ILoader {
 	function performCancel() {
 	}
 
-	function performFail(message:String) {
+	function performFail(message:String, errorValue:Dynamic = null) {
 		state = LoaderStateType.FAIL;
-		errors.addError(Error.create(message));
+		errors.addError(Error.create(message, errorValue));
 
 		cancel();
 	}
