@@ -57,6 +57,7 @@ using hxsge.photon.SignalTools;
 
 class DataProviderExample {
 	static var _manager:AssetManager;
+	static var _bundle:Bundle;
 
 	public function new() {
 	}
@@ -201,50 +202,71 @@ class DataProviderExample {
 		Log.log("==============================================================================");
 
 #if flash
-//		Log.log("assets test");
+		Log.log("assets test");
 //		var manager:AssetManager = new AssetManager();
 //		var bundle:Bundle = null;
-//		haxe.ui.toolkit.core.Toolkit.init();
-//		haxe.ui.toolkit.core.Toolkit.openFullscreen(function(root:haxe.ui.toolkit.core.Root) {
-//			var button:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
-//			var ubutton:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
-//			ubutton.text = "unload";
-//			ubutton.x = 49;
-//			button.text = "load";
-//			var ti:haxe.ui.toolkit.controls.TextInput = new haxe.ui.toolkit.controls.TextInput();
-//			ti.text = zbundle_url;
-//			ti.x = 112;
-//			ti.width = 800;
-//			ti.height = button.height;
-//			button.addEventListener(MouseEvent.CLICK, function(e) {
+		haxe.ui.toolkit.core.Toolkit.init();
+		haxe.ui.toolkit.core.Toolkit.openFullscreen(function(root:haxe.ui.toolkit.core.Root) {
+			var button:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
+			var ubutton:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
+			ubutton.text = "unload";
+			ubutton.x = 49;
+			button.text = "load";
+			var ti:haxe.ui.toolkit.controls.TextInput = new haxe.ui.toolkit.controls.TextInput();
+			ti.text = zbundle_url;
+			ti.x = 112;
+			ti.width = 800;
+			ti.height = button.height;
+			button.addEventListener(MouseEvent.CLICK, function(e) {
+				loadBundle(ti.text);
 //				bundle = manager.getBundle(ti.text);
 //				bundle.finished.addOnce(function(b:Bundle){Log.log("bundle loaded: " + b.url + (b.isSuccess ? "" : " with errors..."));});
 //				bundle.load();
-//			});
-//			ubutton.addEventListener(MouseEvent.CLICK, function(e) {
-//				Memory.dispose(bundle);
-//			});
-//			root.addChild(button);
-//			root.addChild(ubutton);
-//			root.addChild(ti);
-//		});
-//		Log.log("==============================================================================");
+			});
+			ubutton.addEventListener(MouseEvent.CLICK, function(e) {
+				Memory.dispose(_bundle);
+			});
+			root.addChild(button);
+			root.addChild(ubutton);
+			root.addChild(ti);
+
+			var playbtn:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
+			playbtn.text = "play";
+			playbtn.y = 40;
+			var sti:haxe.ui.toolkit.controls.TextInput = new haxe.ui.toolkit.controls.TextInput();
+			sti.text = "";
+			sti.x = 49;
+			sti.y = 40;
+			sti.width = 863;
+			sti.height = playbtn.height;
+			playbtn.addEventListener(MouseEvent.CLICK, function(e) {
+				playSound(sti.text);
+			});
+			root.addChild(playbtn);
+			root.addChild(sti);
+		});
+		Log.log("==============================================================================");
 #end
 
-		loadBundle(tbundle_url);
+//		loadBundle(tbundle_url);
 	}
 
 	static function loadBundle(path:String) {
-		var bundle:Bundle = null;
-		bundle = AssetManager.assets.getBundle(path);
-		bundle.finished.addOnce(function(b:Bundle){
+		_bundle = AssetManager.assets.getBundle(path);
+		_bundle.finished.addOnce(function(b:Bundle){
 			Log.log("bundle loaded: " + b.url + (b.isSuccess ? "" : " with errors..."));
-			var sa:SoundAsset = AssetManager.assets.getAsset(path.substring(0, path.indexOf("meta.tson")) + "sfx/reel_spins/casino_background.swf/SoundSymbol", SoundAsset);
-			if(sa != null) {
-				sa.create(1,1).play();
-			}
 		});
-		bundle.load();
+		_bundle.load();
+	}
+
+	static function playSound(id:String) {
+		var sa:SoundAsset = AssetManager.assets.getAsset(id, SoundAsset);
+		if(sa != null) {
+			sa.create(1, 1).play();
+		}
+		else {
+			Debug.trace("Can't find sound...");
+		}
 	}
 
 	static function toSignal0() {
