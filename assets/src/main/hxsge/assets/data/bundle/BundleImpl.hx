@@ -47,6 +47,9 @@ class BundleImpl extends RefCount {
 	override public function dispose() {
 		super.dispose();
 
+		Memory.dispose(_depBatch);
+		Memory.dispose(_provider);
+
 		Memory.dispose(finished);
 		Memory.dispose(updated);
 		Memory.dispose(changed);
@@ -108,7 +111,7 @@ class BundleImpl extends RefCount {
 							resources.push(item);
 						}
 						else if(Std.is(d, ImageDataProvider)) {
-							item = new Asset(d.info.url, d);
+							item = new ImageAsset(d.info.url, d);
 							res.push(item);
 							resources.push(item);
 						}

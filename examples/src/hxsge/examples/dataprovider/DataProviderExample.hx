@@ -1,5 +1,7 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.assets.data.ImageAsset;
+import hxsge.assets.data.IAsset;
 import hxsge.assets.data.SoundAsset;
 import hxsge.assets.data.SoundAsset;
 import hxsge.assets.data.Asset;
@@ -48,6 +50,11 @@ import js.html.Uint8Array;
 
 #if flash
 import flash.events.MouseEvent;
+import flash.display.PixelSnapping;
+import flash.display.Bitmap;
+import flash.display.MovieClip;
+import flash.Lib;
+import flash.display.Sprite;
 #end
 
 using hxsge.core.utils.ArrayTools;
@@ -58,6 +65,9 @@ using hxsge.photon.SignalTools;
 class DataProviderExample {
 	static var _manager:AssetManager;
 	static var _bundle:Bundle;
+#if flash
+	static var _root:Sprite;
+#end
 
 	public function new() {
 	}
@@ -231,7 +241,7 @@ class DataProviderExample {
 			root.addChild(ti);
 
 			var playbtn:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
-			playbtn.text = "play";
+			playbtn.text = "show";
 			playbtn.y = 40;
 			var sti:haxe.ui.toolkit.controls.TextInput = new haxe.ui.toolkit.controls.TextInput();
 			sti.text = "";
@@ -240,12 +250,15 @@ class DataProviderExample {
 			sti.width = 863;
 			sti.height = playbtn.height;
 			playbtn.addEventListener(MouseEvent.CLICK, function(e) {
-				playSound(sti.text);
+				showAsset(sti.text);
 			});
 			root.addChild(playbtn);
 			root.addChild(sti);
 		});
 		Log.log("==============================================================================");
+
+		_root = new Sprite();
+		Lib.current.stage.addChild(_root);
 #end
 
 //		loadBundle(tbundle_url);
@@ -259,13 +272,29 @@ class DataProviderExample {
 		_bundle.load();
 	}
 
-	static function playSound(id:String) {
-		var sa:SoundAsset = AssetManager.assets.getAsset(id, SoundAsset);
-		if(sa != null) {
+	static function showAsset(id:String) {
+		var a:IAsset = AssetManager.assets.getAsset(id, Asset);
+
+		if(a == null) {
+			Debug.trace("Can't find asset...");
+
+			return;
+		}
+
+		if(Std.is(a, SoundAsset)) {
+			var sa:SoundAsset = Std.instance(a, SoundAsset);
 			sa.create(1, 1).play();
 		}
-		else {
-			Debug.trace("Can't find sound...");
+		else if(Std.is(a, ImageAsset)) {
+			var ia:ImageAsset = Std.instance(a, ImageAsset);
+#if flash
+			var bmp = new Bitmap(ia.image.data.data, PixelSnapping.AUTO, true);
+			bmp.y = 80;
+			while(_root.numChildren > 0) {
+				_root.removeChildAt(0);
+			}
+			_root.addChild(bmp);
+#end
 		}
 	}
 
