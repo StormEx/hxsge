@@ -4,6 +4,8 @@ import hxsge.photon.Signal;
 import hxsge.core.memory.Memory;
 import hxsge.core.debug.Debug;
 
+using hxsge.core.utils.ArrayTools;
+
 class Batch<T:IDisposable> {
 	public var items:Array<T> = [];
 	public var progress(get, never):Float;
@@ -27,8 +29,12 @@ class Batch<T:IDisposable> {
 		Memory.dispose(finished);
 		Memory.dispose(itemFinished);
 
-		if(disposeItems) {
-			Memory.disposeIterable(items);
+		if(disposeItems && items.isNotEmpty()) {
+			while(items.length > 0) {
+				var i = items[items.length - 1];
+				items.splice(items.length - 1, 1);
+				Memory.dispose(i);
+			}
 		}
 		items = null;
 	}
