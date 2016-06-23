@@ -1,10 +1,11 @@
 package hxsge.examples.dataprovider;
 
-import hxsge.assets.data.ImageAsset;
-import hxsge.assets.data.IAsset;
-import hxsge.assets.data.SoundAsset;
-import hxsge.assets.data.SoundAsset;
-import hxsge.assets.data.Asset;
+import hxsge.assets.sound.SoundAssetProxy;
+import hxsge.assets.image.ImageAssetProxy;
+import hxsge.assets.image.ImageAsset;
+import hxsge.assets.base.IAsset;
+import hxsge.assets.sound.SoundAsset;
+import hxsge.assets.base.Asset;
 import hxsge.format.sounds.SoundReader;
 import haxe.io.BytesOutput;
 import hxsge.loaders.base.LoadersBatch;
@@ -19,9 +20,9 @@ import hxsge.photon.SignalMacro;
 import hxsge.dataprovider.providers.swf.SwfDataProviderProxy;
 import hxsge.dataprovider.providers.swf.SwfDataProvider;
 import hxsge.dataprovider.providers.sounds.SoundDataProviderProxy;
-import hxsge.assets.data.bundle.Bundle;
+import hxsge.assets.bundle.Bundle;
 import hxsge.assets.AssetManager;
-import hxsge.assets.data.bundle.dataprovider.BundleDataProviderProxy;
+import hxsge.assets.bundle.dataprovider.BundleDataProviderProxy;
 import hxsge.dataprovider.providers.images.ImageDataProviderProxy;
 import hxsge.dataprovider.DataProviderManager;
 import hxsge.dataprovider.data.IDataProviderInfo;
@@ -119,6 +120,10 @@ class DataProviderExample {
 		getDataProvider(new DataProviderInfo("222222222222222.zip"));
 		getDataProvider(new DataProviderInfo(png_file));
 //		var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo(mp3_file));
+
+		AssetManager.addAssetProxy(new SoundAssetProxy());
+		AssetManager.addAssetProxy(new ImageAssetProxy());
+
 #if flash
 		var spath:String = mp3_file;
 #else

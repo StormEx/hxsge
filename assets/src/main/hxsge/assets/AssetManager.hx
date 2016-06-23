@@ -1,19 +1,23 @@
 package hxsge.assets;
 
+import hxsge.assets.base.IAssetProxy;
+import hxsge.assets.bundle.BundleImpl;
+import hxsge.assets.bundle.Bundle;
+import hxsge.assets.base.IAsset;
+import hxsge.dataprovider.providers.base.IDataProvider;
 import hxsge.photon.Signal;
 import hxsge.core.log.Log;
-import hxsge.assets.data.IAsset;
 import hxsge.core.debug.Debug;
 import hxsge.core.memory.Memory;
 import hxsge.core.IDisposable;
-import hxsge.assets.data.bundle.BundleImpl;
-import hxsge.assets.data.bundle.Bundle;
 
 using hxsge.core.utils.StringTools;
 using hxsge.core.utils.ArrayTools;
 
 class AssetManager implements IDisposable {
 	static public var assets:AssetManager = new AssetManager();
+
+	static var _proxies:Array<IAssetProxy> = [];
 
 	public var registered(default, null):Signal1<Array<String>>;
 	public var unregistered(default, null):Signal1<Array<String>>;
@@ -57,11 +61,36 @@ class AssetManager implements IDisposable {
 		return new Bundle(bundle);
 	}
 
+	static public function addAssetProxy(proxy:IAssetProxy) {
+		for(p in _proxies) {
+			if(Type.typeof(p) == Type.typeof(proxy)) {
+				return;
+			}
+		}
+
+		_proxies.push(proxy);
+	}
+
+	public function createAssets(data:IDataProvider):Array<IAsset> {
+		var res:Array<IAsset> = [];
+
+		for(p in _proxies) {
+			if(p.check(data)) {
+				var arr:Array<IAsset> = p.create(data);
+				for(a in arr) {
+					res.push(a);
+				}
+			}
+		}
+
+		return res;
+	}
+
 	public function getAsset<T>(id:String, type:Class<T>):T {
 		var item:IAsset = _assets.get(id);
 
 		if(Std.is(item, type)) {
-			return cast item;
+			return cast item.instance();
 		}
 
 		return null;
