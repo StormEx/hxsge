@@ -1,5 +1,5 @@
 package hxsge.core;
 
-typedef Consturctable = {
+typedef Constructable = {
 	public function new():Void;
 }
