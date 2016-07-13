@@ -89,24 +89,24 @@ class DataProviderExample {
 
 	public static function main() {
 		var zip_url:String = "http://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/paytable_1000.zip";
-		var zip_file:String = "c:/Downloads/bundles/preloader/preloader.zip";
-		var jpg_file:String = "c:/Downloads/horseshoe_jackpot.jpg";
+		var zip_file:String = "d:/Downloads/bundles/preloader/preloader.zip";
+		var jpg_file:String = "d:/Downloads/horseshoe_jackpot.jpg";
 		var jpg_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/common/img/og/jackpot/1029_jackpot.jpg";
-		var png_file:String = "c:/Downloads/logo_alt.png";
+		var png_file:String = "d:/Downloads/logo_alt.png";
 		var png_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/common/img/og/jackpot/horseshoe_jackpot.png";
-		var jxr_file:String = "c:/Downloads/bundles/preloader/gfx/preloader.jxr";
+		var jxr_file:String = "d:/Downloads/bundles/preloader/gfx/preloader.jxr";
 		var jxr_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/game/10Ten10.jxr";
 		var bundle_file:String = "d:/StormEx/temp/game_1000_1011/meta.bundle";
 		var zbundle_file:String = "d:/StormEx/temp/game_1000_1011/game_1000_1011.zip";
 		var tbundle_file:String = "d:/StormEx/temp/game_1000_1011/meta.tson";
 		var zbundle_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/game_1000_1011/game_1000_1011.zip";
 		var tbundle_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/game_1000_1011/meta.tson";
-		var mp3_file:String = "c:/Downloads/bundles/mega_bonus/sfx/bonanza_bonus/win_plaque.mp3";
+		var mp3_file:String = "d:/Downloads/bundles/mega_bonus/sfx/bonanza_bonus/win_plaque.mp3";
 		var mp3_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/sfx/bonanza_bonus/win_plaque.mp3";
-		var wav_file:String = "c:/Downloads/bonusintro.wav";
-		var ogg_file:String = "c:/Downloads/bonanza_win.ogg";
-		var bmp_file:String = "c:/Downloads/b.bmp";
-		var gif_file:String = "c:/Downloads/SneakPeek_unlocked_new_game_AnimationV03.gif";
+		var wav_file:String = "d:/Downloads/bonusintro.wav";
+		var ogg_file:String = "d:/Downloads/bonanza_win.ogg";
+		var bmp_file:String = "d:/Downloads/b.bmp";
+		var gif_file:String = "d:/Downloads/SneakPeek_unlocked_new_game_AnimationV03.gif";
 
 		Log.addLogger(new TraceLogger());
 
@@ -185,7 +185,7 @@ class DataProviderExample {
 		Log.log("test loader");
 		hxsge.core.macro.Macro.defines();
 //		var loader:DataLoader = new DataLoader("https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/paytable_1000.zip");
-		var loader:DataLoader = new DataLoader("c:/Downloads/horseshoe_feed.jpg");
+		var loader:DataLoader = new DataLoader("d:/Downloads/horseshoe_feed.jpg");
 		loader.finished.addOnce(onLoaded);
 		loader.load();
 		Log.log("==============================================================================");
@@ -266,7 +266,7 @@ class DataProviderExample {
 		Lib.current.stage.addChild(_root);
 #end
 
-//		loadBundle(tbundle_url);
+		loadBundle(tbundle_file);
 	}
 
 	static function loadBundle(path:String) {
