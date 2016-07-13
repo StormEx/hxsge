@@ -103,7 +103,7 @@ class SerializerMacro {
 			try {
 				if(Reflect.hasField(obj, $v{f.name})) {
 					$expr;
-					hxsge.core.debug.Debug.trace($v{f.name} + ": " + $i{f.name});
+//					hxsge.core.debug.Debug.trace($v{f.name} + ": " + $i{f.name});
 				}
 			}
 			catch(e:Dynamic) {
