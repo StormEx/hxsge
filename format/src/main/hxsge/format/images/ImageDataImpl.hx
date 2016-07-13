@@ -5,5 +5,5 @@ typedef ImageDataImpl = js.html.ImageElement;
 #elseif flash
 typedef ImageDataImpl = flash.display.BitmapData;
 #else
-typedef ImageDataImpl = Dynamic;
+typedef ImageDataImpl = RawImage;
 #end

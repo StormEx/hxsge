@@ -21,7 +21,11 @@ class ImageDataTools {
 
 		@:privateAccess image.data = bd;
 		@:privateAccess image._bytes = bytes;
+#else
+		@:privateAccess image.data = new RawImage(bytes, width, height);
+		@:privateAccess image._bytes = bytes;
 #end
+
 		return image;
 	}
 }
