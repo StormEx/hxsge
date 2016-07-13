@@ -90,8 +90,13 @@ import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.base.DataProvider;
 import hxsge.core.debug.Debug;
 import hxsge.core.platforms.Platforms;
+import hxsge.format.images.Image;
+import hxsge.format.sounds.ISoundData;
 
 class SwfDataProvider extends DataProvider {
+	public var images(default, null):Map<String, Image>;
+	public var sounds(default, null):Map<String, ISoundData>;
+
 	public function new(info:IDataProviderInfo) {
 		super(info);
 	}
