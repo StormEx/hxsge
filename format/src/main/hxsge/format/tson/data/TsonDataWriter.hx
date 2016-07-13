@@ -111,7 +111,6 @@ class TsonDataWriter {
 				stream.writeInt32(data.size());
 				stream.writeByte(data.data.length);
 				var arr:Array<TsonData> = data.data;
-				Debug.trace("len:" + arr.length);
 				for(d in arr) {
 					writeBlock(header, d, stream, true);
 				}
