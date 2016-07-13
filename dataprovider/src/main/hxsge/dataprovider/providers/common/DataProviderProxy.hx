@@ -1,4 +1,4 @@
-package hxsge.dataprovider.providers.base;
+package hxsge.dataprovider.providers.common;
 
 import hxsge.dataprovider.data.IDataProviderInfo;
 import haxe.io.Path;
@@ -7,7 +7,7 @@ class DataProviderProxy implements IDataProviderProxy {
 	public var type(default, null):String;
 	public var info(get, never):String;
 
-	public function new(type:String = "base") {
+	public function new(type:String = "common") {
 		this.type = type;
 	}
 

@@ -14,7 +14,7 @@ import hxsge.format.sounds.platforms.dummy.DummySound;
 typedef Sound = DummySound;
 #end
 
-//import hxsge.format.sounds.platforms.base.SoundData;
+//import hxsge.format.sounds.platforms.common.SoundData;
 //import hxsge.core.memory.Memory;
 //
 //class Sound implements ISound {

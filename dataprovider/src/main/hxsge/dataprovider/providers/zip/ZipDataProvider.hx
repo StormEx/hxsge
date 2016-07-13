@@ -4,7 +4,7 @@ import haxe.zip.Reader;
 import haxe.io.BytesInput;
 import haxe.io.Bytes;
 import hxsge.dataprovider.data.IDataProviderInfo;
-import hxsge.dataprovider.providers.base.DataProvider;
+import hxsge.dataprovider.providers.common.DataProvider;
 import haxe.zip.Entry;
 
 class ZipDataProvider extends DataProvider {

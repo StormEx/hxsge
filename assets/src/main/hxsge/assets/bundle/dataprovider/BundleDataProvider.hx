@@ -3,9 +3,9 @@ package hxsge.assets.bundle.dataprovider;
 import hxsge.assets.bundle.dataprovider.structure.TsonBundleStructure;
 import hxsge.assets.bundle.dataprovider.structure.JsonBundleStructure;
 import hxsge.core.utils.progress.IProgress;
-import hxsge.dataprovider.providers.base.ProviderBatch;
+import hxsge.dataprovider.providers.common.ProviderBatch;
 import hxsge.dataprovider.DataProviderManager;
-import hxsge.dataprovider.providers.base.IDataProvider;
+import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.core.batch.Batch;
 import hxsge.core.debug.Debug;
 import hxsge.core.memory.Memory;
@@ -15,7 +15,7 @@ import hxsge.assets.bundle.dataprovider.structure.BundleStructure;
 import haxe.io.Path;
 import hxsge.assets.bundle.format.bundle.BundleData;
 import hxsge.dataprovider.data.IDataProviderInfo;
-import hxsge.dataprovider.providers.base.DataProvider;
+import hxsge.dataprovider.providers.common.DataProvider;
 
 class BundleDataProvider extends DataProvider {
 	public var data(get, never):BundleData;

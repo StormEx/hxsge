@@ -1,4 +1,4 @@
-package hxsge.format.base;
+package hxsge.format.common;
 
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.core.memory.Memory;

@@ -3,11 +3,11 @@ package hxsge.assets.bundle.dataprovider.meta;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.core.platforms.Platforms;
 import hxsge.core.debug.error.Error;
-import hxsge.format.base.IReader;
+import hxsge.format.common.IReader;
 import hxsge.assets.bundle.format.bundle.BundleReader;
 import hxsge.assets.bundle.format.bundle.BundleData;
 import hxsge.dataprovider.data.IDataProviderInfo;
-import hxsge.dataprovider.providers.base.DataProvider;
+import hxsge.dataprovider.providers.common.DataProvider;
 
 class MetaBundleDataProvider extends DataProvider {
 	public var data(get, never):BundleData;

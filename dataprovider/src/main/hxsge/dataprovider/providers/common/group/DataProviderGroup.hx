@@ -1,4 +1,4 @@
-package hxsge.dataprovider.providers.base.group;
+package hxsge.dataprovider.providers.common.group;
 
 import hxsge.core.utils.progress.IProgress;
 import hxsge.core.debug.error.Error;
@@ -6,8 +6,8 @@ import haxe.io.Path;
 import haxe.io.Bytes;
 import hxsge.core.memory.Memory;
 import hxsge.dataprovider.data.IDataProviderInfo;
-import hxsge.format.base.IReader;
-import hxsge.dataprovider.providers.base.DataProvider;
+import hxsge.format.common.IReader;
+import hxsge.dataprovider.providers.common.DataProvider;
 
 class DataProviderGroup<TReader:IReader> extends DataProvider {
 	var _reader:TReader;

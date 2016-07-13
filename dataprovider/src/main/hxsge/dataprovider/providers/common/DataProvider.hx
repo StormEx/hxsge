@@ -1,4 +1,4 @@
-package hxsge.dataprovider.providers.base;
+package hxsge.dataprovider.providers.common;
 
 import hxsge.photon.SignalMacro;
 import hxsge.core.utils.progress.Progress;

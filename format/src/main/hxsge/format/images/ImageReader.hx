@@ -1,6 +1,6 @@
 package hxsge.format.images;
 
-import hxsge.format.base.BytesReader;
+import hxsge.format.common.BytesReader;
 import haxe.io.Bytes;
 
 class ImageReader extends BytesReader {

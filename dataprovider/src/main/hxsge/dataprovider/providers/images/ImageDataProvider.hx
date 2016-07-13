@@ -2,7 +2,7 @@ package hxsge.dataprovider.providers.images;
 
 import hxsge.format.images.Image;
 import hxsge.format.images.ImageReader;
-import hxsge.dataprovider.providers.base.group.DataProviderGroup;
+import hxsge.dataprovider.providers.common.group.DataProviderGroup;
 import hxsge.dataprovider.data.IDataProviderInfo;
 
 class ImageDataProvider extends DataProviderGroup<ImageReader> {

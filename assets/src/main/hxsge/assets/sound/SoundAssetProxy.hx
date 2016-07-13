@@ -4,7 +4,7 @@ import hxsge.assets.base.IAssetProxy;
 import hxsge.dataprovider.providers.swf.SwfDataProvider;
 import hxsge.dataprovider.providers.sounds.SoundDataProvider;
 import hxsge.assets.base.IAsset;
-import hxsge.dataprovider.providers.base.IDataProvider;
+import hxsge.dataprovider.providers.common.IDataProvider;
 
 using hxsge.core.utils.ArrayTools;
 

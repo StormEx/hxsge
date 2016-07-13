@@ -3,7 +3,7 @@ package hxsge.assets.bundle.dataprovider.structure;
 import hxsge.assets.bundle.format.bundle.BundleResourceData;
 import hxsge.dataprovider.data.DataProviderInfo;
 import haxe.io.Path;
-import hxsge.dataprovider.providers.base.IDataProvider;
+import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.assets.bundle.format.bundle.BundleResourceType;
 import hxsge.core.memory.Memory;
 import hxsge.core.IDisposable;

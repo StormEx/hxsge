@@ -2,7 +2,7 @@ package hxsge.format.swf;
 
 import hxsge.format.sounds.ISoundData;
 import haxe.io.Bytes;
-import hxsge.format.base.BytesReader;
+import hxsge.format.common.BytesReader;
 import hxsge.format.images.Image;
 
 class BaseSwfReader extends BytesReader {

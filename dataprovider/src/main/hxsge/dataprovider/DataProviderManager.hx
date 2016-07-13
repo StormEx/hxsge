@@ -2,8 +2,8 @@ package hxsge.dataprovider;
 
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.core.log.Log;
-import hxsge.dataprovider.providers.base.IDataProviderProxy;
-import hxsge.dataprovider.providers.base.IDataProvider;
+import hxsge.dataprovider.providers.common.IDataProviderProxy;
+import hxsge.dataprovider.providers.common.IDataProvider;
 
 class DataProviderManager {
 	static var _proxies:Array<IDataProviderProxy> = [];

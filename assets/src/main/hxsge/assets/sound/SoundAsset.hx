@@ -6,7 +6,7 @@ import hxsge.format.sounds.ISound;
 import hxsge.format.sounds.ISoundData;
 import hxsge.dataprovider.providers.sounds.SoundDataProvider;
 import hxsge.core.debug.Debug;
-import hxsge.dataprovider.providers.base.IDataProvider;
+import hxsge.dataprovider.providers.common.IDataProvider;
 
 using hxsge.core.utils.StringTools;
 

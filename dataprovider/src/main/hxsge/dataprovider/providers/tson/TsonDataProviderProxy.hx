@@ -1,8 +1,8 @@
 package hxsge.dataprovider.providers.tson;
 
 import hxsge.dataprovider.data.IDataProviderInfo;
-import hxsge.dataprovider.providers.base.IDataProvider;
-import hxsge.dataprovider.providers.base.DataProviderProxy;
+import hxsge.dataprovider.providers.common.IDataProvider;
+import hxsge.dataprovider.providers.common.DataProviderProxy;
 
 class TsonDataProviderProxy extends DataProviderProxy {
 	public function new() {

@@ -2,8 +2,8 @@ package hxsge.assets.bundle.dataprovider.meta;
 
 import haxe.io.Path;
 import hxsge.dataprovider.data.IDataProviderInfo;
-import hxsge.dataprovider.providers.base.IDataProvider;
-import hxsge.dataprovider.providers.base.DataProviderProxy;
+import hxsge.dataprovider.providers.common.IDataProvider;
+import hxsge.dataprovider.providers.common.DataProviderProxy;
 
 class BundleDataProviderProxy extends DataProviderProxy {
 	public function new() {

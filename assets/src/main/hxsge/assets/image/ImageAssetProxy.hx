@@ -2,7 +2,7 @@ package hxsge.assets.image;
 
 import hxsge.dataprovider.providers.images.ImageDataProvider;
 import hxsge.assets.base.IAsset;
-import hxsge.dataprovider.providers.base.IDataProvider;
+import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.assets.base.IAssetProxy;
 
 class ImageAssetProxy implements IAssetProxy {

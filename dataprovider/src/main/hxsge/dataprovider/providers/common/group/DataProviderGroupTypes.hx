@@ -1,4 +1,4 @@
-package hxsge.dataprovider.providers.base.group;
+package hxsge.dataprovider.providers.common.group;
 
 class DataProviderGroupTypes<T> {
 	public var readers:Map<String, T>;

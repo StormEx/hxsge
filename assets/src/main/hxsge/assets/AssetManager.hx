@@ -4,7 +4,7 @@ import hxsge.assets.base.IAssetProxy;
 import hxsge.assets.bundle.BundleImpl;
 import hxsge.assets.bundle.Bundle;
 import hxsge.assets.base.IAsset;
-import hxsge.dataprovider.providers.base.IDataProvider;
+import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.photon.Signal;
 import hxsge.core.log.Log;
 import hxsge.core.debug.Debug;

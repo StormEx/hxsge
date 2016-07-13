@@ -1,7 +1,7 @@
 package hxsge.assets.bundle.format.bundle;
 
 import haxe.io.Bytes;
-import hxsge.format.base.BytesReader;
+import hxsge.format.common.BytesReader;
 
 class BundleReader extends BytesReader {
 	public var data(default, null):BundleData;

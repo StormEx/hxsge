@@ -7,7 +7,7 @@ import hxsge.core.batch.Batch;
 import hxsge.core.memory.Memory;
 import hxsge.core.debug.error.Error;
 import hxsge.dataprovider.data.DataProviderInfo;
-import hxsge.dataprovider.providers.base.IDataProvider;
+import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.photon.Signal;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.core.utils.RefCount;

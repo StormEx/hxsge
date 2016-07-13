@@ -2,7 +2,7 @@ package hxsge.assets.bundle.dataprovider.structure;
 
 import hxsge.assets.bundle.dataprovider.meta.JsonMetaBundleDataProvider;
 import hxsge.assets.bundle.format.bundle.BundleData;
-import hxsge.dataprovider.providers.base.IDataProvider;
+import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.assets.bundle.dataprovider.meta.MetaBundleDataProvider;
 import hxsge.dataprovider.data.IDataProviderInfo;
 

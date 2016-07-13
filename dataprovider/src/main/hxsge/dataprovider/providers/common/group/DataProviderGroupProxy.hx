@@ -1,10 +1,10 @@
-package hxsge.dataprovider.providers.base.group;
+package hxsge.dataprovider.providers.common.group;
 
 import hxsge.core.debug.Debug;
-import hxsge.dataprovider.providers.base.IDataProvider;
+import hxsge.dataprovider.providers.common.IDataProvider;
 import haxe.io.Path;
 import hxsge.dataprovider.data.IDataProviderInfo;
-import hxsge.dataprovider.providers.base.DataProviderProxy;
+import hxsge.dataprovider.providers.common.DataProviderProxy;
 
 class DataProviderGroupProxy<TType> extends DataProviderProxy{
 	var _types:DataProviderGroupTypes<TType>;

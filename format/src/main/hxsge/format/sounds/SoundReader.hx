@@ -1,7 +1,7 @@
 package hxsge.format.sounds;
 
 import haxe.io.Bytes;
-import hxsge.format.base.BytesReader;
+import hxsge.format.common.BytesReader;
 
 class SoundReader extends BytesReader {
 	public var sound(default, null):ISoundData;

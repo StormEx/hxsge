@@ -1,4 +1,4 @@
-package hxsge.dataprovider.providers.base;
+package hxsge.dataprovider.providers.common;
 
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.core.batch.Batch;

@@ -4,7 +4,7 @@ import hxsge.assets.base.Asset;
 import hxsge.format.images.Image;
 import hxsge.core.debug.Debug;
 import hxsge.dataprovider.providers.images.ImageDataProvider;
-import hxsge.dataprovider.providers.base.IDataProvider;
+import hxsge.dataprovider.providers.common.IDataProvider;
 
 using hxsge.core.utils.StringTools;
 

@@ -1,6 +1,6 @@
 package hxsge.assets.base;
 
-import hxsge.dataprovider.providers.base.IDataProvider;
+import hxsge.dataprovider.providers.common.IDataProvider;
 
 interface IAssetProxy {
 	public function check(data:IDataProvider):Bool;

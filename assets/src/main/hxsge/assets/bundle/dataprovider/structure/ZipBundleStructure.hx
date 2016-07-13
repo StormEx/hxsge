@@ -4,7 +4,7 @@ import hxsge.assets.bundle.format.bundle.BundleResourceData;
 import hxsge.assets.bundle.dataprovider.meta.JsonMetaBundleDataProvider;
 import hxsge.core.debug.error.Error;
 import haxe.zip.Entry;
-import hxsge.dataprovider.providers.base.IDataProvider;
+import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.dataprovider.providers.zip.ZipDataProvider;
 import hxsge.dataprovider.data.DataProviderInfo;
 import hxsge.dataprovider.data.IDataProviderInfo;
