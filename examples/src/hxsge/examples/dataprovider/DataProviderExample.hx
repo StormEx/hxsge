@@ -264,15 +264,19 @@ class DataProviderExample {
 
 		_root = new Sprite();
 		Lib.current.stage.addChild(_root);
+#else
+		loadBundle(tbundle_file, true);
 #end
-
-		loadBundle(tbundle_file);
 	}
 
-	static function loadBundle(path:String) {
+	static function loadBundle(path:String, autoDispose:Bool = false) {
 		_bundle = AssetManager.assets.getBundle(path);
 		_bundle.finished.addOnce(function(b:Bundle){
 			Log.log("bundle loaded: " + b.url + (b.isSuccess ? "" : " with errors..."));
+
+			if(autoDispose) {
+				Memory.dispose(_bundle);
+			}
 		});
 		_bundle.load();
 	}
