@@ -1,5 +1,6 @@
 package hxsge.loaders.base;
 
+import hxsge.core.memory.Memory;
 import hxsge.photon.SignalMacro;
 import hxsge.core.utils.progress.Progress;
 import hxsge.core.utils.progress.IProgress;
@@ -18,7 +19,7 @@ class BaseLoader implements ILoader {
 	public var progress(get, never):IProgress;
 	public var content(default, null):Dynamic;
 
-	var _progress:IProgress;
+	var _progress:Progress;
 
 	public function new(url:String) {
 		Debug.assert(url.isNotEmpty());
@@ -31,10 +32,7 @@ class BaseLoader implements ILoader {
 	}
 
 	public function dispose() {
-		if(finished != null) {
-			finished.removeAll();
-			finished = null;
-		}
+		Memory.dispose(finished);
 
 		cancel();
 		cleanup();

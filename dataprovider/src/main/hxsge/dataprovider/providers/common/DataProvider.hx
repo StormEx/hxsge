@@ -6,7 +6,6 @@ import hxsge.core.utils.progress.IProgress;
 import hxsge.core.log.Log;
 import hxsge.core.debug.error.Error;
 import hxsge.loaders.base.ILoader;
-import hxsge.loaders.base.BaseLoader;
 import hxsge.loaders.data.DataLoader;
 import hxsge.core.memory.Memory;
 import hxsge.photon.Signal;
@@ -25,7 +24,7 @@ class DataProvider implements IDataProvider {
 	public var dataNeeded(default, null):Signal2<IDataProvider, IDataProviderInfo>;
 
 	var _loader:ILoader;
-	var _progress:IProgress;
+	var _progress:Progress;
 	var _data:Dynamic;
 
 	public function new(info:IDataProviderInfo) {
@@ -96,7 +95,7 @@ class DataProvider implements IDataProvider {
 		finished.emit(this);
 	}
 
-	function createLoader(url:String):BaseLoader {
+	function createLoader(url:String):ILoader {
 		return new DataLoader(url);
 	}
 

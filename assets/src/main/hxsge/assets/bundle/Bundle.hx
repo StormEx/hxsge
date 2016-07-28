@@ -1,5 +1,6 @@
 package hxsge.assets.bundle;
 
+import hxsge.core.debug.Debug;
 import hxsge.core.memory.Memory;
 import hxsge.photon.Signal;
 import hxsge.core.IDisposable;
@@ -14,6 +15,8 @@ class Bundle implements IDisposable {
 	var _isLoaded:Bool;
 
 	public function new(impl:BundleImpl) {
+		Debug.assert(impl != null);
+
 		_impl = impl;
 		_impl.finished.addOnce(onBundleFinished);
 
