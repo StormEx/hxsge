@@ -6,7 +6,6 @@ import hxsge.core.utils.progress.IProgress;
 import hxsge.core.debug.error.Error;
 import hxsge.format.common.IReader;
 import hxsge.format.swf.SwfReader;
-import hxsge.format.images.Image;
 import flash.display.Loader;
 import hxsge.dataprovider.providers.swf.data.SwfMetaDataType;
 import hxsge.core.platforms.Platforms;
@@ -14,6 +13,7 @@ import hxsge.core.debug.Debug;
 import hxsge.dataprovider.providers.swf.data.SwfMetaData;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.common.DataProvider;
+import hxsge.format.images.common.Image;
 
 using hxsge.core.utils.StringTools;
 
@@ -90,7 +90,7 @@ import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.common.DataProvider;
 import hxsge.core.debug.Debug;
 import hxsge.core.platforms.Platforms;
-import hxsge.format.images.Image;
+import hxsge.format.images.common.Image;
 import hxsge.format.sounds.ISoundData;
 
 class SwfDataProvider extends DataProvider {

@@ -1,6 +1,8 @@
 package hxsge.format.images.platforms.flash;
 
 #if flash
+import hxsge.format.images.common.Image;
+import hxsge.format.images.common.ImageData;
 import haxe.io.Bytes;
 import flash.display.BitmapData;
 import flash.display.Bitmap;

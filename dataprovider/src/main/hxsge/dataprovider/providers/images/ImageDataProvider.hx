@@ -1,6 +1,6 @@
 package hxsge.dataprovider.providers.images;
 
-import hxsge.format.images.Image;
+import hxsge.format.images.common.Image;
 import hxsge.format.images.ImageReader;
 import hxsge.dataprovider.providers.common.group.DataProviderGroup;
 import hxsge.dataprovider.data.IDataProviderInfo;

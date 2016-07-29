@@ -1,7 +1,7 @@
 package hxsge.assets.image;
 
 import hxsge.assets.data.Asset;
-import hxsge.format.images.Image;
+import hxsge.format.images.common.Image;
 import hxsge.core.debug.Debug;
 import hxsge.dataprovider.providers.images.ImageDataProvider;
 import hxsge.dataprovider.providers.common.IDataProvider;

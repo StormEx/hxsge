@@ -1,5 +1,6 @@
 package hxsge.format.images;
 
+import hxsge.format.images.common.Image;
 import hxsge.format.common.BytesReader;
 import haxe.io.Bytes;
 

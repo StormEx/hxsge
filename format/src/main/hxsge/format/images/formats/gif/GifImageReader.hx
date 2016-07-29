@@ -1,12 +1,15 @@
 package hxsge.format.images.formats.gif;
 
+import hxsge.format.images.common.ImageData;
+import hxsge.format.images.common.Image;
+import hxsge.format.images.extension.ImageDataExtension;
 import haxe.io.BytesInput;
 import haxe.io.Bytes;
 import format.gif.Reader;
 import format.gif.Data;
 
 using format.gif.Tools;
-using hxsge.format.images.ImageDataTools;
+using hxsge.format.images.extension.ImageDataExtension;
 
 class GifImageReader extends ImageReader {
 	public function new(data:Bytes) {

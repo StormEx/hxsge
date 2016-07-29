@@ -1,4 +1,4 @@
-package hxsge.format.images;
+package hxsge.format.images.common;
 
 import haxe.io.Bytes;
 

@@ -1,6 +1,9 @@
 package hxsge.format.images.formats.png;
 
 #if flash
+import hxsge.format.images.common.ImageData;
+import hxsge.format.images.common.Image;
+import hxsge.format.images.extension.ImageDataExtension;
 import hxsge.format.images.platforms.flash.FlashImageReader;
 
 typedef PngImageReader = FlashImageReader;
@@ -11,7 +14,7 @@ import format.png.Reader;
 import format.png.Data;
 
 using format.png.Tools;
-using hxsge.format.images.ImageDataTools;
+using hxsge.format.images.extension.ImageDataExtension;
 
 class PngImageReader extends ImageReader {
 	public function new(data:Bytes) {

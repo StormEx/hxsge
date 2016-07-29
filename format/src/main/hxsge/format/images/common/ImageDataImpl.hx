@@ -1,4 +1,4 @@
-package hxsge.format.images;
+package hxsge.format.images.common;
 
 #if (js || nodejs)
 typedef ImageDataImpl = js.html.ImageElement;

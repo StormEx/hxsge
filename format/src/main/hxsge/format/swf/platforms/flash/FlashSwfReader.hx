@@ -4,9 +4,9 @@ package hxsge.format.swf.platforms.flash;
 import hxsge.format.sounds.ISoundData;
 import hxsge.format.sounds.platforms.flash.FlashSoundData;
 import hxsge.format.sounds.Sound;
-import hxsge.format.images.Image;
+import hxsge.format.images.common.Image;
 import hxsge.format.sounds.SoundData;
-import hxsge.format.images.ImageData;
+import hxsge.format.images.common.ImageData;
 import flash.display.BitmapData;
 import flash.display.Bitmap;
 import hxsge.core.debug.Debug;
@@ -107,7 +107,7 @@ class FlashSwfReader extends BaseSwfReader {
 			errors.addError(Error.create("Can't get bitmap data from Bitmap..."));
 		}
 		else {
-			return new hxsge.format.images.Image(new ImageData(bitmapData));
+			return new hxsge.format.images.common.Image(new ImageData(bitmapData));
 		}
 
 		return null;

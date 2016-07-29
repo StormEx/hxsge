@@ -1,13 +1,15 @@
-package hxsge.format.images;
+package hxsge.format.images.extension;
 
 #if flash
+import hxsge.format.images.common.ImageData;
+import hxsge.format.images.common.RawImage;
 import flash.utils.ByteArray;
 import flash.display.BitmapData;
 #end
 
 import haxe.io.Bytes;
 
-class ImageDataTools {
+class ImageDataExtension {
 	public static function fromBytes(image:ImageData, width:Int, height:Int, bytes:Bytes):ImageData {
 #if flash
 		var bd:BitmapData = new BitmapData(width, height, true, 0xFFFF0000);

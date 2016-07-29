@@ -3,7 +3,7 @@ package hxsge.format.swf;
 import hxsge.format.sounds.ISoundData;
 import haxe.io.Bytes;
 import hxsge.format.common.BytesReader;
-import hxsge.format.images.Image;
+import hxsge.format.images.common.Image;
 
 class BaseSwfReader extends BytesReader {
 	public var frameRate(default, null):Float = 30;
