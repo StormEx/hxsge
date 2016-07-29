@@ -1,12 +1,12 @@
-package hxsge.assets.bundle.dataprovider.structure;
+package hxsge.assets.format.bdl.provider.data;
 
-import hxsge.assets.bundle.dataprovider.meta.TsonMetaBundleDataProvider;
+import hxsge.assets.format.bdl.provider.TsonMetaBundleDataProvider;
 import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.dataprovider.data.IDataProviderInfo;
 
 class TsonBundleStructure extends JsonBundleStructure {
-	public function new(info:IDataProviderInfo) {
-		super(info);
+	public function new() {
+		super();
 	}
 
 	override function performLoad() {

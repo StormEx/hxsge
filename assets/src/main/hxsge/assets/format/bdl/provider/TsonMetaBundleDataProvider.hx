@@ -1,6 +1,5 @@
-package hxsge.assets.bundle.dataprovider.meta;
+package hxsge.assets.format.bdl.provider;
 
-import hxsge.assets.bundle.format.bundle.TsonBundleReader;
 import hxsge.dataprovider.data.IDataProviderInfo;
 
 class TsonMetaBundleDataProvider extends MetaBundleDataProvider {

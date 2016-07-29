@@ -1,22 +1,24 @@
-package hxsge.assets.bundle.dataprovider;
+package hxsge.assets.format.bdl.provider;
 
+import hxsge.assets.format.bdl.provider.data.JsonBundleStructure;
+import hxsge.assets.bundle.dataprovider.BundleDataProvider;
 import haxe.io.Path;
 import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.common.DataProviderProxy;
 
-class BundleDataProviderProxy extends DataProviderProxy {
+class JsonBundleDataProviderProxy extends DataProviderProxy {
 	public function new() {
-		super("bundle");
+		super("json bundle");
 	}
 
 	override public function check(info:IDataProviderInfo):Bool {
 		var ext:String = Path.extension(info.url);
 
-		return ext == "bundle" || ext == "zip";
+		return ext == "jbdl";
 	}
 
 	override public function create(info:IDataProviderInfo):IDataProvider {
-		return new BundleDataProvider(info);
+		return new BundleDataProvider(new JsonBundleStructure(), info);
 	}
 }

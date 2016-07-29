@@ -1,14 +1,14 @@
-package hxsge.assets.bundle.dataprovider.structure;
+package hxsge.assets.format.bdl.provider.data;
 
-import hxsge.assets.bundle.dataprovider.meta.JsonMetaBundleDataProvider;
-import hxsge.assets.bundle.format.bundle.BundleData;
+import hxsge.assets.format.bdl.provider.JsonMetaBundleDataProvider;
+import hxsge.assets.format.bdl.provider.MetaBundleDataProvider;
+import hxsge.assets.format.bdl.data.BundleData;
 import hxsge.dataprovider.providers.common.IDataProvider;
-import hxsge.assets.bundle.dataprovider.meta.MetaBundleDataProvider;
 import hxsge.dataprovider.data.IDataProviderInfo;
 
-class JsonBundleStructure extends BundleStructure {
-	public function new(info:IDataProviderInfo) {
-		super(info);
+class JsonBundleStructure extends BdlBundleStructure {
+	public function new() {
+		super();
 	}
 
 	override function performLoad() {

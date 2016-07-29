@@ -1,7 +1,7 @@
 package hxsge.assets.bundle.dataprovider;
 
-import hxsge.assets.bundle.dataprovider.structure.TsonBundleStructure;
-import hxsge.assets.bundle.dataprovider.structure.JsonBundleStructure;
+import hxsge.assets.bundle.dataprovider.data.BundleStructure;
+import hxsge.core.debug.error.Error;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.dataprovider.providers.common.ProviderBatch;
 import hxsge.dataprovider.DataProviderManager;
@@ -10,9 +10,6 @@ import hxsge.core.batch.Batch;
 import hxsge.core.debug.Debug;
 import hxsge.core.memory.Memory;
 import hxsge.photon.Signal;
-import hxsge.assets.bundle.dataprovider.structure.ZipBundleStructure;
-import hxsge.assets.bundle.dataprovider.structure.BundleStructure;
-import haxe.io.Path;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.common.DataProvider;
 
@@ -27,12 +24,16 @@ class BundleDataProvider extends DataProvider {
 	var _syncBatch:ProviderBatch;
 	var _asyncBatch:ProviderBatch;
 
-	public function new(info:IDataProviderInfo) {
+	public function new(bundleStructure:BundleStructure, info:IDataProviderInfo) {
+		Debug.assert(bundleStructure != null);
+
 		super(info);
 
 		prepared = new Signal1();
 		initialized = new Signal1();
 		updated = new Signal1();
+
+		_structure = bundleStructure;
 	}
 
 	public override function dispose() {
@@ -44,20 +45,12 @@ class BundleDataProvider extends DataProvider {
 	}
 
 	override function prepareData() {
-		var ext:String = Path.extension(info.url);
-		switch(ext) {
-			case "zip":
-				_structure = new ZipBundleStructure(info);
-			case "tson":
-				_structure = new TsonBundleStructure(info);
-			default:
-				_structure = new JsonBundleStructure(info);
-		}
 		_structure.finished.addOnce(onDataPrepared);
-		_structure.load();
+		_structure.load(info);
 	}
 
 	function onDataPrepared(structure:BundleStructure) {
+		_progress.set(1);
 		if(_structure.errors.isError) {
 			errors.concat(_structure.errors);
 
@@ -80,8 +73,8 @@ class BundleDataProvider extends DataProvider {
 		for(s in data) {
 			dp = DataProviderManager.get(s);
 			if(dp == null) {
-//				TODO: need to uncomment it and remove next string after error adding
-//				errors.addError(Error.create("Can't find data provider for: " + s.url));
+				errors.addError(Error.create("Can't find data provider for: " + s.url));
+
 				batch.add(dp);
 			}
 			else {
@@ -115,10 +108,6 @@ class BundleDataProvider extends DataProvider {
 	}
 
 	override function calculateProgress():IProgress {
-		if(_progress != null) {
-			_progress.set(_structure != null ? 1 : 0);
-		}
-
 		return _progress;
 	}
 

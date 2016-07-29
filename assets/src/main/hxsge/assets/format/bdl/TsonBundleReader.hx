@@ -1,5 +1,6 @@
-package hxsge.assets.bundle.format.bundle;
+package hxsge.assets.format.bdl;
 
+import hxsge.assets.format.bdl.data.BundleData;
 import hxsge.format.tson.Tson;
 import haxe.io.Bytes;
 

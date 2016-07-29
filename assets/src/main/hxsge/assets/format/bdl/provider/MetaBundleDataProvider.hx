@@ -1,11 +1,10 @@
-package hxsge.assets.bundle.dataprovider.meta;
+package hxsge.assets.format.bdl.provider;
 
 import hxsge.core.utils.progress.IProgress;
 import hxsge.core.platforms.Platforms;
 import hxsge.core.debug.error.Error;
 import hxsge.format.common.IReader;
-import hxsge.assets.bundle.format.bundle.BundleReader;
-import hxsge.assets.bundle.format.bundle.BundleData;
+import hxsge.assets.format.bdl.data.BundleData;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.common.DataProvider;
 

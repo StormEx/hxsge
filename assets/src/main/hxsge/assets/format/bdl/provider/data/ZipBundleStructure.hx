@@ -1,7 +1,7 @@
-package hxsge.assets.bundle.dataprovider.structure;
+package hxsge.assets.format.bdl.provider.data;
 
-import hxsge.assets.bundle.format.bundle.BundleResourceData;
-import hxsge.assets.bundle.dataprovider.meta.JsonMetaBundleDataProvider;
+import hxsge.assets.format.bdl.provider.JsonMetaBundleDataProvider;
+import hxsge.assets.format.bdl.data.BundleResourceData;
 import hxsge.core.debug.error.Error;
 import haxe.zip.Entry;
 import hxsge.dataprovider.providers.common.IDataProvider;
@@ -12,8 +12,8 @@ import hxsge.dataprovider.data.IDataProviderInfo;
 class ZipBundleStructure extends JsonBundleStructure {
 	var _zip:ZipDataProvider;
 
-	public function new(info:IDataProviderInfo) {
-		super(info);
+	public function new() {
+		super();
 	}
 
 	override function performLoad() {

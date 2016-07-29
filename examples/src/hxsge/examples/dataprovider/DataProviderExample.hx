@@ -1,5 +1,8 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.assets.format.bdl.provider.ZipBundleDataProviderProxy;
+import hxsge.assets.format.bdl.provider.TsonBundleDataProviderProxy;
+import hxsge.assets.format.bdl.provider.JsonBundleDataProviderProxy;
 import hxsge.assets.sound.SoundAssetProxy;
 import hxsge.assets.image.ImageAssetProxy;
 import hxsge.assets.image.ImageAsset;
@@ -22,7 +25,6 @@ import hxsge.dataprovider.providers.swf.SwfDataProvider;
 import hxsge.dataprovider.providers.sounds.SoundDataProviderProxy;
 import hxsge.assets.bundle.Bundle;
 import hxsge.assets.AssetManager;
-import hxsge.assets.bundle.dataprovider.BundleDataProviderProxy;
 import hxsge.dataprovider.providers.images.ImageDataProviderProxy;
 import hxsge.dataprovider.DataProviderManager;
 import hxsge.dataprovider.data.IDataProviderInfo;
@@ -216,6 +218,9 @@ class DataProviderExample {
 		Memory.dispose(signal2);
 		Log.log("==============================================================================");
 
+		DataProviderManager.add(new JsonBundleDataProviderProxy());
+		DataProviderManager.add(new TsonBundleDataProviderProxy());
+		DataProviderManager.add(new ZipBundleDataProviderProxy());
 #if flash
 		Log.log("assets test");
 //		var manager:AssetManager = new AssetManager();

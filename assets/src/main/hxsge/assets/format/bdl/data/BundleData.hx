@@ -1,4 +1,4 @@
-package hxsge.assets.bundle.format.bundle;
+package hxsge.assets.format.bdl.data;
 
 import hxsge.forge.ISerializable;
 import hxsge.core.platforms.Platforms;

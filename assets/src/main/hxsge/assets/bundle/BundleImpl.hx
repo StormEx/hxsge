@@ -1,5 +1,6 @@
 package hxsge.assets.bundle;
 
+import hxsge.dataprovider.DataProviderManager;
 import hxsge.core.debug.Debug;
 import hxsge.assets.bundle.dataprovider.BundleDataProvider;
 import hxsge.assets.base.IAsset;
@@ -77,7 +78,7 @@ class BundleImpl extends RefCount {
 
 	function loadBundle() {
 		if(_provider == null) {
-			_provider = new BundleDataProvider(new DataProviderInfo(url));
+			_provider = cast DataProviderManager.get(new DataProviderInfo(url, null));
 			if(_provider == null) {
 				performFail("Can't receive data provider for load bundle data...");
 			}
