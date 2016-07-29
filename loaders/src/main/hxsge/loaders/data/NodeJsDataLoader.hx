@@ -1,6 +1,7 @@
 package hxsge.loaders.data;
 
 #if nodejs
+import hxsge.loaders.extensions.LoaderExtension;
 import haxe.io.Bytes;
 import js.html.Uint8Array;
 import hxsge.loaders.base.BaseLoader;
@@ -13,7 +14,7 @@ import js.node.http.ClientRequest;
 import js.node.http.IncomingMessage;
 import js.Error;
 
-using hxsge.loaders.utils.LoaderTools;
+using hxsge.loaders.extensions.LoaderExtension;
 
 //TODO need to add errors handling for remote flow
 class NodeJsDataLoader extends BaseLoader {

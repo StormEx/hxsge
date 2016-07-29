@@ -1,10 +1,10 @@
-package hxsge.loaders.utils;
+package hxsge.loaders.extensions;
 
 import hxsge.loaders.base.ILoader;
 import hxsge.core.debug.Debug;
 import hxsge.loaders.base.LoaderStateType;
 
-class LoaderTools {
+class LoaderExtension {
 	inline public static function isLoading(l:ILoader):Bool {
 		return l != null && l.state == LoaderStateType.LOADING;
 	}

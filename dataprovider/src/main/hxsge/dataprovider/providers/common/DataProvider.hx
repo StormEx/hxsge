@@ -1,5 +1,6 @@
 package hxsge.dataprovider.providers.common;
 
+import hxsge.loaders.extensions.LoaderExtension;
 import hxsge.photon.SignalMacro;
 import hxsge.core.utils.progress.Progress;
 import hxsge.core.utils.progress.IProgress;
@@ -13,7 +14,7 @@ import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.core.debug.Debug;
 import hxsge.core.debug.error.ErrorHolder;
 
-using hxsge.loaders.utils.LoaderTools;
+using hxsge.loaders.extensions.LoaderExtension;
 
 class DataProvider implements IDataProvider {
 	public var info(default, null):IDataProviderInfo;

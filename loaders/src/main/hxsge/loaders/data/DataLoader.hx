@@ -8,14 +8,12 @@ typedef DataLoader = NodeJsDataLoader;
 typedef DataLoader = JsDataLoader;
 #elseif java
 typedef DataLoader = JavaDataLoader;
-//#elseif cpp
-//typedef DataLoader = CppDataLoader;
-//#elseif cs
-//typedef DataLoader = CsDataLoader;
 #else
 import haxe.io.Bytes;
 import sys.io.FileInput;
 import hxsge.loaders.base.BaseLoader;
+
+using hxsge.loaders.extensions.PathExtension;
 
 class DataLoader extends BaseLoader {
 	var _stream:FileInput;
@@ -25,7 +23,7 @@ class DataLoader extends BaseLoader {
 	}
 
 	override function performLoad() {
-		if(url.indexOf("http") == -1) {
+		if(url.isLocalPath()) {
 			_stream = sys.io.File.read(url, true);
 			content = _stream.readAll();
 

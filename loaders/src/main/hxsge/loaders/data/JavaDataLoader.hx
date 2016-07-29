@@ -5,6 +5,8 @@ import haxe.io.Bytes;
 import sys.io.FileInput;
 import hxsge.loaders.base.BaseLoader;
 
+using hxsge.loaders.extensions.PathExtension;
+
 class JavaDataLoader extends BaseLoader {
 	var _stream:FileInput;
 
@@ -13,7 +15,7 @@ class JavaDataLoader extends BaseLoader {
 	}
 
 	override function performLoad() {
-		if(url.indexOf("http") == -1) {
+		if(url.isLocalPath()) {
 			_stream = sys.io.File.read(url, true);
 			content = _stream.readAll();
 

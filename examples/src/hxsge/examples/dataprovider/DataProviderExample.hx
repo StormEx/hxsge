@@ -1,5 +1,6 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.loaders.extensions.LoaderExtension;
 import hxsge.assets.data.bundle.Bundle;
 import hxsge.assets.format.bdl.provider.ZipBundleDataProviderProxy;
 import hxsge.assets.format.bdl.provider.TsonBundleDataProviderProxy;
@@ -61,7 +62,7 @@ import flash.display.Sprite;
 #end
 
 using hxsge.core.utils.ArrayTools;
-using hxsge.loaders.utils.LoaderTools;
+using hxsge.loaders.extensions.LoaderExtension;
 using StringTools;
 using hxsge.photon.SignalTools;
 
