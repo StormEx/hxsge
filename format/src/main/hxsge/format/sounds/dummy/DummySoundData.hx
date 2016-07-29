@@ -1,4 +1,7 @@
-package hxsge.format.sounds.platforms.dummy;
+package hxsge.format.sounds.dummy;
+
+import hxsge.format.sounds.common.ISoundData;
+import hxsge.format.sounds.common.ISound;
 
 class DummySoundData implements ISoundData {
 	public function new() {

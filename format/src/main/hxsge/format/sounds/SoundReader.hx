@@ -1,5 +1,6 @@
 package hxsge.format.sounds;
 
+import hxsge.format.sounds.common.ISoundData;
 import haxe.io.Bytes;
 import hxsge.format.common.BytesReader;
 

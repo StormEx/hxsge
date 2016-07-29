@@ -1,4 +1,4 @@
-package hxsge.format.sounds.platforms.dummy;
+package hxsge.format.sounds.dummy;
 
 import hxsge.core.debug.error.Error;
 import haxe.io.Bytes;

@@ -1,4 +1,6 @@
-package hxsge.format.sounds.platforms.dummy;
+package hxsge.format.sounds.dummy;
+
+import hxsge.format.sounds.common.ISound;
 
 class DummySound implements ISound {
 	public var volume(get, set):Float;

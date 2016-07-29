@@ -1,7 +1,6 @@
 package hxsge.dataprovider.providers.swf;
 
 #if flash
-import hxsge.format.sounds.ISoundData;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.core.debug.error.Error;
 import hxsge.format.common.IReader;
@@ -14,6 +13,7 @@ import hxsge.dataprovider.providers.swf.data.SwfMetaData;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.common.DataProvider;
 import hxsge.format.images.common.Image;
+import hxsge.format.sounds.common.ISoundData;
 
 using hxsge.core.utils.StringTools;
 
@@ -91,7 +91,7 @@ import hxsge.dataprovider.providers.common.DataProvider;
 import hxsge.core.debug.Debug;
 import hxsge.core.platforms.Platforms;
 import hxsge.format.images.common.Image;
-import hxsge.format.sounds.ISoundData;
+import hxsge.format.sounds.common.ISoundData;
 
 class SwfDataProvider extends DataProvider {
 	public var images(default, null):Map<String, Image>;

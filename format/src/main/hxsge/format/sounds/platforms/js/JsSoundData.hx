@@ -1,6 +1,8 @@
 package hxsge.format.sounds.platforms.js;
 
 #if js
+import hxsge.format.sounds.common.ISoundData;
+import hxsge.format.sounds.common.ISound;
 import haxe.io.Bytes;
 import hxsge.core.debug.Debug;
 

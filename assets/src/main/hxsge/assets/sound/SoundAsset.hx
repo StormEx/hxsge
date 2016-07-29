@@ -2,8 +2,8 @@ package hxsge.assets.sound;
 
 import hxsge.assets.data.Asset;
 import hxsge.dataprovider.providers.swf.SwfDataProvider;
-import hxsge.format.sounds.ISound;
-import hxsge.format.sounds.ISoundData;
+import hxsge.format.sounds.common.ISound;
+import hxsge.format.sounds.common.ISoundData;
 import hxsge.dataprovider.providers.sounds.SoundDataProvider;
 import hxsge.core.debug.Debug;
 import hxsge.dataprovider.providers.common.IDataProvider;

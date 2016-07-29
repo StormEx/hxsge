@@ -1,4 +1,4 @@
-package hxsge.format.sounds.platforms.base;
+package hxsge.format.sounds.common;
 
 using hxsge.core.math.MathFloatTools;
 

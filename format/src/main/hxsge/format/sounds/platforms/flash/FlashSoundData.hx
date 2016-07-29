@@ -1,6 +1,8 @@
 package hxsge.format.sounds.platforms.flash;
 
 #if flash
+import hxsge.format.sounds.common.ISoundData;
+import hxsge.format.sounds.common.ISound;
 import hxsge.core.debug.Debug;
 
 class FlashSoundData implements ISoundData {

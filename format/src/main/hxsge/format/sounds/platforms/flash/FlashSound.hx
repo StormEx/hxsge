@@ -2,11 +2,11 @@ package hxsge.format.sounds.platforms.flash;
 
 #if flash
 import flash.media.SoundTransform;
-import hxsge.format.sounds.platforms.base.SoundVolume;
+import hxsge.format.sounds.common.SoundVolume;
 import flash.events.Event;
 import flash.media.SoundChannel;
 import flash.media.Sound;
-import hxsge.format.sounds.ISound;
+import hxsge.format.sounds.common.ISound;
 
 class FlashSound implements ISound {
 	public var volume(get, set):Float;

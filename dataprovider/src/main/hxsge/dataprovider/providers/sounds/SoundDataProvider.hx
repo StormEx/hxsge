@@ -1,6 +1,6 @@
 package hxsge.dataprovider.providers.sounds;
 
-import hxsge.format.sounds.ISoundData;
+import hxsge.format.sounds.common.ISoundData;
 import hxsge.format.sounds.SoundReader;
 import hxsge.format.common.IReader;
 import hxsge.dataprovider.providers.common.group.DataProviderGroup;

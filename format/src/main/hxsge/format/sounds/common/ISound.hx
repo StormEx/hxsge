@@ -1,4 +1,4 @@
-package hxsge.format.sounds;
+package hxsge.format.sounds.common;
 
 import hxsge.core.IDisposable;
 

@@ -1,9 +1,10 @@
 package hxsge.format.sounds.platforms.js;
 
 #if js
+import hxsge.format.sounds.common.ISound;
 import hxsge.format.json.Json;
 import hxsge.core.debug.Debug;
-import hxsge.format.sounds.platforms.base.SoundVolume;
+import hxsge.format.sounds.common.SoundVolume;
 import js.html.audio.GainNode;
 import js.html.audio.AudioBufferSourceNode;
 import haxe.io.Bytes;

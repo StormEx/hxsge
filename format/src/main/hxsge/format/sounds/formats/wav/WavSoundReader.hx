@@ -1,6 +1,8 @@
 package hxsge.format.sounds.formats.wav;
 
 #if flash
+import hxsge.format.sounds.extension.SoundDataExtension;
+import hxsge.format.sounds.common.ISoundData;
 import hxsge.format.sounds.platforms.flash.FlashSoundData;
 import hxsge.core.debug.error.Error;
 import haxe.io.BytesInput;
@@ -8,7 +10,7 @@ import haxe.io.Bytes;
 import format.wav.Reader;
 import format.wav.Data;
 
-using hxsge.format.sounds.SoundDataTools;
+using hxsge.format.sounds.extension.SoundDataExtension;
 
 class WavSoundReader extends SoundReader {
 	public function new(data:Bytes) {
@@ -34,7 +36,6 @@ class WavSoundReader extends SoundReader {
 	}
 }
 #elseif nodejs
-import hxsge.format.sounds.platforms.dummy.DummySoundReader;
 
 typedef WavSoundReader = DummySoundReader;
 #elseif js
@@ -42,7 +43,7 @@ import hxsge.format.sounds.platforms.js.JsSoundReader;
 
 typedef WavSoundReader = JsSoundReader;
 #else
-import hxsge.format.sounds.platforms.dummy.DummySoundReader;
+import hxsge.format.sounds.dummy.DummySoundReader;
 
 typedef WavSoundReader = DummySoundReader;
 #end

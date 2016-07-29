@@ -1,9 +1,10 @@
-package hxsge.format.sounds;
+package hxsge.format.sounds.extension;
 
+import hxsge.format.sounds.common.ISoundData;
 import flash.utils.ByteArray;
 import haxe.io.Bytes;
 
-class SoundDataTools {
+class SoundDataExtension {
 	public static function fromBytes(sound:ISoundData, bytes:Bytes, rate:Int):ISoundData {
 #if flash
 		var sd:flash.media.Sound = new flash.media.Sound();

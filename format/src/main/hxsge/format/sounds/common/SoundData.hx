@@ -1,4 +1,4 @@
-package hxsge.format.sounds;
+package hxsge.format.sounds.common;
 
 #if flash
 import hxsge.format.sounds.platforms.flash.FlashSound;
@@ -9,7 +9,7 @@ import hxsge.format.sounds.platforms.js.JsSound;
 
 typedef SoundData = JsSound;
 #else
-import hxsge.format.sounds.platforms.dummy.DummySoundData;
+import hxsge.format.sounds.dummy.DummySoundData;
 
 typedef SoundData = DummySoundData;
 #end

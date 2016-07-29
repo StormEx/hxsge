@@ -1,6 +1,6 @@
 package hxsge.format.swf;
 
-import hxsge.format.sounds.ISoundData;
+import hxsge.format.sounds.common.ISoundData;
 import haxe.io.Bytes;
 import hxsge.format.common.BytesReader;
 import hxsge.format.images.common.Image;

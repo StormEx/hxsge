@@ -1,11 +1,10 @@
 package hxsge.format.swf.platforms.flash;
 
 #if flash
-import hxsge.format.sounds.ISoundData;
+import hxsge.format.sounds.common.ISoundData;
 import hxsge.format.sounds.platforms.flash.FlashSoundData;
-import hxsge.format.sounds.Sound;
 import hxsge.format.images.common.Image;
-import hxsge.format.sounds.SoundData;
+import hxsge.format.sounds.common.SoundData;
 import hxsge.format.images.common.ImageData;
 import flash.display.BitmapData;
 import flash.display.Bitmap;
