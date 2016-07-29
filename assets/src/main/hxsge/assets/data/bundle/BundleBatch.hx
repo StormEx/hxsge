@@ -1,4 +1,4 @@
-package hxsge.assets.bundle;
+package hxsge.assets.data.bundle;
 
 import hxsge.core.batch.Batch;
 

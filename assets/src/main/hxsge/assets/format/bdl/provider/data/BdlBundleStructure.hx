@@ -1,6 +1,6 @@
 package hxsge.assets.format.bdl.provider.data;
 
-import hxsge.assets.bundle.dataprovider.data.BundleStructure;
+import hxsge.assets.data.bundle.data.BundleStructure;
 import hxsge.assets.format.bdl.data.BundleResourceType;
 import hxsge.assets.format.bdl.data.BundleResourceData;
 import hxsge.dataprovider.data.DataProviderInfo;

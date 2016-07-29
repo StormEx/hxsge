@@ -1,5 +1,6 @@
-package hxsge.assets.bundle;
+package hxsge.assets.data.bundle;
 
+import hxsge.core.utils.progress.IProgress;
 import hxsge.core.debug.Debug;
 import hxsge.core.memory.Memory;
 import hxsge.photon.Signal;
@@ -8,8 +9,9 @@ import hxsge.core.IDisposable;
 class Bundle implements IDisposable {
 	public var url(get, never):String;
 	public var finished(default, null):Signal1<Bundle>;
+	public var progress(get, never):IProgress;
+
 	public var isSuccess(get, null):Bool;
-	public var progress(get, never):Float;
 
 	var _impl:BundleImpl;
 	var _isLoaded:Bool;
@@ -53,7 +55,7 @@ class Bundle implements IDisposable {
 		return _impl == null ? false : !_impl.errors.isError;
 	}
 
-	inline function get_progress():Float {
-		return _impl == null ? 0 : _impl.progress;
+	inline function get_progress():IProgress {
+		return _impl == null ? null : _impl.progress;
 	}
 }

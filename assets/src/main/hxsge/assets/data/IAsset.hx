@@ -1,4 +1,4 @@
-package hxsge.assets.base;
+package hxsge.assets.data;
 
 import hxsge.assets.data.AssetChangeType;
 import hxsge.core.IClonable;

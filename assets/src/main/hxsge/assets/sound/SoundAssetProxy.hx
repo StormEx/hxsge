@@ -1,9 +1,9 @@
 package hxsge.assets.sound;
 
-import hxsge.assets.base.IAssetProxy;
+import hxsge.assets.data.IAssetProxy;
 import hxsge.dataprovider.providers.swf.SwfDataProvider;
 import hxsge.dataprovider.providers.sounds.SoundDataProvider;
-import hxsge.assets.base.IAsset;
+import hxsge.assets.data.IAsset;
 import hxsge.dataprovider.providers.common.IDataProvider;
 
 using hxsge.core.utils.ArrayTools;

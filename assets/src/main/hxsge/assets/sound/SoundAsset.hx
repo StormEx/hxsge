@@ -1,6 +1,6 @@
 package hxsge.assets.sound;
 
-import hxsge.assets.base.Asset;
+import hxsge.assets.data.Asset;
 import hxsge.dataprovider.providers.swf.SwfDataProvider;
 import hxsge.format.sounds.ISound;
 import hxsge.format.sounds.ISoundData;

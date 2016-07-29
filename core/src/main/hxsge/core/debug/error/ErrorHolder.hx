@@ -1,11 +1,15 @@
 package hxsge.core.debug.error;
 
-class ErrorHolder implements IError {
+class ErrorHolder implements IDisposable implements IError {
 	public var errors(default, null):Array<Error> = [];
 
 	public var isError(get, never):Bool;
 
 	public function new() {
+	}
+
+	public function dispose() {
+		errors = [];
 	}
 
 	public function reset() {

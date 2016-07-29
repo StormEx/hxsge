@@ -1,9 +1,9 @@
 package hxsge.assets.image;
 
 import hxsge.dataprovider.providers.images.ImageDataProvider;
-import hxsge.assets.base.IAsset;
+import hxsge.assets.data.IAsset;
 import hxsge.dataprovider.providers.common.IDataProvider;
-import hxsge.assets.base.IAssetProxy;
+import hxsge.assets.data.IAssetProxy;
 
 class ImageAssetProxy implements IAssetProxy {
 	public function new() {

@@ -1,9 +1,9 @@
 package hxsge.assets;
 
-import hxsge.assets.base.IAssetProxy;
-import hxsge.assets.bundle.BundleImpl;
-import hxsge.assets.bundle.Bundle;
-import hxsge.assets.base.IAsset;
+import hxsge.assets.data.bundle.Bundle;
+import hxsge.assets.data.IAssetProxy;
+import hxsge.assets.data.bundle.BundleImpl;
+import hxsge.assets.data.IAsset;
 import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.photon.Signal;
 import hxsge.core.log.Log;
@@ -15,13 +15,11 @@ using hxsge.core.utils.StringTools;
 using hxsge.core.utils.ArrayTools;
 
 class AssetManager implements IDisposable {
-	static public var assets:AssetManager = new AssetManager();
-
-	static var _proxies:Array<IAssetProxy> = [];
 
 	public var registered(default, null):Signal1<Array<String>>;
 	public var unregistered(default, null):Signal1<Array<String>>;
 
+	var _proxies:Array<IAssetProxy> = [];
 	var _bundles:Map<String, BundleImpl>;
 	var _assets:Map<String, IAsset>;
 
@@ -49,7 +47,7 @@ class AssetManager implements IDisposable {
 		bundle = _bundles.get(url);
 
 		if(bundle == null) {
-			bundle = new BundleImpl(url, version);
+			bundle = new BundleImpl(this, url, version);
 			bundle.initialized.addOnce(onBundleInitialized);
 			bundle.updated.add(onBundleUpdated);
 			bundle.finished.addOnce(onBundleFinished);
@@ -61,7 +59,7 @@ class AssetManager implements IDisposable {
 		return new Bundle(bundle);
 	}
 
-	static public function addAssetProxy(proxy:IAssetProxy) {
+	public function addAssetProxy(proxy:IAssetProxy) {
 		for(p in _proxies) {
 			if(Type.typeof(p) == Type.typeof(proxy)) {
 				return;

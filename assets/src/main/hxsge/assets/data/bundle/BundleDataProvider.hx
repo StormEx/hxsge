@@ -1,6 +1,6 @@
-package hxsge.assets.bundle.dataprovider;
+package hxsge.assets.data.bundle;
 
-import hxsge.assets.bundle.dataprovider.data.BundleStructure;
+import hxsge.assets.data.bundle.data.BundleStructure;
 import hxsge.core.debug.error.Error;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.dataprovider.providers.common.ProviderBatch;
@@ -42,6 +42,8 @@ class BundleDataProvider extends DataProvider {
 		Memory.dispose(prepared);
 		Memory.dispose(initialized);
 		Memory.dispose(updated);
+
+		Memory.dispose(_structure);
 	}
 
 	override function prepareData() {

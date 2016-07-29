@@ -1,7 +1,7 @@
 package hxsge.assets.format.bdl.provider;
 
 import hxsge.assets.format.bdl.provider.data.TsonBundleStructure;
-import hxsge.assets.bundle.dataprovider.BundleDataProvider;
+import hxsge.assets.data.bundle.BundleDataProvider;
 import hxsge.dataprovider.providers.common.DataProviderProxy;
 import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.dataprovider.data.IDataProviderInfo;

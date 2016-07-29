@@ -1,4 +1,4 @@
-package hxsge.assets.bundle.dataprovider.data;
+package hxsge.assets.data.bundle.data;
 
 import haxe.io.Path;
 import hxsge.core.debug.Debug;

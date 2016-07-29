@@ -1,14 +1,15 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.assets.data.bundle.Bundle;
 import hxsge.assets.format.bdl.provider.ZipBundleDataProviderProxy;
 import hxsge.assets.format.bdl.provider.TsonBundleDataProviderProxy;
 import hxsge.assets.format.bdl.provider.JsonBundleDataProviderProxy;
 import hxsge.assets.sound.SoundAssetProxy;
 import hxsge.assets.image.ImageAssetProxy;
 import hxsge.assets.image.ImageAsset;
-import hxsge.assets.base.IAsset;
+import hxsge.assets.data.IAsset;
 import hxsge.assets.sound.SoundAsset;
-import hxsge.assets.base.Asset;
+import hxsge.assets.data.Asset;
 import hxsge.format.sounds.SoundReader;
 import haxe.io.BytesOutput;
 import hxsge.loaders.base.LoadersBatch;
@@ -23,7 +24,6 @@ import hxsge.photon.SignalMacro;
 import hxsge.dataprovider.providers.swf.SwfDataProviderProxy;
 import hxsge.dataprovider.providers.swf.SwfDataProvider;
 import hxsge.dataprovider.providers.sounds.SoundDataProviderProxy;
-import hxsge.assets.bundle.Bundle;
 import hxsge.assets.AssetManager;
 import hxsge.dataprovider.providers.images.ImageDataProviderProxy;
 import hxsge.dataprovider.DataProviderManager;
@@ -123,8 +123,10 @@ class DataProviderExample {
 		getDataProvider(new DataProviderInfo(png_file));
 //		var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo(mp3_file));
 
-		AssetManager.addAssetProxy(new SoundAssetProxy());
-		AssetManager.addAssetProxy(new ImageAssetProxy());
+		_manager = new AssetManager();
+
+		_manager.addAssetProxy(new SoundAssetProxy());
+		_manager.addAssetProxy(new ImageAssetProxy());
 
 #if flash
 		var spath:String = mp3_file;
@@ -275,7 +277,7 @@ class DataProviderExample {
 	}
 
 	static function loadBundle(path:String, autoDispose:Bool = false) {
-		_bundle = AssetManager.assets.getBundle(path);
+		_bundle = _manager.getBundle(path);
 		_bundle.finished.addOnce(function(b:Bundle){
 			Log.log("bundle loaded: " + b.url + (b.isSuccess ? "" : " with errors..."));
 
@@ -287,7 +289,7 @@ class DataProviderExample {
 	}
 
 	static function showAsset(id:String) {
-		var a:IAsset = AssetManager.assets.getAsset(id, Asset);
+		var a:IAsset = _manager.getAsset(id, Asset);
 
 		if(a == null) {
 			Debug.trace("Can't find asset...");
