@@ -10,6 +10,10 @@ class BaseProgress implements IProgress {
 
 	public function dispose() {}
 
+	public function finish() {
+		_progress = 1;
+	}
+
 	inline function get_progress():Float {
 		return _progress;
 	}

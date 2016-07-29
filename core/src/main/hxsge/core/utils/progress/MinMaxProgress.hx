@@ -15,6 +15,11 @@ class MinMaxProgress extends BaseProgress {
 		reset(min, max);
 	}
 
+	override public function finish() {
+		_value = _delta;
+		calculate();
+	}
+
 	inline public function change(count:Int = 1) {
 		_value += count;
 		if(_value < 0) {

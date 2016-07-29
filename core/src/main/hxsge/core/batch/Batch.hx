@@ -1,5 +1,7 @@
 package hxsge.core.batch;
 
+import hxsge.core.utils.progress.MinMaxProgress;
+import hxsge.core.utils.progress.IProgress;
 import hxsge.photon.Signal;
 import hxsge.core.memory.Memory;
 import hxsge.core.debug.Debug;
@@ -8,7 +10,7 @@ using hxsge.core.utils.ArrayTools;
 
 class Batch<T:IDisposable> {
 	public var items:Array<T> = [];
-	public var progress(get, never):Float;
+	public var progress(get, never):IProgress;
 	public var isCompleted(get, never):Bool;
 
 	public var itemFinished(default, null):Signal1<T>;
@@ -16,10 +18,13 @@ class Batch<T:IDisposable> {
 
 	var _index:Int;
 	var _current(get, never):T;
+	var _progress:MinMaxProgress;
 
 	public function new() {
 		_index = 0;
 		items = [];
+
+		_progress = new MinMaxProgress(0, 1);
 
 		finished = new Signal1();
 		itemFinished = new Signal1();
@@ -37,6 +42,7 @@ class Batch<T:IDisposable> {
 			}
 		}
 		items = null;
+		_progress = null;
 	}
 
 	public function add(item:T) {
@@ -49,9 +55,15 @@ class Batch<T:IDisposable> {
 	}
 
 	public function handle() {
-		Debug.assert(items != null);
+		if(items.isEmpty()) {
+			_progress.finish();
+			handleItem();
+		}
+		else {
+			_progress.reset(0, items.length);
 
-		handleItem();
+			handleItem();
+		}
 	}
 
 	function handleItem() {
@@ -70,6 +82,7 @@ class Batch<T:IDisposable> {
 
 	function onItemHandled(item:T) {
 		itemFinished.emit(item);
+		_progress.change();
 		_index++;
 
 		handleItem();
@@ -79,8 +92,8 @@ class Batch<T:IDisposable> {
 		return items.length == _index;
 	}
 
-	inline function get_progress():Float {
-		return isCompleted ? 1 : _index / items.length;
+	inline function get_progress():IProgress {
+		return _progress;
 	}
 
 	inline function get__current():T {
