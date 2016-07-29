@@ -1,10 +1,10 @@
-package hxsge.loaders.data;
+package hxsge.loaders.binary.js;
 
 #if nodejs
 import hxsge.loaders.extensions.LoaderExtension;
 import haxe.io.Bytes;
 import js.html.Uint8Array;
-import hxsge.loaders.base.BaseLoader;
+import hxsge.loaders.common.BaseLoader;
 
 import js.node.Buffer;
 import js.node.Fs;

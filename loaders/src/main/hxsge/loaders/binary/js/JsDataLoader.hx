@@ -1,10 +1,10 @@
-package hxsge.loaders.data;
+package hxsge.loaders.binary.js;
 
 #if js
 import js.html.ProgressEvent;
 import haxe.io.Bytes;
 import js.html.Uint8Array;
-import hxsge.loaders.base.BaseLoader;
+import hxsge.loaders.common.BaseLoader;
 
 import js.html.XMLHttpRequest;
 import js.html.XMLHttpRequestResponseType;

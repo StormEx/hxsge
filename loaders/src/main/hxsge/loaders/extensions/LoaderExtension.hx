@@ -1,8 +1,8 @@
 package hxsge.loaders.extensions;
 
-import hxsge.loaders.base.ILoader;
+import hxsge.loaders.common.ILoader;
 import hxsge.core.debug.Debug;
-import hxsge.loaders.base.LoaderStateType;
+import hxsge.loaders.common.LoaderStateType;
 
 class LoaderExtension {
 	inline public static function isLoading(l:ILoader):Bool {

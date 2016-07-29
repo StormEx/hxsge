@@ -1,21 +1,13 @@
-package hxsge.loaders.data;
+package hxsge.loaders.binary.java;
 
-#if flash
-typedef DataLoader = FlashDataLoader;
-#elseif nodejs
-typedef DataLoader = NodeJsDataLoader;
-#elseif js
-typedef DataLoader = JsDataLoader;
-#elseif java
-typedef DataLoader = JavaDataLoader;
-#else
+#if java
 import haxe.io.Bytes;
 import sys.io.FileInput;
-import hxsge.loaders.base.BaseLoader;
+import hxsge.loaders.common.BaseLoader;
 
 using hxsge.loaders.extensions.PathExtension;
 
-class DataLoader extends BaseLoader {
+class JavaDataLoader extends BaseLoader {
 	var _stream:FileInput;
 
 	public function new(url:String) {

@@ -1,4 +1,4 @@
-package hxsge.loaders.base;
+package hxsge.loaders.common;
 
 import hxsge.core.batch.Batch;
 

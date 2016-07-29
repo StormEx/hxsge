@@ -13,7 +13,7 @@ import hxsge.assets.sound.SoundAsset;
 import hxsge.assets.data.Asset;
 import hxsge.format.sounds.SoundReader;
 import haxe.io.BytesOutput;
-import hxsge.loaders.base.LoadersBatch;
+import hxsge.loaders.common.LoadersBatch;
 import hxsge.core.batch.Batch;
 import hxsge.core.memory.Memory;
 import hxsge.core.debug.Debug;
@@ -33,9 +33,9 @@ import hxsge.dataprovider.providers.zip.ZipDataProviderProxy;
 import hxsge.photon.Signal;
 import haxe.crypto.Base64;
 import haxe.io.Bytes;
-import hxsge.loaders.base.ILoader;
+import hxsge.loaders.common.ILoader;
 import hxsge.swamp.Macro;
-import hxsge.loaders.data.DataLoader;
+import hxsge.loaders.binary.DataLoader;
 import hxsge.dataprovider.providers.common.ProviderBatch;
 import hxsge.core.debug.error.Error;
 import hxsge.dataprovider.providers.common.DataProvider;
@@ -47,8 +47,8 @@ import hxsge.core.log.TraceLogger;
 import hxsge.core.log.Log;
 
 #if (js || nodejs)
-import hxsge.loaders.data.NodeJsDataLoader;
-import hxsge.loaders.data.JsDataLoader;
+import hxsge.loaders.binary.js.NodeJsDataLoader;
+import hxsge.loaders.binary.js.JsDataLoader;
 import js.html.Uint8Array;
 #end
 

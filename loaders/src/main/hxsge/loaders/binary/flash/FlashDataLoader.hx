@@ -1,10 +1,10 @@
-package hxsge.loaders.data;
+package hxsge.loaders.binary.flash;
 
 #if flash
 import hxsge.core.utils.progress.IProgress;
 import haxe.io.Bytes;
 import hxsge.core.debug.Debug;
-import hxsge.loaders.base.BaseLoader;
+import hxsge.loaders.common.BaseLoader;
 import flash.events.Event;
 import flash.events.ProgressEvent;
 import flash.events.SecurityErrorEvent;

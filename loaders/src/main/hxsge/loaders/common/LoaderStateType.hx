@@ -1,4 +1,4 @@
-package hxsge.loaders.base;
+package hxsge.loaders.common;
 
 @:enum abstract LoaderStateType(Int) from Int to Int {
 	var NONE:Int = 1 << 0;
