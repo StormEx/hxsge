@@ -1,13 +1,12 @@
 package hxsge.format.images.formats.png;
 
 #if flash
-import hxsge.format.images.common.ImageData;
-import hxsge.format.images.common.Image;
-import hxsge.format.images.extension.ImageDataExtension;
 import hxsge.format.images.platforms.flash.FlashImageReader;
 
 typedef PngImageReader = FlashImageReader;
 #else
+import hxsge.format.images.common.ImageData;
+import hxsge.format.images.common.Image;
 import haxe.io.BytesInput;
 import haxe.io.Bytes;
 import format.png.Reader;

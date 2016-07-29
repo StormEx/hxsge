@@ -1,12 +1,13 @@
 package hxsge.format.images.extension;
 
 #if flash
-import hxsge.format.images.common.ImageData;
-import hxsge.format.images.common.RawImage;
 import flash.utils.ByteArray;
 import flash.display.BitmapData;
+#else
+import hxsge.format.images.common.RawImage;
 #end
 
+import hxsge.format.images.common.ImageData;
 import haxe.io.Bytes;
 
 class ImageDataExtension {
