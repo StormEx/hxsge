@@ -13,12 +13,10 @@ import hxsge.photon.Signal;
 import hxsge.assets.bundle.dataprovider.structure.ZipBundleStructure;
 import hxsge.assets.bundle.dataprovider.structure.BundleStructure;
 import haxe.io.Path;
-import hxsge.assets.bundle.format.bundle.BundleData;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.common.DataProvider;
 
 class BundleDataProvider extends DataProvider {
-	public var data(get, never):BundleData;
 	public var dependencies(get, never):Array<String>;
 
 	public var prepared(default, null):Signal1<BundleDataProvider>;
@@ -122,10 +120,6 @@ class BundleDataProvider extends DataProvider {
 		}
 
 		return _progress;
-	}
-
-	inline function get_data():BundleData {
-		return _structure != null ? _structure.data : null;
 	}
 
 	inline function get_dependencies():Array<String> {
