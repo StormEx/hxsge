@@ -36,6 +36,7 @@ class WavSoundReader extends SoundReader {
 	}
 }
 #elseif nodejs
+import hxsge.format.sounds.dummy.DummySoundReader;
 
 typedef WavSoundReader = DummySoundReader;
 #elseif js

@@ -75,7 +75,7 @@ class BundleDataProvider extends DataProvider {
 		for(s in data) {
 			dp = DataProviderManager.get(s);
 			if(dp == null) {
-				errors.addError(Error.create("Can't find data provider for: " + s.url));
+//				errors.addError(Error.create("Can't find data provider for: " + s.url));
 
 				batch.add(dp);
 			}

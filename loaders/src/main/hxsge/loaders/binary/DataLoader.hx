@@ -1,16 +1,20 @@
 package hxsge.loaders.binary;
 
 #if flash
-import hxsge.loaders.binary.js.NodeJsDataLoader;
-import hxsge.loaders.binary.js.JsDataLoader;
-import hxsge.loaders.binary.java.JavaDataLoader;
 import hxsge.loaders.binary.flash.FlashDataLoader;
+
 typedef DataLoader = FlashDataLoader;
 #elseif nodejs
+import hxsge.loaders.binary.js.NodeJsDataLoader;
+
 typedef DataLoader = NodeJsDataLoader;
 #elseif js
+import hxsge.loaders.binary.js.JsDataLoader;
+
 typedef DataLoader = JsDataLoader;
 #elseif java
+import hxsge.loaders.binary.java.JavaDataLoader;
+
 typedef DataLoader = JavaDataLoader;
 #else
 import haxe.io.Bytes;

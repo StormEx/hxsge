@@ -3,6 +3,8 @@ package hxsge.format.images.extension;
 #if flash
 import flash.utils.ByteArray;
 import flash.display.BitmapData;
+#elseif (js || nodejs)
+import hxsge.core.debug.Debug;
 #else
 import hxsge.format.images.common.RawImage;
 #end
@@ -24,6 +26,8 @@ class ImageDataExtension {
 
 		@:privateAccess image.data = bd;
 		@:privateAccess image._bytes = bytes;
+#elseif (js || nodejs)
+		Debug.error("not implemented for js...");
 #else
 		@:privateAccess image.data = new RawImage(bytes, width, height);
 		@:privateAccess image._bytes = bytes;
