@@ -88,12 +88,13 @@ class BundleImpl extends RefCount {
 
 	function loadBundle() {
 		if(_provider == null) {
-			_provider = cast DataProviderManager.get(new DataProviderInfo(url, null));
+			var provider:IDataProvider = cast DataProviderManager.get(new DataProviderInfo(url, null));
 
-			if(_provider == null) {
-				performFail("Can't receive data provider for load bundle data...");
+			if(!Std.is(provider, BundleDataProvider)) {
+				performFail("Can't receive bundle data provider for load: " + url);
 			}
 			else {
+				_provider = cast provider;
 				_provider.prepared.addOnce(onBundlePrepared);
 				_provider.initialized.addOnce(onBundleInitialized);
 				_provider.updated.add(onBundleItemLoaded);
