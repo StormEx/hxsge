@@ -14,6 +14,6 @@ class ImageAssetProxy implements IAssetProxy {
 	}
 
 	public function create(data:IDataProvider):Array<IAsset> {
-		return [new ImageAsset(data.info.url, data)];
+		return [new ImageAsset(data.info.id, data)];
 	}
 }
