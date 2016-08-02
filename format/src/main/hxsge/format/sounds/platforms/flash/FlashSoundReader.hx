@@ -8,6 +8,7 @@ import hxsge.core.debug.error.Error;
 class FlashSoundReader extends SoundReader {
 	var _soundLoader:flash.media.Sound;
 
+	@:keep
 	public function new(data:Bytes) {
 		super(data);
 	}
