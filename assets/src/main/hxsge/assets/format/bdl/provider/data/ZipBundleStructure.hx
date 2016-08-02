@@ -49,7 +49,7 @@ class ZipBundleStructure extends JsonBundleStructure {
 
 		for(f in _zip.files) {
 			if(f.fileName == resourceData.name) {
-				dpi = new DataProviderInfo(resourceData.name, dir, _zip.unzip(f), getMeta(resourceData.meta));
+				dpi = new DataProviderInfo(resourceData.getId(), dir, _zip.unzip(f), getMeta(resourceData.meta));
 
 				break;
 			}

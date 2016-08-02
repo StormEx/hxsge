@@ -42,7 +42,7 @@ class BdlBundleStructure extends BundleStructure {
 		var ext:String = Path.extension(resourceData.name);
 		var dir:String = Path.directory(_info.url) + "/" + resourceData.name;
 
-		return new DataProviderInfo(resourceData.name, dir, resourceData.data, getMeta(resourceData.meta));
+		return new DataProviderInfo(resourceData.getId(), dir, resourceData.data, getMeta(resourceData.meta));
 	}
 
 	function getMeta(meta:Dynamic):Dynamic {
