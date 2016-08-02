@@ -26,7 +26,7 @@ class ZipBundleStructure extends JsonBundleStructure {
 		if(!_zip.errors.isError) {
 			var bundles:Array<Entry> = _zip.filter(~/^(.*.bundle).*/, _zip.files);
 			if(bundles.length > 0) {
-				_provider = new JsonMetaBundleDataProvider(new DataProviderInfo(null, _zip.unzip(bundles[0])));
+				_provider = new JsonMetaBundleDataProvider(new DataProviderInfo("", null, _zip.unzip(bundles[0])));
 				_provider.finished.addOnce(onMetaFinished);
 				_provider.load();
 			}
@@ -49,7 +49,7 @@ class ZipBundleStructure extends JsonBundleStructure {
 
 		for(f in _zip.files) {
 			if(f.fileName == resourceData.name) {
-				dpi = new DataProviderInfo(dir, _zip.unzip(f), getMeta(resourceData.meta));
+				dpi = new DataProviderInfo(resourceData.name, dir, _zip.unzip(f), getMeta(resourceData.meta));
 
 				break;
 			}

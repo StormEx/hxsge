@@ -119,9 +119,9 @@ class DataProviderExample {
 		DataProviderManager.add(new ImageDataProviderProxy());
 		DataProviderManager.add(new SoundDataProviderProxy());
 		DataProviderManager.add(new SwfDataProviderProxy());
-		getDataProvider(new DataProviderInfo("111111111111111.base"));
-		getDataProvider(new DataProviderInfo("222222222222222.zip"));
-		getDataProvider(new DataProviderInfo(png_file));
+		getDataProvider(new DataProviderInfo("", "111111111111111.base"));
+		getDataProvider(new DataProviderInfo("", "222222222222222.zip"));
+		getDataProvider(new DataProviderInfo("", png_file));
 //		var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo(mp3_file));
 
 		_manager = new AssetManager();
@@ -134,7 +134,7 @@ class DataProviderExample {
 #else
 		var spath:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/bonanza_win.ogg";
 #end
-		var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo(spath));
+		var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo("", spath));
 		if(dp != null) {
 			dp.finished.addOnce(onDPFinished);
 			dp.load();
@@ -147,26 +147,26 @@ class DataProviderExample {
 		Log.log("macro test");
 		var a:Int = 0;
 		var b:String = "boo";
-		var c:DataProviderInfo = new DataProviderInfo("");
+		var c:DataProviderInfo = new DataProviderInfo("", "");
 //		myMacro("foo", a, b, c);
 		Log.log("==============================================================================");
 
 		Log.log("batch test");
 		var batch:ProviderBatch = new ProviderBatch();
-		batch.add(DataProviderManager.get(new DataProviderInfo(zip_url)));
-		batch.add(DataProviderManager.get(new DataProviderInfo(zip_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo(jpg_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo(png_url)));
-		batch.add(DataProviderManager.get(new DataProviderInfo(png_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo(jxr_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo(jxr_url)));
-		batch.add(DataProviderManager.get(new DataProviderInfo(gif_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo(bmp_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo(zbundle_file)));
-//		batch.add(DataProviderManager.get(new DataProviderInfo(mp3_file)));
-//		batch.add(DataProviderManager.get(new DataProviderInfo(mp3_url)));
-		batch.add(DataProviderManager.get(new DataProviderInfo(wav_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo(ogg_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo("", zip_url)));
+		batch.add(DataProviderManager.get(new DataProviderInfo("", zip_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo("", jpg_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo("", png_url)));
+		batch.add(DataProviderManager.get(new DataProviderInfo("", png_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo("", jxr_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo("", jxr_url)));
+		batch.add(DataProviderManager.get(new DataProviderInfo("", gif_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo("", bmp_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo("", zbundle_file)));
+//		batch.add(DataProviderManager.get(new DataProviderInfo("", mp3_file)));
+//		batch.add(DataProviderManager.get(new DataProviderInfo("", mp3_url)));
+		batch.add(DataProviderManager.get(new DataProviderInfo("", wav_file)));
+		batch.add(DataProviderManager.get(new DataProviderInfo("", ogg_file)));
 		batch.itemFinished.add(function(data:IDataProvider){Log.log((data.errors.isError ? "error" : "success") + ": " + data.info.url);});
 		batch.finished.addOnce(function(_){Log.log("batch finished.");});
 		batch.handle();
@@ -181,7 +181,7 @@ class DataProviderExample {
 
 		Log.log("test dispose");
 		var arr:Array<DataProvider> = [];
-		arr.push(new DataProvider(new DataProviderInfo("asdf")));
+		arr.push(new DataProvider(new DataProviderInfo("", "asdf")));
 		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));
 		Memory.disposeIterable(arr);
 		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));

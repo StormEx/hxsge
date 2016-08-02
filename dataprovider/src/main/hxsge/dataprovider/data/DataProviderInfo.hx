@@ -6,6 +6,7 @@ import haxe.io.Path;
 using hxsge.core.utils.StringTools;
 
 class DataProviderInfo implements IDataProviderInfo {
+	public var id(default, null):String;
 	public var url(default, null):String;
 	public var data(default, set):Dynamic;
 	public var meta(default, null):Dynamic;
@@ -14,7 +15,8 @@ class DataProviderInfo implements IDataProviderInfo {
 
 	public var isNeedToLoad(get, never):Bool;
 
-	public function new(url:String, data:Dynamic = null, meta:Dynamic = null) {
+	public function new(id:String, url:String, data:Dynamic = null, meta:Dynamic = null) {
+		this.id = id;
 		this.url = url;
 		this.data = data;
 		this.meta = meta;
