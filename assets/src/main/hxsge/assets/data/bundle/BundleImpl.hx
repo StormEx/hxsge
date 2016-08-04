@@ -57,6 +57,8 @@ class BundleImpl extends RefCount {
 		Memory.dispose(errors);
 		Memory.dispose(_progress);
 
+		Memory.disposeIterable(resources);
+
 		Memory.dispose(finished);
 		Memory.dispose(updated);
 		Memory.dispose(changed);
