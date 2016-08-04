@@ -19,5 +19,9 @@ class FlashSoundData implements ISoundData {
 
 		return res;
 	}
+
+	public function dispose() {
+		sound = null;
+	}
 }
 #end
