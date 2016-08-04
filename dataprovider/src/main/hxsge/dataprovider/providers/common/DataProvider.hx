@@ -22,7 +22,7 @@ class DataProvider implements IDataProvider {
 	public var progress(get, never):IProgress;
 
 	public var finished(default, null):Signal1<IDataProvider>;
-	public var dataNeeded(default, null):Signal2<IDataProvider, IDataProviderInfo>;
+	public var dataProviderNeeded(default, null):Signal2<IDataProvider, String>;
 
 	var _loader:ILoader;
 	var _progress:Progress;
@@ -32,7 +32,7 @@ class DataProvider implements IDataProvider {
 		Debug.assert(info != null, "DataProviderInfo must be not null");
 
 		finished = new Signal1();
-		dataNeeded = new Signal2();
+		dataProviderNeeded = new Signal2();
 		errors = new ErrorHolder();
 		_progress = new Progress();
 		this.info = info;
@@ -45,7 +45,7 @@ class DataProvider implements IDataProvider {
 		errors = null;
 		_progress = null;
 		Memory.dispose(finished);
-		Memory.dispose(dataNeeded);
+		Memory.dispose(dataProviderNeeded);
 	}
 
 	function cleanup() {
@@ -100,7 +100,7 @@ class DataProvider implements IDataProvider {
 		return new DataLoader(url);
 	}
 
-	public function provideRequestedData(provider:IDataProvider) {
+	public function provideRequestedDataProvider(provider:IDataProvider) {
 		Debug.error("need to override");
 	}
 
