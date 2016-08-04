@@ -3,21 +3,14 @@ package hxsge.assets.data;
 import hxsge.assets.data.AssetChangeType;
 import hxsge.core.memory.Memory;
 import hxsge.photon.Signal.Signal1;
-import hxsge.core.debug.Debug;
-import hxsge.dataprovider.providers.common.IDataProvider;
 
 class Asset implements IAsset {
 	public var id(default, null):String;
 
 	public var changed(default, null):Signal1<AssetChangeType>;
 
-	var _data:IDataProvider;
-
-	public function new(id:String, data:IDataProvider) {
-		Debug.assert(data != null);
-
+	public function new(id:String) {
 		this.id = id;
-		_data = data;
 
 		changed = new Signal1();
 	}
@@ -26,7 +19,6 @@ class Asset implements IAsset {
 		Memory.dispose(changed);
 
 		id = null;
-		_data = null;
 	}
 
 	public function instance():IAsset {
@@ -34,12 +26,11 @@ class Asset implements IAsset {
 	}
 
 	public function clone():IAsset {
-		return copyTo(new Asset(id, _data));
+		return copyTo(new Asset(id));
 	}
 
 	function copyTo(value:Asset):Asset {
 		value.id = id;
-		value._data = _data;
 
 		return value;
 	}
