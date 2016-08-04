@@ -1,49 +1,28 @@
 package hxsge.assets.sound;
 
+import hxsge.core.memory.Memory;
 import hxsge.assets.data.Asset;
-import hxsge.dataprovider.providers.swf.SwfDataProvider;
 import hxsge.format.sounds.common.ISound;
 import hxsge.format.sounds.common.ISoundData;
-import hxsge.dataprovider.providers.sounds.SoundDataProvider;
-import hxsge.core.debug.Debug;
-import hxsge.dataprovider.providers.common.IDataProvider;
 
 using hxsge.core.utils.StringTools;
 
 class SoundAsset extends Asset {
-	var _sound:ISoundData;
-	var _soundName:String;
+	public var sound(default, null):ISoundData;
 
-	public function new(id:String, data:IDataProvider, soundName:String = null) {
-		super(id + (soundName.isEmpty() ? "" : "/" + soundName), data);
+	public function new(id:String, sound:ISoundData) {
+		super(id);
 
-		if(Std.is(data, SoundDataProvider)) {
-			var sdp:SoundDataProvider = Std.instance(data, SoundDataProvider);
-			Debug.assert(sdp.sound != null);
-			_sound = sdp.sound;
-		}
-		else if(Std.is(data, SwfDataProvider)) {
-			var sdp:SwfDataProvider = Std.instance(data, SwfDataProvider);
-			if(soundName.isEmpty()) {
-				for(s in sdp.sounds) {
-					_sound = s;
-
-					break;
-				}
-			}
-			else {
-				_sound = sdp.sounds.get(soundName);
-			}
-		}
+		this.sound = sound;
 	}
 
 	public function create(volume:Float = 1, sourceVolume:Float = 1):ISound {
-		return _sound != null ? _sound.create(volume, sourceVolume) : null;
+		return sound != null ? sound.create(volume, sourceVolume) : null;
 	}
 
 	override public function dispose() {
 		super.dispose();
 
-		_sound = null;
+		Memory.dispose(sound);
 	}
 }

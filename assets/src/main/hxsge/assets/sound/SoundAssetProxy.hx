@@ -32,11 +32,13 @@ class SoundAssetProxy implements IAssetProxy {
 			var dp:SwfDataProvider = Std.instance(data, SwfDataProvider);
 
 			for(s in dp.sounds.keys()) {
-				res.push(new SoundAsset(dp.info.id, dp, s));
+				res.push(new SoundAsset(dp.info.id + "/" + s, dp.sounds.get(s)));
 			}
 		}
-		else {
-			res.push(new SoundAsset(data.info.id, data));
+		else if(Std.is(data, SoundDataProvider)) {
+			var sdp:SoundDataProvider = Std.instance(data, SoundDataProvider);
+
+			res.push(new SoundAsset(data.info.id, sdp.sound));
 		}
 
 		return res;
