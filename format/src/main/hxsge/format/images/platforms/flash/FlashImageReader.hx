@@ -18,6 +18,7 @@ import flash.system.ImageDecodingPolicy;
 class FlashImageReader extends ImageReader {
 	var _flashLoader:Loader;
 
+	@:keep
 	public function new(data:Bytes) {
 		super(data);
 	}
