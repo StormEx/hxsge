@@ -1,5 +1,6 @@
 package hxsge.assets.format.bdl.provider.data;
 
+import haxe.io.Path;
 import hxsge.assets.format.bdl.provider.JsonMetaBundleDataProvider;
 import hxsge.assets.format.bdl.data.BundleResourceData;
 import hxsge.core.debug.error.Error;
@@ -8,6 +9,8 @@ import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.dataprovider.providers.zip.ZipDataProvider;
 import hxsge.dataprovider.data.DataProviderInfo;
 import hxsge.dataprovider.data.IDataProviderInfo;
+
+using hxsge.core.utils.StringTools;
 
 class ZipBundleStructure extends JsonBundleStructure {
 	var _zip:ZipDataProvider;
@@ -44,8 +47,10 @@ class ZipBundleStructure extends JsonBundleStructure {
 	}
 
 	override function getInfo(resourceData:BundleResourceData, tags:Array<String>):IDataProviderInfo {
-		var dir:String = resourceData.name;
+		var dir:String = _info.url.isNotEmpty() ? Path.directory(_info.url) : "";
 		var dpi:DataProviderInfo = null;
+
+		dir = dir.isNotEmpty() ? (dir + "/" + resourceData.name) : resourceData.name;
 
 		for(f in _zip.files) {
 			if(f.fileName == resourceData.name) {
