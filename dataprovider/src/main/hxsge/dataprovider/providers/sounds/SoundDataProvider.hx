@@ -13,6 +13,12 @@ class SoundDataProvider extends DataProviderGroup<SoundReader> {
 		super(info, values);
 	}
 
+	override public function dispose() {
+		super.dispose();
+
+		sound = null;
+	}
+
 	override function prepareDataAfterRead() {
 		super.prepareDataAfterRead();
 

@@ -10,4 +10,10 @@ class BundleReader extends BytesReader {
 	public function new(data:Bytes) {
 		super(data);
 	}
+
+	override public function dispose() {
+		super.dispose();
+
+		data = null;
+	}
 }

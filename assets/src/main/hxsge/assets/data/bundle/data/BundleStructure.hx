@@ -28,7 +28,12 @@ class BundleStructure implements IDisposable {
 
 	public function dispose() {
 		Memory.dispose(finished);
+		Memory.dispose(_provider);
 
+		_info = null;
+		syncData = null;
+		asyncData = null;
+		dependencies = null;
 		errors = null;
 	}
 

@@ -44,6 +44,8 @@ class BundleDataProvider extends DataProvider {
 		Memory.dispose(updated);
 
 		Memory.dispose(_structure);
+		Memory.dispose(_syncBatch);
+		Memory.dispose(_asyncBatch);
 	}
 
 	override function prepareData() {

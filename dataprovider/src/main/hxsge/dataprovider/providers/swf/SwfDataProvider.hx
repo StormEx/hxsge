@@ -14,6 +14,7 @@ import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.common.DataProvider;
 import hxsge.format.images.common.Image;
 import hxsge.format.sounds.common.ISoundData;
+import hxsge.core.memory.Memory;
 
 using hxsge.core.utils.StringTools;
 
@@ -33,6 +34,23 @@ class SwfDataProvider extends DataProvider {
 		sounds = new Map();
 
 		setMeta(info.meta);
+	}
+
+	override public function dispose() {
+		super.dispose();
+
+		for(i in images) {
+			Memory.dispose(i);
+		}
+		images = null;
+		for(s in sounds) {
+			Memory.dispose(s);
+		}
+		sounds = null;
+
+		_meta = null;
+		_swfLoader = null;
+		Memory.dispose(_reader);
 	}
 
 	public function setMeta(meta:Dynamic) {

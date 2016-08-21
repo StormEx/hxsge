@@ -1,5 +1,6 @@
 package hxsge.assets.format.bdl.provider;
 
+import hxsge.core.memory.Memory;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.core.platforms.Platforms;
 import hxsge.core.debug.error.Error;
@@ -18,6 +19,12 @@ class MetaBundleDataProvider extends DataProvider {
 		super(info);
 
 		_version = version;
+	}
+
+	override public function dispose() {
+		super.dispose();
+
+		Memory.dispose(_reader);
 	}
 
 	override function prepareData() {
