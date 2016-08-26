@@ -8,7 +8,7 @@ import hxsge.dataprovider.DataProviderManager;
 import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.core.batch.Batch;
 import hxsge.core.debug.Debug;
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.photon.Signal;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.common.DataProvider;

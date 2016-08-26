@@ -3,7 +3,7 @@ package hxsge.core.batch;
 import hxsge.core.utils.progress.MinMaxProgress;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.photon.Signal;
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.core.debug.Debug;
 
 using hxsge.core.utils.ArrayTools;

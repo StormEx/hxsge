@@ -2,7 +2,7 @@ package hxsge.assets.data.bundle;
 
 import hxsge.core.utils.progress.IProgress;
 import hxsge.core.debug.Debug;
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.photon.Signal;
 import hxsge.core.IDisposable;
 

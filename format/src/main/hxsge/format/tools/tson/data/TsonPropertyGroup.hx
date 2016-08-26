@@ -1,6 +1,6 @@
 package hxsge.format.tools.tson.data;
 
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.core.IDisposable;
 import hxsge.photon.Signal;
 

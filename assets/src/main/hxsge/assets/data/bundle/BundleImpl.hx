@@ -5,7 +5,7 @@ import hxsge.core.utils.progress.IProgress;
 import hxsge.dataprovider.DataProviderManager;
 import hxsge.core.debug.Debug;
 import hxsge.core.batch.Batch;
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.core.debug.error.Error;
 import hxsge.dataprovider.data.DataProviderInfo;
 import hxsge.dataprovider.providers.common.IDataProvider;

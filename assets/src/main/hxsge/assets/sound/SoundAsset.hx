@@ -1,6 +1,6 @@
 package hxsge.assets.sound;
 
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.assets.data.Asset;
 import hxsge.format.sounds.common.ISound;
 import hxsge.format.sounds.common.ISoundData;

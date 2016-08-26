@@ -1,6 +1,6 @@
 package hxsge.loaders.common;
 
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.photon.SignalMacro;
 import hxsge.core.utils.progress.Progress;
 import hxsge.core.utils.progress.IProgress;

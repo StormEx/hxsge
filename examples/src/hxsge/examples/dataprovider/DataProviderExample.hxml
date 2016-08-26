@@ -12,6 +12,7 @@
 -cp ../loaders/src/main
 -cp ../format/src/main
 -cp ../core/src/main
+-cp ../memory/src/main
 -cp ../swamp/src/main
 -cp ../forge/src/main
 -cp ../photon/src/main

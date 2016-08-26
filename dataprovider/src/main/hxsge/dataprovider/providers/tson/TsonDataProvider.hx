@@ -4,7 +4,7 @@ import hxsge.core.debug.error.Error;
 import hxsge.format.tson.data.TsonDataReader;
 import haxe.io.BytesInput;
 import haxe.io.Bytes;
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.format.tson.data.TsonData;
 import hxsge.dataprovider.providers.common.DataProvider;
 import hxsge.dataprovider.data.IDataProviderInfo;

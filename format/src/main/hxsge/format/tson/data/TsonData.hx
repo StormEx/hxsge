@@ -1,6 +1,6 @@
 package hxsge.format.tson.data;
 
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.core.IDisposable;
 import hxsge.format.tson.data.TsonData;
 

@@ -1,12 +1,10 @@
-package hxsge.core.memory;
+package hxsge.memory;
 
 import haxe.macro.Expr;
 
 class Memory {
-	function new() {
-	}
-
 	macro public static function dispose(val:Expr) {
+		trace(val);
 		return macro {
 			if($val != null) {
 				$val.dispose();

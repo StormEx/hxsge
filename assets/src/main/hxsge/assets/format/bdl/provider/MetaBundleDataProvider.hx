@@ -1,6 +1,6 @@
 package hxsge.assets.format.bdl.provider;
 
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.core.platforms.Platforms;
 import hxsge.core.debug.error.Error;

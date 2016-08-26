@@ -8,7 +8,7 @@ import hxsge.core.log.Log;
 import hxsge.core.debug.error.Error;
 import hxsge.loaders.common.ILoader;
 import hxsge.loaders.binary.DataLoader;
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.photon.Signal;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.core.debug.Debug;

@@ -1,6 +1,6 @@
 package hxsge.assets.image;
 
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.assets.data.Asset;
 import hxsge.format.images.common.Image;
 

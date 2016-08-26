@@ -1,7 +1,7 @@
 package hxsge.assets.data;
 
 import hxsge.assets.data.AssetChangeType;
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.photon.Signal.Signal1;
 
 class Asset implements IAsset {

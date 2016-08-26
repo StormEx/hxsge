@@ -1,6 +1,6 @@
 package hxsge.format.images.common;
 
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 
 class Image implements IImage {
 	public var data(default, null):ImageData;

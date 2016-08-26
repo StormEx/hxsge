@@ -1,7 +1,7 @@
 package hxsge.format.common;
 
+import hxsge.memory.Memory;
 import hxsge.core.debug.error.ErrorHolder;
-import hxsge.core.memory.Memory;
 import hxsge.photon.Signal;
 import hxsge.core.debug.Debug;
 

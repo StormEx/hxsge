@@ -8,7 +8,7 @@ import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.photon.Signal;
 import hxsge.core.log.Log;
 import hxsge.core.debug.Debug;
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.core.IDisposable;
 
 using hxsge.core.utils.StringTools;

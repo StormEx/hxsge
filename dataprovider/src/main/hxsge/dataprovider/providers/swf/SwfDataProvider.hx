@@ -14,7 +14,7 @@ import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.common.DataProvider;
 import hxsge.format.images.common.Image;
 import hxsge.format.sounds.common.ISoundData;
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 
 using hxsge.core.utils.StringTools;
 

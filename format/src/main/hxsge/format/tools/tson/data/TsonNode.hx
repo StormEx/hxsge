@@ -4,7 +4,7 @@ import hxsge.format.tson.data.TsonData;
 import hxsge.core.IClonable;
 import hxsge.core.IDisposable;
 import hxsge.core.math.MathFloatTools;
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.format.tson.data.TsonValueType;
 import hxsge.loaders.data.JsFileLoader;
 import hxsge.loaders.base.ILoader;

@@ -2,7 +2,7 @@ package hxsge.assets.data.bundle.data;
 
 import haxe.io.Path;
 import hxsge.core.debug.Debug;
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.photon.Signal.Signal1;
 import hxsge.dataprovider.data.IDataProviderInfo;
