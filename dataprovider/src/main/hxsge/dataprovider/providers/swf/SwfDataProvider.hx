@@ -39,14 +39,8 @@ class SwfDataProvider extends DataProvider {
 	override public function dispose() {
 		super.dispose();
 
-		for(i in images) {
-			Memory.dispose(i);
-		}
-		images = null;
-		for(s in sounds) {
-			Memory.dispose(s);
-		}
-		sounds = null;
+ 		Memory.disposeIterable(images);
+		Memory.disposeIterable(sounds);
 
 		_meta = null;
 		_swfLoader = null;
