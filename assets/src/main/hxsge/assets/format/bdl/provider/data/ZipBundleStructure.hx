@@ -1,5 +1,6 @@
 package hxsge.assets.format.bdl.provider.data;
 
+import hxsge.memory.Memory;
 import haxe.io.Path;
 import hxsge.assets.format.bdl.provider.JsonMetaBundleDataProvider;
 import hxsge.assets.format.bdl.data.BundleResourceData;
@@ -23,6 +24,12 @@ class ZipBundleStructure extends JsonBundleStructure {
 		_zip = new ZipDataProvider(_info);
 		_zip.finished.addOnce(onZipLoaded);
 		_zip.load();
+	}
+
+	override public function dispose() {
+		super.dispose();
+
+		Memory.dispose(_zip);
 	}
 
 	function onZipLoaded(provider:IDataProvider) {
