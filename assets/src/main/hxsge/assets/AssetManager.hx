@@ -15,7 +15,6 @@ using hxsge.core.utils.StringTools;
 using hxsge.core.utils.ArrayTools;
 
 class AssetManager implements IDisposable {
-
 	public var registered(default, null):Signal1<Array<String>>;
 	public var unregistered(default, null):Signal1<Array<String>>;
 
