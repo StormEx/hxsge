@@ -77,6 +77,7 @@ class DataProviderExample {
 #if flash
 	static var _root:Sprite;
 #end
+	static var _render:IRender;
 
 	public function new() {
 	}
@@ -281,8 +282,17 @@ class DataProviderExample {
 		showMemory();
 		loadBundle(tbundle_url, true);
 
-		var r:IRender = new Stage3dRender();
+		_render = new Stage3dRender();
+		_render.initialized.addOnce(onRenderInitialized);
+		_render.initialize();
 //#end
+	}
+
+	static function onRenderInitialized(state:Bool) {
+		if(state) {
+			_render.begin();
+			_render.present();
+		}
 	}
 
 	static var _prevMemory:Float = 0;
