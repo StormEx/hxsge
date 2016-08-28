@@ -11,6 +11,8 @@
 -cp ../dataprovider/src/main
 -cp ../loaders/src/main
 -cp ../format/src/main
+-cp ../candyland/src/main
+-cp ../math/src/main
 -cp ../core/src/main
 -cp ../memory/src/main
 -cp ../swamp/src/main

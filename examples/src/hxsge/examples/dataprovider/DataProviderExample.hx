@@ -1,5 +1,10 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.candyland.common.IRender;
+import hxsge.candyland.platforms.stage3d.Stage3dRender;
+import haxe.Timer;
+import hxsge.format.common.IReader;
+import hxsge.format.common.BaseReader;
 import hxsge.loaders.extensions.LoaderExtension;
 import hxsge.assets.data.bundle.Bundle;
 import hxsge.assets.format.bdl.provider.ZipBundleDataProviderProxy;
@@ -15,7 +20,7 @@ import hxsge.format.sounds.SoundReader;
 import haxe.io.BytesOutput;
 import hxsge.loaders.common.LoadersBatch;
 import hxsge.core.batch.Batch;
-import hxsge.core.memory.Memory;
+import hxsge.memory.Memory;
 import hxsge.core.debug.Debug;
 import hxsge.format.json.Json;
 import hxsge.core.debug.Debug;
@@ -40,7 +45,6 @@ import hxsge.dataprovider.providers.common.ProviderBatch;
 import hxsge.core.debug.error.Error;
 import hxsge.dataprovider.providers.common.DataProvider;
 import hxsge.dataprovider.providers.common.IDataProvider;
-import hxsge.core.memory.Memory;
 import hxsge.dataprovider.data.DataProviderInfo;
 import haxe.macro.Expr;
 import hxsge.core.log.TraceLogger;
@@ -53,6 +57,7 @@ import js.html.Uint8Array;
 #end
 
 #if flash
+import flash.system.System;
 import flash.events.MouseEvent;
 import flash.display.PixelSnapping;
 import flash.display.Bitmap;
@@ -101,9 +106,9 @@ class DataProviderExample {
 		var jxr_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/game/10Ten10.jxr";
 		var bundle_file:String = "d:/StormEx/temp/game_1000_1011/meta.bundle";
 		var zbundle_file:String = "d:/StormEx/temp/game_1000_1011/game_1000_1011.zip";
-		var tbundle_file:String = "d:/StormEx/temp/game_1000_1011/meta.tson";
+		var tbundle_file:String = "d:/StormEx/temp/game_1000_1011/meta.jbdl";
 		var zbundle_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/game_1000_1011/game_1000_1011.zip";
-		var tbundle_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/game_1000_1011/meta.tson";
+		var tbundle_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/game_1000_1011/meta.jbdl";
 		var mp3_file:String = "d:/Downloads/bundles/mega_bonus/sfx/bonanza_bonus/win_plaque.mp3";
 		var mp3_url:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/sfx/bonanza_bonus/win_plaque.mp3";
 		var wav_file:String = "d:/Downloads/bonusintro.wav";
@@ -129,164 +134,186 @@ class DataProviderExample {
 		_manager.addAssetProxy(new SoundAssetProxy());
 		_manager.addAssetProxy(new ImageAssetProxy());
 
-#if flash
-		var spath:String = mp3_file;
-#else
-		var spath:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/bonanza_win.ogg";
-#end
-		var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo("", spath));
-		if(dp != null) {
-			dp.finished.addOnce(onDPFinished);
-			dp.load();
-		}
-		Log.log("end: data provider example.");
-		Log.log("==============================================================================");
-
-//		Memory.dispose(10);
-
-		Log.log("macro test");
-		var a:Int = 0;
-		var b:String = "boo";
-		var c:DataProviderInfo = new DataProviderInfo("", "");
-//		myMacro("foo", a, b, c);
-		Log.log("==============================================================================");
-
-		Log.log("batch test");
-		var batch:ProviderBatch = new ProviderBatch();
-		batch.add(DataProviderManager.get(new DataProviderInfo("", zip_url)));
-		batch.add(DataProviderManager.get(new DataProviderInfo("", zip_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo("", jpg_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo("", png_url)));
-		batch.add(DataProviderManager.get(new DataProviderInfo("", png_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo("", jxr_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo("", jxr_url)));
-		batch.add(DataProviderManager.get(new DataProviderInfo("", gif_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo("", bmp_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo("", zbundle_file)));
-//		batch.add(DataProviderManager.get(new DataProviderInfo("", mp3_file)));
-//		batch.add(DataProviderManager.get(new DataProviderInfo("", mp3_url)));
-		batch.add(DataProviderManager.get(new DataProviderInfo("", wav_file)));
-		batch.add(DataProviderManager.get(new DataProviderInfo("", ogg_file)));
-		batch.itemFinished.add(function(data:IDataProvider){Log.log((data.errors.isError ? "error" : "success") + ": " + data.info.url);});
-		batch.finished.addOnce(function(_){Log.log("batch finished.");});
-		batch.handle();
-		Log.log("==============================================================================");
-
-		Log.log("error test");
-		var err1:hxsge.core.debug.error.Error = hxsge.core.debug.error.Error.create("some error");
-		var err2:hxsge.core.debug.error.Error = hxsge.core.debug.error.Error.create("some error");
-		Log.log(err1.info);
-		Log.log(err2.info);
-		Log.log("==============================================================================");
-
-		Log.log("test dispose");
-		var arr:Array<DataProvider> = [];
-		arr.push(new DataProvider(new DataProviderInfo("", "asdf")));
-		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));
-		Memory.disposeIterable(arr);
-		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));
-		Log.log("==============================================================================");
-
-		Log.log("test loader");
-		hxsge.core.macro.Macro.defines();
-//		var loader:DataLoader = new DataLoader("https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/paytable_1000.zip");
-		var loader:DataLoader = new DataLoader("d:/Downloads/horseshoe_feed.jpg");
-		loader.finished.addOnce(onLoaded);
-		loader.load();
-		Log.log("==============================================================================");
-
-		Log.log("base 64");
-		var raw:String = "eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImV4cGlyZXMiOjE0NTk5NTEyMDAsImlzc3VlZF9hdCI6MTQ1OTk0NDI4Niwib2F1dGhfdG9rZW4iOiJDQUFXUVZ5bThWRU1CQU9EMjZtMzdlSmV6ZHcyZE5nQnNsWElEdllodEo2QnRqME5lV1AyWXB2RGpqSElzNG44S3dDSzNFc09FWFRKSEhaQWMzN0NOM2kwcldyNkFPNnFaQlI5NTJWWkNaQ09HOHc5aHlQR2ZybzdyS3JXRXdUWHZ5RlREMUtWakN2dkpLMVpCYUQyeUJyYm52OVpCRVBpOUdDWkFhdkloSU9wZlpBTmVKSGhzcWFycE54ZDljY0tCcWlaQ3hoUjliRlBscWNubGZ2T2E5SlFSWkEiLCJ0b2tlbl9mb3JfYnVzaW5lc3MiOiJBYndhdlpvTl85bS1JbG00IiwidXNlciI6eyJjb3VudHJ5IjoiYnkiLCJsb2NhbGUiOiJydV9SVSIsImFnZSI6eyJtaW4iOjIxfX0sInVzZXJfaWQiOiI4NDMxMzQ1MzkwOTUzMjMifQ";
-		raw = raw.replace("-", "+").replace("_", "/").trim();
-		var data:String = Base64.decode(raw).toString();
-		Log.log(data);
-		Log.log("==============================================================================");
-
-		Log.log("signal test");
-		var signal0:Signal0 = new Signal0();
-		signal0.add(toSignal0);
-		SignalMacro.safeEmit(signal0);
-		SignalMacro.safeEmit(signal0);
-		Memory.dispose(signal0);
-		SignalMacro.safeEmit(signal0);
-		var signal1:Signal1<Int> = new Signal1();
-		signal1.addOnce(function(value:Int){Log.log("executed closure: " + value);});
-		signal1.emit(10);
-		signal1.emit(10);
-		var signal2:Signal2<Float, String> = new Signal2();
-		signal2.add(toSignal2);
-		signal2.addOnce(toSignal2);
-		signal2.emit(10, "cool");
-		signal2.emit(20, "cool");
-		Memory.dispose(signal2);
-		Log.log("==============================================================================");
+//#if flash
+//		var spath:String = mp3_file;
+//#else
+//		var spath:String = "https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/bonanza_win.ogg";
+//#end
+//		var dp:IDataProvider = DataProviderManager.get(new DataProviderInfo("", spath));
+//		if(dp != null) {
+//			dp.finished.addOnce(onDPFinished);
+//			dp.load();
+//		}
+//		Log.log("end: data provider example.");
+//		Log.log("==============================================================================");
+//
+////		Memory.dispose(10);
+//
+//		Log.log("macro test");
+//		var a:Int = 0;
+//		var b:String = "boo";
+//		var c:DataProviderInfo = new DataProviderInfo("", "");
+////		myMacro("foo", a, b, c);
+//		Log.log("==============================================================================");
+//
+//		Log.log("batch test");
+//		var batch:ProviderBatch = new ProviderBatch();
+//		batch.add(DataProviderManager.get(new DataProviderInfo("", zip_url)));
+//		batch.add(DataProviderManager.get(new DataProviderInfo("", zip_file)));
+//		batch.add(DataProviderManager.get(new DataProviderInfo("", jpg_file)));
+//		batch.add(DataProviderManager.get(new DataProviderInfo("", png_url)));
+//		batch.add(DataProviderManager.get(new DataProviderInfo("", png_file)));
+//		batch.add(DataProviderManager.get(new DataProviderInfo("", jxr_file)));
+//		batch.add(DataProviderManager.get(new DataProviderInfo("", jxr_url)));
+//		batch.add(DataProviderManager.get(new DataProviderInfo("", gif_file)));
+//		batch.add(DataProviderManager.get(new DataProviderInfo("", bmp_file)));
+//		batch.add(DataProviderManager.get(new DataProviderInfo("", zbundle_file)));
+////		batch.add(DataProviderManager.get(new DataProviderInfo("", mp3_file)));
+////		batch.add(DataProviderManager.get(new DataProviderInfo("", mp3_url)));
+//		batch.add(DataProviderManager.get(new DataProviderInfo("", wav_file)));
+//		batch.add(DataProviderManager.get(new DataProviderInfo("", ogg_file)));
+//		batch.itemFinished.add(function(data:IDataProvider){Log.log((data.errors.isError ? "error" : "success") + ": " + data.info.url);});
+//		batch.finished.addOnce(function(_){Log.log("batch finished.");});
+//		batch.handle();
+//		Log.log("==============================================================================");
+//
+//		Log.log("error test");
+//		var err1:hxsge.core.debug.error.Error = hxsge.core.debug.error.Error.create("some error");
+//		var err2:hxsge.core.debug.error.Error = hxsge.core.debug.error.Error.create("some error");
+//		Log.log(err1.info);
+//		Log.log(err2.info);
+//		Log.log("==============================================================================");
+//
+//		Log.log("test dispose");
+//		var arr:Array<DataProvider> = [];
+//		arr.push(new DataProvider(new DataProviderInfo("", "asdf")));
+//		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));
+//		Memory.disposeIterable(arr);
+//		Log.log("is not empty: " + Std.string(arr.isNotEmpty()));
+//		Log.log("==============================================================================");
+//
+//		Log.log("test loader");
+//		hxsge.core.macro.Macro.defines();
+////		var loader:DataLoader = new DataLoader("https://cvs-stage2-by.stagehosts.com/stage/cs_fb_en/assets/cid_" + Std.string(Date.now().getTime()) + "/assets/paytable_1000.zip");
+//		var loader:DataLoader = new DataLoader("d:/Downloads/horseshoe_feed.jpg");
+//		loader.finished.addOnce(onLoaded);
+//		loader.load();
+//		Log.log("==============================================================================");
+//
+//		Log.log("base 64");
+//		var raw:String = "eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImV4cGlyZXMiOjE0NTk5NTEyMDAsImlzc3VlZF9hdCI6MTQ1OTk0NDI4Niwib2F1dGhfdG9rZW4iOiJDQUFXUVZ5bThWRU1CQU9EMjZtMzdlSmV6ZHcyZE5nQnNsWElEdllodEo2QnRqME5lV1AyWXB2RGpqSElzNG44S3dDSzNFc09FWFRKSEhaQWMzN0NOM2kwcldyNkFPNnFaQlI5NTJWWkNaQ09HOHc5aHlQR2ZybzdyS3JXRXdUWHZ5RlREMUtWakN2dkpLMVpCYUQyeUJyYm52OVpCRVBpOUdDWkFhdkloSU9wZlpBTmVKSGhzcWFycE54ZDljY0tCcWlaQ3hoUjliRlBscWNubGZ2T2E5SlFSWkEiLCJ0b2tlbl9mb3JfYnVzaW5lc3MiOiJBYndhdlpvTl85bS1JbG00IiwidXNlciI6eyJjb3VudHJ5IjoiYnkiLCJsb2NhbGUiOiJydV9SVSIsImFnZSI6eyJtaW4iOjIxfX0sInVzZXJfaWQiOiI4NDMxMzQ1MzkwOTUzMjMifQ";
+//		raw = raw.replace("-", "+").replace("_", "/").trim();
+//		var data:String = Base64.decode(raw).toString();
+//		Log.log(data);
+//		Log.log("==============================================================================");
+//
+//		Log.log("signal test");
+//		var signal0:Signal0 = new Signal0();
+//		signal0.add(toSignal0);
+//		SignalMacro.safeEmit(signal0);
+//		SignalMacro.safeEmit(signal0);
+//		Memory.dispose(signal0);
+//		SignalMacro.safeEmit(signal0);
+//		var signal1:Signal1<Int> = new Signal1();
+//		signal1.addOnce(function(value:Int){Log.log("executed closure: " + value);});
+//		signal1.emit(10);
+//		signal1.emit(10);
+//		var signal2:Signal2<Float, String> = new Signal2();
+//		signal2.add(toSignal2);
+//		signal2.addOnce(toSignal2);
+//		signal2.emit(10, "cool");
+//		signal2.emit(20, "cool");
+//		Memory.dispose(signal2);
+//		Log.log("==============================================================================");
 
 		DataProviderManager.add(new JsonBundleDataProviderProxy());
 		DataProviderManager.add(new TsonBundleDataProviderProxy());
 		DataProviderManager.add(new ZipBundleDataProviderProxy());
-#if flash
-		Log.log("assets test");
-//		var manager:AssetManager = new AssetManager();
-//		var bundle:Bundle = null;
-		haxe.ui.toolkit.core.Toolkit.init();
-		haxe.ui.toolkit.core.Toolkit.openFullscreen(function(root:haxe.ui.toolkit.core.Root) {
-			var button:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
-			var ubutton:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
-			ubutton.text = "unload";
-			ubutton.x = 49;
-			button.text = "load";
-			var ti:haxe.ui.toolkit.controls.TextInput = new haxe.ui.toolkit.controls.TextInput();
-			ti.text = zbundle_url;
-			ti.x = 112;
-			ti.width = 800;
-			ti.height = button.height;
-			button.addEventListener(MouseEvent.CLICK, function(e) {
-				loadBundle(ti.text);
-//				bundle = manager.getBundle(ti.text);
-//				bundle.finished.addOnce(function(b:Bundle){Log.log("bundle loaded: " + b.url + (b.isSuccess ? "" : " with errors..."));});
-//				bundle.load();
-			});
-			ubutton.addEventListener(MouseEvent.CLICK, function(e) {
-				Memory.dispose(_bundle);
-			});
-			root.addChild(button);
-			root.addChild(ubutton);
-			root.addChild(ti);
+//#if flash
+//		Log.log("assets test");
+////		var manager:AssetManager = new AssetManager();
+////		var bundle:Bundle = null;
+//		haxe.ui.toolkit.core.Toolkit.init();
+//		haxe.ui.toolkit.core.Toolkit.openFullscreen(function(root:haxe.ui.toolkit.core.Root) {
+//			var button:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
+//			var ubutton:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
+//			ubutton.text = "unload";
+//			ubutton.x = 49;
+//			button.text = "load";
+//			var ti:haxe.ui.toolkit.controls.TextInput = new haxe.ui.toolkit.controls.TextInput();
+//			ti.text = zbundle_url;
+//			ti.x = 112;
+//			ti.width = 800;
+//			ti.height = button.height;
+//			button.addEventListener(MouseEvent.CLICK, function(e) {
+//				loadBundle(ti.text);
+////				bundle = manager.getBundle(ti.text);
+////				bundle.finished.addOnce(function(b:Bundle){Log.log("bundle loaded: " + b.url + (b.isSuccess ? "" : " with errors..."));});
+////				bundle.load();
+//			});
+//			ubutton.addEventListener(MouseEvent.CLICK, function(e) {
+//				Memory.dispose(_bundle);
+//			});
+//			root.addChild(button);
+//			root.addChild(ubutton);
+//			root.addChild(ti);
+//
+//			var playbtn:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
+//			playbtn.text = "show";
+//			playbtn.y = 40;
+//			var sti:haxe.ui.toolkit.controls.TextInput = new haxe.ui.toolkit.controls.TextInput();
+//			sti.text = "";
+//			sti.x = 49;
+//			sti.y = 40;
+//			sti.width = 863;
+//			sti.height = playbtn.height;
+//			playbtn.addEventListener(MouseEvent.CLICK, function(e) {
+//				showAsset(sti.text);
+//			});
+//			root.addChild(playbtn);
+//			root.addChild(sti);
+//		});
+//		Log.log("==============================================================================");
+//
+//		_root = new Sprite();
+//		Lib.current.stage.addChild(_root);
+//#else
+		showMemory();
+		loadBundle(tbundle_url, true);
 
-			var playbtn:haxe.ui.toolkit.controls.Button = new haxe.ui.toolkit.controls.Button();
-			playbtn.text = "show";
-			playbtn.y = 40;
-			var sti:haxe.ui.toolkit.controls.TextInput = new haxe.ui.toolkit.controls.TextInput();
-			sti.text = "";
-			sti.x = 49;
-			sti.y = 40;
-			sti.width = 863;
-			sti.height = playbtn.height;
-			playbtn.addEventListener(MouseEvent.CLICK, function(e) {
-				showAsset(sti.text);
-			});
-			root.addChild(playbtn);
-			root.addChild(sti);
-		});
-		Log.log("==============================================================================");
+		var r:IRender = new Stage3dRender();
+//#end
+	}
 
-		_root = new Sprite();
-		Lib.current.stage.addChild(_root);
-#else
-		loadBundle(tbundle_file, true);
-#end
+	static var _prevMemory:Float = 0;
+	static function showMemory() {
+		var mem:Float = System.totalMemory;
+		var change:Float = mem - _prevMemory;
+
+		Log.log('memory: ${memoryToString(mem)}[${memoryToString(change)}]');
+	}
+
+	static function memoryToString(value:Float):String {
+		return Std.string(value / (1024 * 1024));
 	}
 
 	static function loadBundle(path:String, autoDispose:Bool = false) {
 		_bundle = _manager.getBundle(path);
 		_bundle.finished.addOnce(function(b:Bundle){
 			Log.log("bundle loaded: " + b.url + (b.isSuccess ? "" : " with errors..."));
+			showMemory();
 
 			if(autoDispose) {
 				Memory.dispose(_bundle);
+				onTimer();
 			}
 		});
 		_bundle.load();
+	}
+
+	static function onTimer() {
+		showMemory();
+		Timer.delay(onTimer, 2000);
 	}
 
 	static function showAsset(id:String) {
