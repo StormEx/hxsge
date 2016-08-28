@@ -290,6 +290,8 @@ class DataProviderExample {
 
 	static function onRenderInitialized(state:Bool) {
 		if(state) {
+			_render.resize(Lib.current.stage.fullScreenWidth, Lib.current.stage.fullScreenHeight);
+			_render.clear();
 			_render.begin();
 			_render.present();
 		}

@@ -17,6 +17,7 @@ import hxsge.candyland.common.IRender;
 
 class Stage3dRender implements IRender {
 	public var info(get, never):String;
+	public var isLost(get, never):Bool;
 
 	public var initialized(default, null):Signal1<Bool>;
 
@@ -56,12 +57,18 @@ class Stage3dRender implements IRender {
 		}
 	}
 
-	public function begin() {
+	public function clear(r:Float = 0, g:Float = 0, b:Float = 0, a:Float = 1) {
 		if(_context3D == null) {
 			return;
 		}
 
-		_context3D.clear(0, 0, 0, 1);
+		_context3D.clear(r, g, b, a);
+	}
+
+	public function begin() {
+		if(_context3D == null) {
+			return;
+		}
 	}
 
 	public function present() {
@@ -96,6 +103,10 @@ class Stage3dRender implements IRender {
 		catch(e:Error) {
 			Debug.trace("Can't resize stage3D backbuffer to: " + Std.string(width) + "x" + Std.string(height));
 		}
+	}
+
+	public function restore() {
+
 	}
 
 	function tryToInitializeNextContextType() {
@@ -147,7 +158,6 @@ class Stage3dRender implements IRender {
 
 	function onContextCreated(e:Event) {
 		performSuccess();
-		resize(Lib.current.stage.fullScreenWidth, Lib.current.stage.fullScreenHeight);
 	}
 
 	function onTimerCompleted(e:TimerEvent) {
@@ -157,6 +167,10 @@ class Stage3dRender implements IRender {
 
 	inline function get_info():String {
 		return _context3D != null ? _context3D.driverInfo : "not initialized";
+	}
+
+	inline function get_isLost():Bool {
+		return _context3D != null && _context3D.driverInfo == "Disposed";
 	}
 }
 #end
