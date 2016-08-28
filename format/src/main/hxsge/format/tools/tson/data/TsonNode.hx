@@ -3,7 +3,6 @@ package hxsge.format.tools.tson.data;
 import hxsge.format.tson.data.TsonData;
 import hxsge.core.IClonable;
 import hxsge.core.IDisposable;
-import hxsge.core.math.MathFloatTools;
 import hxsge.memory.Memory;
 import hxsge.format.tson.data.TsonValueType;
 import hxsge.loaders.data.JsFileLoader;
@@ -14,7 +13,7 @@ import js.html.InputElement;
 
 using hxsge.core.utils.StringTools;
 using hxsge.format.tson.data.TsonValueTypeTools;
-using hxsge.core.math.MathFloatTools;
+using hxsge.math.extentions.MathFloatExtention;
 using hxsge.core.utils.ArrayTools;
 using hxsge.loaders.utils.LoaderTools;
 

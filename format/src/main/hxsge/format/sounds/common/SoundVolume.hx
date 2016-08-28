@@ -1,6 +1,6 @@
 package hxsge.format.sounds.common;
 
-using hxsge.core.math.MathFloatTools;
+using hxsge.math.extentions.MathFloatExtention;
 
 class SoundVolume {
 	public var value(get, set):Float;
