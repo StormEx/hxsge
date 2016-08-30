@@ -15,6 +15,10 @@ class JsSoundData implements ISoundData {
 		this.data = data;
 	}
 
+	public function dispose() {
+		data = null;
+	}
+
 	public function create(volume:Float, sourceVolume:Float):ISound {
 		var res:JsSound = new JsSound(data, volume, sourceVolume);
 

@@ -1,5 +1,6 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.candyland.platforms.webgl.WebGLRender;
 import hxsge.candyland.common.IRender;
 import hxsge.candyland.platforms.stage3d.Stage3dRender;
 import haxe.Timer;
@@ -282,7 +283,11 @@ class DataProviderExample {
 		showMemory();
 		loadBundle(tbundle_url, true);
 
+#if flash
 		_render = new Stage3dRender();
+#elseif js
+		_render = new WebGLRender("hxsge");
+#end
 		_render.initialized.addOnce(onRenderInitialized);
 		_render.initialize();
 //#end
@@ -290,7 +295,9 @@ class DataProviderExample {
 
 	static function onRenderInitialized(state:Bool) {
 		if(state) {
+#if flash
 			_render.resize(Lib.current.stage.fullScreenWidth, Lib.current.stage.fullScreenHeight);
+#end
 			_render.clear();
 			_render.begin();
 			_render.present();
@@ -299,10 +306,12 @@ class DataProviderExample {
 
 	static var _prevMemory:Float = 0;
 	static function showMemory() {
+#if flash
 		var mem:Float = System.totalMemory;
 		var change:Float = mem - _prevMemory;
 
 		Log.log('memory: ${memoryToString(mem)}[${memoryToString(change)}]');
+#end
 	}
 
 	static function memoryToString(value:Float):String {
@@ -310,6 +319,7 @@ class DataProviderExample {
 	}
 
 	static function loadBundle(path:String, autoDispose:Bool = false) {
+#if flash
 		_bundle = _manager.getBundle(path);
 		_bundle.finished.addOnce(function(b:Bundle){
 			Log.log("bundle loaded: " + b.url + (b.isSuccess ? "" : " with errors..."));
@@ -321,6 +331,7 @@ class DataProviderExample {
 			}
 		});
 		_bundle.load();
+#end
 	}
 
 	static function onTimer() {
