@@ -9,7 +9,7 @@ import hxsge.photon.Signal;
 import hxsge.core.log.Log;
 import hxsge.core.debug.Debug;
 import hxsge.memory.Memory;
-import hxsge.core.IDisposable;
+import hxsge.memory.IDisposable;
 
 using hxsge.core.utils.StringTools;
 using hxsge.core.utils.ArrayTools;

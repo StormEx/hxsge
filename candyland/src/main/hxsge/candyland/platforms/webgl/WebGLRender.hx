@@ -2,11 +2,7 @@ package hxsge.candyland.platforms.webgl;
 
 #if js
 import hxsge.core.debug.Debug;
-import hxsge.core.debug.Debug;
-import hxsge.core.debug.Debug;
-import hxsge.core.debug.Debug;
 import hxsge.memory.Memory;
-import hxsge.core.debug.Debug;
 import js.html.webgl.RenderingContext;
 import js.html.CanvasElement;
 import js.html.Element;

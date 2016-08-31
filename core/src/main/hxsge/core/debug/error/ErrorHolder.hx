@@ -1,5 +1,7 @@
 package hxsge.core.debug.error;
 
+import hxsge.memory.IDisposable;
+
 class ErrorHolder implements IDisposable implements IError {
 	public var errors(default, null):Array<Error> = [];
 

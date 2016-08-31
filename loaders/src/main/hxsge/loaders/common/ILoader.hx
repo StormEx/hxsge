@@ -3,7 +3,7 @@ package hxsge.loaders.common;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.photon.Signal;
 import hxsge.core.debug.error.ErrorHolder;
-import hxsge.core.IDisposable;
+import hxsge.memory.IDisposable;
 
 interface ILoader extends IDisposable {
 	public var url(default, null):String;

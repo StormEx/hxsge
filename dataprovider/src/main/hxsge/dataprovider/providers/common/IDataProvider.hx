@@ -3,7 +3,7 @@ package hxsge.dataprovider.providers.common;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.photon.Signal;
 import hxsge.dataprovider.data.IDataProviderInfo;
-import hxsge.core.IDisposable;
+import hxsge.memory.IDisposable;
 import hxsge.core.debug.error.ErrorHolder;
 
 interface IDataProvider extends IDisposable {

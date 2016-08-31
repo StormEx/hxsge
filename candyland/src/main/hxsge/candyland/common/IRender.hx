@@ -1,7 +1,7 @@
 package hxsge.candyland.common;
 
+import hxsge.memory.IDisposable;
 import hxsge.photon.Signal;
-import hxsge.core.IDisposable;
 
 interface IRender extends IDisposable {
 	public var info(get, never):String;

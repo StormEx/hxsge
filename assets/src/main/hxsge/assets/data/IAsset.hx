@@ -3,7 +3,7 @@ package hxsge.assets.data;
 import hxsge.assets.data.AssetChangeType;
 import hxsge.core.IClonable;
 import hxsge.photon.Signal.Signal1;
-import hxsge.core.IDisposable;
+import hxsge.memory.IDisposable;
 
 interface IAsset extends IDisposable extends IClonable<IAsset> {
 	public var id(default, null):String;

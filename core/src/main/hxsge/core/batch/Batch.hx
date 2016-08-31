@@ -1,5 +1,6 @@
 package hxsge.core.batch;
 
+import hxsge.memory.IDisposable;
 import hxsge.core.utils.progress.MinMaxProgress;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.photon.Signal;

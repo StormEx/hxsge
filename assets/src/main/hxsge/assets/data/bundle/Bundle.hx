@@ -4,7 +4,7 @@ import hxsge.core.utils.progress.IProgress;
 import hxsge.core.debug.Debug;
 import hxsge.memory.Memory;
 import hxsge.photon.Signal;
-import hxsge.core.IDisposable;
+import hxsge.memory.IDisposable;
 
 class Bundle implements IDisposable {
 	public var url(get, never):String;

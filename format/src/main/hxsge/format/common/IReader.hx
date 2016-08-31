@@ -1,6 +1,6 @@
 package hxsge.format.common;
 
-import hxsge.core.IDisposable;
+import hxsge.memory.IDisposable;
 import hxsge.core.debug.error.ErrorHolder;
 import hxsge.photon.Signal;
 

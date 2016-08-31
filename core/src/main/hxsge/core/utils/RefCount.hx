@@ -1,5 +1,7 @@
 package hxsge.core.utils;
 
+import hxsge.memory.IDisposable;
+
 class RefCount implements IDisposable {
 	public var refCount(default, null):Int = 0;
 

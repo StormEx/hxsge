@@ -1,6 +1,6 @@
 package hxsge.format.sounds.common;
 
-import hxsge.core.IDisposable;
+import hxsge.memory.IDisposable;
 
 interface ISound extends IDisposable {
 	public var volume(get, set):Float;

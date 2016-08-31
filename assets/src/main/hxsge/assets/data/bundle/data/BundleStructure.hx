@@ -7,7 +7,7 @@ import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.photon.Signal.Signal1;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.core.debug.error.ErrorHolder;
-import hxsge.core.IDisposable;
+import hxsge.memory.IDisposable;
 
 class BundleStructure implements IDisposable {
 	public var errors(default, null):ErrorHolder;
