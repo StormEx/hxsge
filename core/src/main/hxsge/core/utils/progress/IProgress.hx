@@ -1,0 +1,10 @@
+package hxsge.core.utils.progress;
+
+import hxsge.memory.IDisposable;
+
+interface IProgress extends IDisposable {
+	public var progress(get, never):Float;
+	public var isFinished(get, never):Bool;
+
+	public function finish():Void;
+}

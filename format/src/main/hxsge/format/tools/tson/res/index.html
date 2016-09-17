@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html lang="en">
+<head>
+	<title>tson manager</title>
+
+	<script src="node_modules\jquery\dist\jquery.min.js"></script>
+	<script src="node_modules\jquery-ui\jquery-ui.js"></script>
+
+	<link rel="stylesheet" href="node_modules\bootstrap\dist\css\bootstrap.min.css">
+	<script src="node_modules\bootstrap\dist\js\bootstrap.min.js"></script>
+
+	<link rel="stylesheet" href="node_modules/angular/angular-csp.css">
+	<script src="node_modules/angular/angular.min.js"></script>
+
+	<script type="text/javascript" src="node_modules/angular-tree-control/angular-tree-control.js"></script>
+	<link rel="stylesheet" type="text/css" href="node_modules/angular-tree-control/css/tree-control.css">
+
+	<link rel="stylesheet" href="css/tson.css">
+	<script src="test.js"></script>
+</head>
+<body ng-app="tsonmanager" ng-controller="TsonManagerController">
+	<div id="toolbar" class="btn-toolbar tson-toolbar" role="toolbar">
+		<div class="content-toolbar">
+			<button class="btn btn-xs btn-info" title="New tson file" ng-click="newTsonFile()">
+				<span class="glyphicon glyphicon glyphicon-file" aria-hidden="true"></span>
+			</button>
+			<button class="btn btn-xs btn-warning" title="Open tson file" ng-click="loadTsonFile()">
+				<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+			</button>
+			<button class="btn btn-xs btn-success" title="Save tson file" ng-click="saveTsonFile()">
+				<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+			</button>
+		</div>
+	</div>
+	<div class="content-column-holder resizable-column">
+		<div id="tsonbody" class="tsonbody">
+			<div class="content-column-scroll-region">
+				<div ng-if="managerData.isLoaded() == false">
+					Loading...
+				</div>
+<!--
+				<div class="input-group input-group-xs" ng-if="managerData.isLoaded()">
+					<treecontrol
+							id="tsontree"
+							class="tree-classic"
+							tree-model="managerData.treeData"
+							options="treeOptions"
+							on-selection="managerData.selectNode(node, selected)"
+							selected-node="selectedNode"
+					>
+						<span class="input-group-addon">
+							{{node.name}}
+						</span>
+						<span class="input-group-addon tree-node-label-muted">{{node.type}}</span>
+						<span class="input-group-btn">
+						<button type="button" class="btn btn-sm btn-default tson-tree-node-action" ng-click="node.loadFile()" ng-if="node.isBinary()"
+								title="Load binary file" data-placement="bottom">
+							<span>...</span>
+						</button>
+						</span>
+						<button type="button" class="btn btn-sm btn-default btn-info tson-tree-node-action" ng-click="node.duplicateNode()" ng-if="node.isDuplicable()"
+								title="Duplicate node" data-placement="bottom">
+							<span class="glyphicon glyphicon-duplicate"></span>
+						</button>
+					</treecontrol>
+				</div>
+-->
+				<div class="input-group input-group-sm" ng-if="managerData.isLoaded()">
+					<treecontrol
+							id="tsontree"
+							class="tree-classic"
+							tree-model="managerData.treeData"
+							options="treeOptions"
+							on-selection="managerData.selectNode(node, selected)"
+							selected-node="selectedNode"
+					>
+							{{node.name}}
+							<span ng-if="node.info.length > 0">: </span><span class="tree-node-label-muted">{{node.info}}</span>
+							<button type="button" class="btn btn-xs btn-default tson-tree-node-action" ng-click="node.loadFile()" ng-if="node.isBinary()"
+									title="Load binary file" data-placement="bottom">
+								<span class="glyphicon glyphicon-paperclip"></span>
+							</button>
+							<span class="tree-node-label-muted" ng-if="node.isRoot() == false"> - </span>
+							<button type="button" class="btn btn-xs btn-info tson-tree-node-action" ng-click="node.duplicateNode()" ng-if="node.isDuplicable()"
+									title="Duplicate node" data-placement="bottom">
+								<span class="glyphicon glyphicon-duplicate"></span>
+							</button>
+							<button type="button" class="btn btn-xs btn-success tson-tree-node-action" ng-click="node.insertNode()" ng-if="node.isInsertable()"
+									title="Insert node" data-placement="bottom">
+								<span class="glyphicon glyphicon glyphicon-plus"></span>
+							</button>
+							<button type="button" class="btn btn-xs btn-danger tson-tree-node-action" ng-click="node.removeNode()" ng-if="node.isRemovable()"
+									title="Delete node" data-placement="bottom">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
+							<span class="tree-node-label-muted" ng-if="node.isRoot() == false"> - </span>
+							<button type="button" class="btn btn-xs btn-info tson-tree-node-action" ng-click="managerData.copyNode(node)" ng-if="node.isRoot() == false"
+									title="Copy node" data-placement="bottom">
+								<span class="glyphicon glyphicon-copy"></span>
+							</button>
+							<button type="button" class="btn btn-xs btn-warning tson-tree-node-action" ng-click="managerData.cutNode(node)" ng-if="node.isRoot() == false"
+									title="Cut node" data-placement="bottom">
+								<span class="glyphicon glyphicon-scissors"></span>
+							</button>
+							<button type="button" class="btn btn-xs btn-success tson-tree-node-action" ng-click="managerData.pasteNode(node)" ng-if="managerData.isBuffered() && node.isInsertable()"
+									title="Paste node" data-placement="bottom">
+								<span class="glyphicon glyphicon-paste"></span>
+							</button>
+					</treecontrol>
+				</div>
+			</div>
+			<!--<div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div>-->
+		</div>
+	</div>
+	<div class="content-column-holder resizable-column">
+		<div id="tsonproperty" class="tsonproperty" ng-if="true">
+			<div class="panel panel-success tson-property-group" ng-repeat="grp in managerData.getGroups()" ng-if="grp.isEmpty() == false">
+				<div class="panel-heading tson-property-group-header">
+					{{grp.name}} <span class="tree-node-label-muted">{{grp.getDescription()}}</span>
+				</div>
+				<div class="panel-body tson-property-group-body">
+					<div class="input-group input-group-sm tson-property" ng-repeat="prop in grp.properties">
+						<div class="input-group tson-property" ng-if="prop.dataType == 'string'">
+							<span class="input-group-addon tson-property-label">{{prop.name}}</span>
+							<input type="text" class="form-control"
+								   ng-readonly="prop.readOnly"
+								   ng-model="prop.info"
+								   ng-change="prop.update()"
+							>
+						</div>
+						<div class="input-group tson-property" ng-if="prop.dataType == 'number'">
+							<span class="input-group-addon tson-property-label">{{prop.name}}</span>
+							<input type="number" class="form-control"
+								   ng-readonly="prop.readOnly"
+								   ng-model="prop.number"
+								   ng-change="prop.update()"
+							>
+						</div>
+						<div class="input-group tson-property" ng-if="prop.dataType == 'binary'">
+							<span class="input-group-addon tson-property-label">{{prop.name}}</span>
+							<input type="text" class="form-control"
+								   ng-readonly="true"
+								   ng-model="prop.info"
+								   ng-change="prop.update()"
+							>
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-default" ng-click="prop.loadFile()">
+									...
+								</button>
+							</div>
+						</div>
+						<div class="input-group tson-property" ng-if="prop.dataType == 'options'">
+							<span class="input-group-addon tson-property-label">{{prop.name}}</span>
+							<span class="input-group-addon tson-property">{{prop.info}}</span>
+							<div class="input-group-btn property-group" ng-hide="prop.readOnly">
+								<button type="button"
+										class="btn btn-default dropdown-toggle tson-property"
+										ng-disabled="prop.readOnly"
+										data-toggle="dropdown"
+										aria-haspopup="true"
+										aria-expanded="false">
+									  <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu  dropdown-menu-right">
+									<li ng-repeat="option in prop.options" ng-click="prop.changeOption(option)">
+										<a href="#">{{option}}</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</body></html>

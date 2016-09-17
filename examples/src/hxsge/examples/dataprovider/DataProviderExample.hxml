@@ -1,0 +1,23 @@
+-main hxsge.examples.dataprovider.DataProviderExample
+
+-swf-header 912:40:40:FF0000
+
+-lib format
+-lib actuate
+-lib haxeui
+
+-cp src
+-cp ../assets/src/main
+-cp ../dataprovider/src/main
+-cp ../loaders/src/main
+-cp ../format/src/main
+-cp ../candyland/src/main
+-cp ../math/src/main
+-cp ../core/src/main
+-cp ../memory/src/main
+-cp ../swamp/src/main
+-cp ../forge/src/main
+-cp ../photon/src/main
+-cp ../io/src/main
+
+-debug

@@ -1,0 +1,23 @@
+{
+  "name": "tsonmanager",
+  "version": "0.0.1",
+  "main": "index.html",
+  "window": {
+    "title": "tson manager",
+    "toolbar": true,
+    "frame": true,
+    "width": 800,
+    "height": 600,
+    "position": "center",
+    "show": true,
+    "resizable": true,
+    "icon": "icon.png"
+  },
+  "dependencies": {
+    "jquery": "3.0.0",
+    "jquery-ui": "1.10.5",
+    "bootstrap": "3.3.4",
+    "angular-tree-control": "0.2.0",
+    "angular": "1.5.7"
+  }
+}
