@@ -1,5 +1,7 @@
 package hxsge.examples.dataprovider;
 
+import flash.events.Event;
+import hxsge.peachtree.Peachtree;
 import hxsge.candyland.platforms.webgl.WebGLRender;
 import hxsge.candyland.common.IRender;
 import hxsge.candyland.platforms.stage3d.Stage3dRender;
@@ -79,6 +81,8 @@ class DataProviderExample {
 	static var _root:Sprite;
 #end
 	static var _render:IRender;
+	static var _tree:Peachtree;
+	static var _color:Float = 0;
 
 	public function new() {
 	}
@@ -298,11 +302,26 @@ class DataProviderExample {
 #if flash
 			_render.resize(Lib.current.stage.fullScreenWidth, Lib.current.stage.fullScreenHeight);
 #end
-			_render.clear();
-			_render.begin();
-			_render.present();
+			_tree = new Peachtree(_render);
+#if flash
+			Lib.current.addEventListener(Event.ENTER_FRAME, onFrame);
+#end
 		}
 	}
+
+#if flash
+	static function onFrame(e:Event) {
+		_color++;
+		if(_color > 255) {
+			_color = 0;
+		}
+		_render.clear(0, 0, _color);
+		_render.begin();
+		_render.present();
+
+		_tree.update();
+	}
+#end
 
 	static var _prevMemory:Float = 0;
 	static function showMemory() {

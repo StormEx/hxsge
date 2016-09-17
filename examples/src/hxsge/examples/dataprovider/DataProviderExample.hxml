@@ -12,6 +12,7 @@
 -cp ../loaders/src/main
 -cp ../format/src/main
 -cp ../candyland/src/main
+-cp ../peachtree/src/main
 -cp ../math/src/main
 -cp ../core/src/main
 -cp ../memory/src/main
