@@ -1,6 +1,6 @@
 -main hxsge.examples.dataprovider.DataProviderExample
 
--swf-header 912:80:40:FF0000
+-swf-header 640:480:60:FF0000
 
 -lib format
 -lib actuate
