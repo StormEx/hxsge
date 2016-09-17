@@ -311,8 +311,8 @@ class DataProviderExample {
 
 #if flash
 	static function onFrame(e:Event) {
-		_color++;
-		if(_color > 255) {
+		_color += 1/256;
+		if(_color > 1) {
 			_color = 0;
 		}
 		_render.clear(0, 0, _color);
