@@ -48,6 +48,14 @@ class BundleDataProvider extends DataProvider {
 		Memory.dispose(_asyncBatch);
 	}
 
+	public override function clear() {
+		super.clear();
+
+		if(_structure != null) {
+			_structure.clear();
+		}
+	}
+
 	override function prepareData() {
 		_structure.finished.addOnce(onDataPrepared);
 		_structure.load(info);
@@ -58,6 +66,7 @@ class BundleDataProvider extends DataProvider {
 		if(_structure.errors.isError) {
 			errors.concat(_structure.errors);
 
+			clear();
 			finished.emit(this);
 		}
 		else {
@@ -87,6 +96,8 @@ class BundleDataProvider extends DataProvider {
 		}
 
 		if(errors.isError) {
+			clear();
+
 			finished.emit(this);
 		}
 		else {
@@ -108,6 +119,8 @@ class BundleDataProvider extends DataProvider {
 	}
 
 	function onAsyncBatchLoaded(batch:Batch<IDataProvider>) {
+		clear();
+
 		finished.emit(this);
 	}
 

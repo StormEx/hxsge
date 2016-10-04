@@ -29,6 +29,12 @@ class ZipBundleStructure extends JsonBundleStructure {
 	override public function dispose() {
 		super.dispose();
 
+		clear();
+	}
+
+	override public function clear() {
+		super.clear();
+
 		Memory.dispose(_zip);
 	}
 

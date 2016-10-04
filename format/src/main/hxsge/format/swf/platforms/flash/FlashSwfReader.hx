@@ -33,6 +33,7 @@ class FlashSwfReader extends BaseSwfReader {
 	override public function dispose() {
 		super.dispose();
 
+		_appDomain = null;
 		if(_flashLoader != null) {
 			_flashLoader.contentLoaderInfo.removeEventListener(Event.COMPLETE, onContentLoaded);
 			_flashLoader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, onError);

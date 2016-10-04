@@ -36,6 +36,12 @@ class SwfDataProvider extends DataProvider {
 		setMeta(info.meta);
 	}
 
+	override public function clear() {
+		super.clear();
+
+		Memory.dispose(_reader);
+	}
+
 	override public function dispose() {
 		super.dispose();
 

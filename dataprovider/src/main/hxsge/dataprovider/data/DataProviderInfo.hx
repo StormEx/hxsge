@@ -22,8 +22,12 @@ class DataProviderInfo implements IDataProviderInfo {
 		this.meta = meta;
 	}
 
+	public function clear() {
+		data = null;
+	}
+
 	inline function set_data(value:Dynamic):Dynamic {
-		Debug.assert(data == null, "Try to rewrite existing data");
+//		Debug.assert(data == null, "Try to rewrite existing data");
 		data = value;
 
 		return data;

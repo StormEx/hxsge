@@ -26,6 +26,13 @@ class DataProviderGroup<TReader:IReader> extends DataProvider {
 		super.dispose();
 
 		Memory.dispose(_reader);
+		_readers = null;
+	}
+
+	override public function clear() {
+		super.clear();
+
+		Memory.dispose(_reader);
 	}
 
 	override function prepareData() {

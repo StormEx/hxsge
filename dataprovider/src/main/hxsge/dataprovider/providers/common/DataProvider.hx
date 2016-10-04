@@ -56,6 +56,9 @@ class DataProvider implements IDataProvider {
 		}
 		Memory.dispose(_loader);
 		_data = null;
+		if(info != null) {
+			info.clear();
+		}
 	}
 
 	function performCleanup() {}

@@ -37,6 +37,13 @@ class BundleStructure implements IDisposable {
 		errors = null;
 	}
 
+	public function clear() {
+		if(_info != null) {
+			_info.clear();
+		}
+		Memory.dispose(_provider);
+	}
+
 	public function load(info:IDataProviderInfo) {
 		Debug.assert(info != null);
 

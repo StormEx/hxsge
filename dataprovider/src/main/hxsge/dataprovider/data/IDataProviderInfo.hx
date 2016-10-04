@@ -7,4 +7,6 @@ interface IDataProviderInfo {
 	public var meta(default, null):Dynamic;
 
 	public var isNeedToLoad(get, never):Bool;
+
+	public function clear():Void;
 }
