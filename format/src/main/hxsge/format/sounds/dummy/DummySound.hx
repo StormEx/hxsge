@@ -1,6 +1,8 @@
 package hxsge.format.sounds.dummy;
 
+import hxsge.photon.Signal.Signal0;
 import hxsge.format.sounds.common.ISound;
+import hxsge.memory.Memory;
 
 class DummySound implements ISound {
 	public var volume(get, set):Float;
@@ -9,10 +11,14 @@ class DummySound implements ISound {
 	public var isPaused(get, set):Bool;
 	public var length(get, never):Float;
 
+	public var completed(default, null):Signal0;
+
 	public function new() {
+		completed = new Signal0();
 	}
 
 	public function dispose() {
+		Memory.dispose(completed);
 	}
 
 	public function play(startTime:Float = 0) {

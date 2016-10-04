@@ -1,12 +1,14 @@
 package hxsge.format.sounds.platforms.flash;
 
 #if flash
+import hxsge.photon.Signal.Signal0;
 import flash.media.SoundTransform;
 import hxsge.format.sounds.common.SoundVolume;
 import flash.events.Event;
 import flash.media.SoundChannel;
 import flash.media.Sound;
 import hxsge.format.sounds.common.ISound;
+import hxsge.memory.Memory;
 
 class FlashSound implements ISound {
 	public var volume(get, set):Float;
@@ -14,6 +16,8 @@ class FlashSound implements ISound {
 	public var loop(get, set):Bool;
 	public var isPaused(get, set):Bool;
 	public var length(get, never):Float;
+
+	public var completed(default, null):Signal0;
 
 	var _isPaused:Bool = false;
 	var _position:Float = 0;
@@ -27,9 +31,13 @@ class FlashSound implements ISound {
 		_sound = sound;
 		_volume = new SoundVolume(volume, sourceVolume);
 		_st = new SoundTransform(_volume.value);
+
+		completed = new Signal0();
 	}
 
 	public function dispose() {
+		Memory.dispose(completed);
+
 		stop();
 
 		_volume = null;
@@ -75,6 +83,10 @@ class FlashSound implements ISound {
 
 	function onSoundCompleted(event:Event) {
 		stop();
+
+		if(completed != null) {
+			completed.emit();
+		}
 	}
 
 	inline function get_volume():Float {

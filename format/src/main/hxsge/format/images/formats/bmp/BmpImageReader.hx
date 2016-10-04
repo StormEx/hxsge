@@ -5,9 +5,10 @@ import hxsge.format.images.common.Image;
 import haxe.io.Bytes;
 #if !(js || jsnode)
 import haxe.io.BytesInput;
-import format.png.Reader;
-import format.png.Data;
-using format.png.Tools;
+import format.bmp.Reader;
+import format.bmp.Data;
+
+using format.bmp.Tools;
 #end
 
 class BmpImageReader extends ImageReader {
