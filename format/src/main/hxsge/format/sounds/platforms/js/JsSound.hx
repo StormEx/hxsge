@@ -1,15 +1,10 @@
 package hxsge.format.sounds.platforms.js;
 
-#if js
-import hxsge.format.sounds.common.ISound;
-import hxsge.format.json.Json;
-import hxsge.core.debug.Debug;
+#if (js || nodejs)
+import hxsge.memory.Memory;
 import hxsge.format.sounds.common.SoundVolume;
-import js.html.audio.GainNode;
-import js.html.audio.AudioBufferSourceNode;
-import haxe.io.Bytes;
-import js.html.audio.AudioBuffer;
-import js.html.audio.AudioContext;
+import hxsge.photon.Signal.Signal0;
+import hxsge.format.sounds.common.ISound;
 
 class JsSound implements ISound {
 	public var volume(get, set):Float;
@@ -18,73 +13,37 @@ class JsSound implements ISound {
 	public var isPaused(get, set):Bool;
 	public var length(get, never):Float;
 
-	var _context:AudioContext;
-	var _buffer:AudioBuffer;
-	var _source:AudioBufferSourceNode;
-	var _gain:GainNode;
-	var _isReady:Bool = false;
-	var _data:Bytes;
+	public var completed(default, null):Signal0;
+
 	var _position:Float = 0;
 	var _volume:SoundVolume;
 	var _loop:Bool = false;
 	var _isPaused:Bool = false;
 
-	public function new(data:Bytes, volume:Float, sourceVolume:Float) {
-		try {
-			_context = new AudioContext();
-			_gain = _context.createGain();
-			_data = data;
-			_volume = new SoundVolume(volume, sourceVolume);
-		}
-		catch(e:Dynamic) {
-			_context = null;
-			_gain = null;
-		}
+	public function new(volume:Float, sourceVolume:Float) {
+		completed = new Signal0();
+		_volume = new SoundVolume(volume, sourceVolume);
 	}
 
 	public function dispose() {
+		Memory.dispose(completed);
+
 		stop();
 
 		_volume = null;
-		_data = null;
-		_buffer = null;
-		_gain = null;
-		_context = null;
 	}
 
 	public function play(startTime:Float = 0) {
 		stop();
 
 		_position = startTime;
-		if(!_isReady) {
-			if(_context != null) {
-				try {
-					_context.decodeAudioData(_data.getData(), onDataDecoded);
-				}
-				catch(e:Dynamic) {
-					Debug.trace("Can't decode audio data: " + Json.stringify(e));
-				}
-			}
-		}
-		else {
-			_play();
-		}
-	}
 
-	function _play() {
-		if(_buffer != null && _context != null && _source == null) {
-			_source = _context.createBufferSource();
-			_source.buffer = _buffer;
-			_source.connect(_context.destination);
-			_source.loop = loop;
-			_gain.gain.value = _volume.value;
-			_source.start(_position);
-		}
+		performPlay();
 	}
 
 	public function pause() {
-		if(!_isPaused && _source != null) {
-			_position = _context.currentTime;
+		if(!_isPaused) {
+			_position = getCurrentTime();
 			stop();
 			_isPaused = true;
 		}
@@ -98,29 +57,45 @@ class JsSound implements ISound {
 	}
 
 	public function stop() {
-		if(_source != null) {
-			_source.stop();
-			_source.disconnect();
-			_source = null;
-		}
+		_position = 0;
+		performStop();
 	}
 
-	function onDataDecoded(buffer:AudioBuffer) {
-		_buffer = buffer;
-		_isReady = true;
+	function performPlay(startTime:Float = 0) {
+	}
 
-		_play();
+	function performStop() {
+	}
+
+	function changeVolume() {
+	}
+
+	function getDuration():Float {
+		return 0;
+	}
+
+	function getCurrentTime():Float {
+		return 0;
+	}
+
+	function onSoundCompleted() {
+		stop();
+
+		if(completed != null) {
+			completed.emit();
+		}
 	}
 
 	inline function get_volume():Float {
-		return _volume.value;
+		return _volume != null ? _volume.value : 0;
 	}
 
 	inline function set_volume(value:Float):Float {
-		_volume.value = value;
-		if(_gain != null) {
-			_gain.gain.value = _volume.value;
+		if(_volume == null || _volume.value == value) {
+			return 0;
 		}
+		_volume.value = value;
+		changeVolume();
 
 		return _volume.value;
 	}
@@ -130,11 +105,12 @@ class JsSound implements ISound {
 	}
 
 	inline function set_sourceVolume(value:Float):Float {
-		if(_volume.source != value) {
-			_volume.source = value;
-
-			this.volume = _volume.value;
+		if(_volume == null || _volume.source == value) {
+			return value;
 		}
+
+		_volume.source = value;
+		volume = _volume.value;
 
 		return _volume.source;
 	}
@@ -158,7 +134,7 @@ class JsSound implements ISound {
 	}
 
 	inline function get_length():Float {
-		return _buffer != null ? _buffer.duration : 0;
+		return getDuration();
 	}
 }
 #end
