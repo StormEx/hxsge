@@ -1,6 +1,7 @@
 package hxsge.candyland.platforms.stage3d;
 
 #if flash
+import hxsge.candyland.common.IGeometry;
 import flash.display3D.Context3DClearMask;
 import hxsge.candyland.common.AntialiasType;
 import flash.display3D.Context3DCompareMode;
@@ -112,6 +113,10 @@ class Stage3dRender implements IRender {
 		_height = height;
 
 		configureBackBuffer();
+	}
+
+	public function createGeometry():IGeometry {
+		return new Stage3dGeometry(this);
 	}
 
 	function configureBackBuffer() {

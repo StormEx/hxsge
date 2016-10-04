@@ -16,4 +16,6 @@ interface IRender extends IDisposable {
 	public function begin():Void;
 	public function present():Void;
 	public function resize(width:Int, height:Int):Void;
+
+	public function createGeometry():IGeometry;
 }

@@ -1,6 +1,7 @@
 package hxsge.candyland.platforms.webgl;
 
 #if js
+import hxsge.candyland.common.IGeometry;
 import hxsge.core.debug.Debug;
 import hxsge.memory.Memory;
 import js.html.webgl.RenderingContext;
@@ -78,6 +79,10 @@ class WebGLRender implements IRender {
 
 	public function resize(width:Int, height:Int) {
 
+	}
+
+	public function createGeometry():IGeometry {
+		return null;
 	}
 
 	inline function get_info():String {
