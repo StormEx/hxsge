@@ -12,6 +12,5 @@ class Renderer {
 	}
 
 	public function addQuad(data:Array<Float>, material:Material) {
-
 	}
 }
