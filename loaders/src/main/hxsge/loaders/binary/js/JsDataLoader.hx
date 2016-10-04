@@ -31,9 +31,18 @@ class JsDataLoader extends BaseLoader {
 	}
 
 	function onLoaded(e:Dynamic) {
-		content = Bytes.ofData(new Uint8Array(untyped _request.response).buffer);
+		if(_request.status == 200) {
+			content = Bytes.ofData(new Uint8Array(untyped _request.response).buffer);
 
-		performComplete();
+			performComplete();
+		}
+		else {
+			if(_request.status == 404) {
+
+			}
+
+			performFail(url);
+		}
 	}
 
 	function onErrored(e:Dynamic) {
