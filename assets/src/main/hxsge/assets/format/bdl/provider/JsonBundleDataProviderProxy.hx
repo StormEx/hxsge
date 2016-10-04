@@ -18,7 +18,7 @@ class JsonBundleDataProviderProxy extends DataProviderProxy {
 		return ext == "jbdl";
 	}
 
-	override public function create(info:IDataProviderInfo):IDataProvider {
-		return new BundleDataProvider(new JsonBundleStructure(), info);
+	override public function create(info:IDataProviderInfo, parent:IDataProvider = null):IDataProvider {
+		return new BundleDataProvider(new JsonBundleStructure(), info, parent);
 	}
 }

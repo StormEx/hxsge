@@ -1,5 +1,6 @@
 package hxsge.assets.data.bundle;
 
+import hxsge.assets.format.bdl.data.BundleResourceData;
 import hxsge.assets.data.bundle.data.BundleStructure;
 import hxsge.core.debug.error.Error;
 import hxsge.core.utils.progress.IProgress;
@@ -13,6 +14,8 @@ import hxsge.photon.Signal;
 import hxsge.dataprovider.data.IDataProviderInfo;
 import hxsge.dataprovider.providers.common.DataProvider;
 
+using hxsge.core.utils.ArrayTools;
+
 class BundleDataProvider extends DataProvider {
 	public var dependencies(get, never):Array<String>;
 
@@ -24,10 +27,10 @@ class BundleDataProvider extends DataProvider {
 	var _syncBatch:ProviderBatch;
 	var _asyncBatch:ProviderBatch;
 
-	public function new(bundleStructure:BundleStructure, info:IDataProviderInfo) {
+	public function new(bundleStructure:BundleStructure, info:IDataProviderInfo, parent:IDataProvider = null) {
 		Debug.assert(bundleStructure != null);
 
-		super(info);
+		super(info, parent);
 
 		prepared = new Signal1();
 		initialized = new Signal1();
@@ -84,7 +87,7 @@ class BundleDataProvider extends DataProvider {
 		var dp:IDataProvider = null;
 
 		for(s in data) {
-			dp = DataProviderManager.get(s);
+			dp = DataProviderManager.get(s, this);
 			if(dp == null) {
 //				errors.addError(Error.create("Can't find data provider for: " + s.url));
 
@@ -104,6 +107,23 @@ class BundleDataProvider extends DataProvider {
 			batch.finished.addOnce(callback);
 			batch.handle();
 		}
+	}
+
+	override public function getDataProviders(data:Array<IDataProviderInfo>):Array<IDataProviderInfo> {
+		var res:Array<IDataProviderInfo> = [];
+		var info:IDataProviderInfo;
+
+		for(d in data) {
+			info = _structure.getInfo(new BundleResourceData(d.id, d.url, d.data, d.meta), []);
+			if(info != null) {
+				res.push(info);
+			}
+		}
+		if(res.isEmpty()) {
+			res = data;
+		}
+
+		return res;
 	}
 
 	function onSyncBatchLoaded(batch:Batch<IDataProvider>) {

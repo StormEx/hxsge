@@ -13,8 +13,8 @@ class DataProviderGroup<TReader:IReader> extends DataProvider {
 	var _reader:TReader;
 	var _readers:Map<String, Class<TReader>>;
 
-	public function new(info:IDataProviderInfo, readers:Map<String, Class<TReader>>) {
-		super(info);
+	public function new(info:IDataProviderInfo, readers:Map<String, Class<TReader>>, parent:IDataProvider = null) {
+		super(info, parent);
 
 		_readers = readers;
 		if(_readers == null) {

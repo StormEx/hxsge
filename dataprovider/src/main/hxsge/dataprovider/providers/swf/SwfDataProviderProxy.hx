@@ -9,7 +9,7 @@ class SwfDataProviderProxy extends DataProviderProxy {
 		super("swf");
 	}
 
-	override public function create(info:IDataProviderInfo):IDataProvider {
-		return new SwfDataProvider(info);
+	override public function create(info:IDataProviderInfo, parent:IDataProvider = null):IDataProvider {
+		return new SwfDataProvider(info, parent);
 	}
 }

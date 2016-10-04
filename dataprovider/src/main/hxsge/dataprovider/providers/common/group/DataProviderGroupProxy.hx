@@ -23,7 +23,7 @@ class DataProviderGroupProxy<TType> extends DataProviderProxy{
 		return _types.readers.exists(ext);
 	}
 
-	override public function create(info:IDataProviderInfo):IDataProvider {
+	override public function create(info:IDataProviderInfo, parent:IDataProvider = null):IDataProvider {
 		Debug.error("need to override");
 
 		return null;

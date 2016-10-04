@@ -1,5 +1,6 @@
 package hxsge.dataprovider.providers.zip;
 
+import hxsge.dataprovider.providers.common.IDataProvider;
 import haxe.zip.Reader;
 import haxe.io.BytesInput;
 import haxe.io.Bytes;
@@ -15,8 +16,8 @@ class ZipDataProvider extends DataProvider {
 
 	var _reader:Reader;
 
-	public function new(info:IDataProviderInfo) {
-		super(info);
+	public function new(info:IDataProviderInfo, parent:IDataProvider = null) {
+		super(info, parent);
 	}
 
 	override public function dispose() {

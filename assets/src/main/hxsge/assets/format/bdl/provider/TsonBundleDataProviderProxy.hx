@@ -18,7 +18,7 @@ class TsonBundleDataProviderProxy extends DataProviderProxy {
 		return ext == "tbdl";
 	}
 
-	override public function create(info:IDataProviderInfo):IDataProvider {
-		return new BundleDataProvider(new TsonBundleStructure(), info);
+	override public function create(info:IDataProviderInfo, parent:IDataProvider = null):IDataProvider {
+		return new BundleDataProvider(new TsonBundleStructure(), info, parent);
 	}
 }

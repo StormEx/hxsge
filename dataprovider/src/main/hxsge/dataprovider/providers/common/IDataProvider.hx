@@ -12,9 +12,8 @@ interface IDataProvider extends IDisposable {
 	public var progress(get, never):IProgress;
 
 	public var finished(default, null):Signal1<IDataProvider>;
-	public var dataProviderNeeded(default, null):Signal2<IDataProvider, String>;
 
 	public function load():Void;
 	public function clear():Void;
-	public function provideRequestedDataProvider(provider:IDataProvider):Void;
+	public function getDataProviders(data:Array<IDataProviderInfo>):Array<IDataProviderInfo>;
 }

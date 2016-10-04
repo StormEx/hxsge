@@ -17,8 +17,8 @@ class DataProviderProxy implements IDataProviderProxy {
 		return ext == type;
 	}
 
-	public function create(info:IDataProviderInfo):IDataProvider {
-		return new DataProvider(info);
+	public function create(info:IDataProviderInfo, parent:IDataProvider = null):IDataProvider {
+		return new DataProvider(info, parent);
 	}
 
 	function get_info():String {

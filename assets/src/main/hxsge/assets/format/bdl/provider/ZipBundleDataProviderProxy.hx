@@ -18,7 +18,7 @@ class ZipBundleDataProviderProxy extends DataProviderProxy {
 		return ext == "zbdl";
 	}
 
-	override public function create(info:IDataProviderInfo):IDataProvider {
-		return new BundleDataProvider(new ZipBundleStructure(), info);
+	override public function create(info:IDataProviderInfo, parent:IDataProvider = null):IDataProvider {
+		return new BundleDataProvider(new ZipBundleStructure(), info, parent);
 	}
 }

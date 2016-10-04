@@ -10,7 +10,11 @@ class BundleResourceData implements ISerializable {
 	public var data(default, null):Dynamic;
 	public var meta(default, null):Dynamic;
 
-	public function new() {
+	public function new(id:String = null, name:String = null, data:Dynamic = null, meta:Dynamic = null) {
+		this.id = id;
+		this.name = name;
+		this.data = data;
+		this.meta = meta;
 	}
 
 	inline public function getId():String {

@@ -59,8 +59,8 @@ class ZipBundleStructure extends JsonBundleStructure {
 		}
 	}
 
-	override function getInfo(resourceData:BundleResourceData, tags:Array<String>):IDataProviderInfo {
-		var dir:String = _info.url.isNotEmpty() ? Path.directory(_info.url) : "";
+	override public function getInfo(resourceData:BundleResourceData, tags:Array<String>):IDataProviderInfo {
+		var dir:String = "";//_info.url.isNotEmpty() ? Path.directory(_info.url) : "";
 		var dpi:DataProviderInfo = null;
 
 		dir = dir.isNotEmpty() ? (dir + "/" + resourceData.name) : resourceData.name;

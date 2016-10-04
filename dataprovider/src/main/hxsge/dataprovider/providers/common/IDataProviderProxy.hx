@@ -7,5 +7,5 @@ interface IDataProviderProxy {
 	public var info(get, never):String;
 
 	public function check(info:IDataProviderInfo):Bool;
-	public function create(info:IDataProviderInfo):IDataProvider;
+	public function create(info:IDataProviderInfo, parent:IDataProvider = null):IDataProvider;
 }

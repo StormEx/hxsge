@@ -9,11 +9,6 @@ class ProviderBatch extends Batch<IDataProvider> {
 
 	override function startHandleItem() {
 		_current.finished.addOnce(onItemHandled);
-		_current.dataProviderNeeded.add(onDataNeeded);
 		_current.load();
-	}
-
-	function onDataNeeded(provider:IDataProvider, info:String) {
-		_current.provideRequestedDataProvider(null);
 	}
 }

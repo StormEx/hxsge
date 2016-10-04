@@ -21,10 +21,10 @@ class DataProviderManager {
 		Log.log("registered proxy for provider: " + proxy.info);
 	}
 
-	public static function get(info:IDataProviderInfo):IDataProvider {
+	public static function get(info:IDataProviderInfo, parent:IDataProvider = null):IDataProvider {
 		for(p in _proxies) {
 			if(p.check(info)) {
-				return p.create(info);
+				return p.create(info, parent);
 			}
 		}
 

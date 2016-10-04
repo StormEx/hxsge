@@ -9,7 +9,7 @@ class ZipDataProviderProxy extends DataProviderProxy {
 		super("zip");
 	}
 
-	override public function create(info:IDataProviderInfo):IDataProvider {
-		return new ZipDataProvider(info);
+	override public function create(info:IDataProviderInfo, parent:IDataProvider = null):IDataProvider {
+		return new ZipDataProvider(info, parent);
 	}
 }

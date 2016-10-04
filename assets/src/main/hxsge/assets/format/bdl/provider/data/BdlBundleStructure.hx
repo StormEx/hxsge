@@ -38,7 +38,7 @@ class BdlBundleStructure extends BundleStructure {
 		}
 	}
 
-	function getInfo(resourceData:BundleResourceData, tags:Array<String>):IDataProviderInfo {
+	override public function getInfo(resourceData:BundleResourceData, tags:Array<String>):IDataProviderInfo {
 		var ext:String = Path.extension(resourceData.name);
 		var dir:String = Path.directory(_info.url) + "/" + resourceData.name;
 

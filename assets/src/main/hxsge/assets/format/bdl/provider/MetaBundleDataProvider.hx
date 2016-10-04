@@ -1,5 +1,6 @@
 package hxsge.assets.format.bdl.provider;
 
+import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.memory.Memory;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.core.platforms.Platforms;
@@ -15,8 +16,8 @@ class MetaBundleDataProvider extends DataProvider {
 	var _reader:BundleReader;
 	var _version:String;
 
-	public function new(info:IDataProviderInfo, version:String = null) {
-		super(info);
+	public function new(info:IDataProviderInfo, version:String = null, parent:IDataProvider = null) {
+		super(info, parent);
 
 		_version = version;
 	}

@@ -1,5 +1,6 @@
 package hxsge.assets.data.bundle.data;
 
+import hxsge.assets.format.bdl.data.BundleResourceData;
 import haxe.io.Path;
 import hxsge.core.debug.Debug;
 import hxsge.memory.Memory;
@@ -57,6 +58,10 @@ class BundleStructure implements IDisposable {
 				finished.emit(this);
 			}
 		}
+	}
+
+	public function getInfo(resourceData:BundleResourceData, tags:Array<String>):IDataProviderInfo {
+		return null;
 	}
 
 	function prepareData() {

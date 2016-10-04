@@ -1,6 +1,7 @@
 package hxsge.dataprovider.providers.swf;
 
 #if flash
+import hxsge.dataprovider.providers.common.IDataProvider;
 import hxsge.core.utils.progress.IProgress;
 import hxsge.core.debug.error.Error;
 import hxsge.format.common.IReader;
@@ -27,8 +28,8 @@ class SwfDataProvider extends DataProvider {
 	var _swfLoader:Loader;
 	var _reader:SwfReader;
 
-	public function new(info:IDataProviderInfo) {
-		super(info);
+	public function new(info:IDataProviderInfo, parent:IDataProvider = null) {
+		super(info, parent);
 
 		images = new Map();
 		sounds = new Map();
