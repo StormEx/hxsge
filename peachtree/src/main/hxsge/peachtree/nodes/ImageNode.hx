@@ -1,6 +1,6 @@
 package hxsge.peachtree.nodes;
 
-import hxsge.candyland.common.Material;
+import hxsge.candyland.common.material.Material;
 import hxsge.candyland.common.Image;
 
 class ImageNode extends SceneNode {

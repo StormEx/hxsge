@@ -1,7 +1,13 @@
 package hxsge.candyland.platforms.webgl;
 
 #if js
-import hxsge.candyland.common.IGeometry;
+import hxsge.math.Matrix4;
+import hxsge.candyland.common.material.BlendFactor;
+import hxsge.candyland.common.TextureFormat;
+import hxsge.candyland.common.geometry.VertexStructure;
+import hxsge.candyland.common.material.IShader;
+import hxsge.candyland.common.material.ITexture;
+import hxsge.candyland.common.geometry.IGeometry;
 import hxsge.core.debug.Debug;
 import hxsge.memory.Memory;
 import js.html.webgl.RenderingContext;
@@ -77,12 +83,48 @@ class WebGLRender implements IRender {
 
 	}
 
+	public function drawIndexedTriangles(count:Int) {
+
+	}
+
 	public function resize(width:Int, height:Int) {
 
 	}
 
-	public function createGeometry():IGeometry {
+	public function createGeometry(vs:VertexStructure):IGeometry {
 		return null;
+	}
+
+	public function createTexture(width:Int, height:Int, format:TextureFormat):ITexture {
+		return null;
+	}
+
+	public function createShader():IShader {
+		return null;
+	}
+
+	public function setGeometry(geometry:IGeometry) {
+
+	}
+
+	public function setTexture(texture:ITexture, index:Int = 0) {
+
+	}
+
+	public function setShader(shader:IShader) {
+
+	}
+
+	public function setBlendMode(src:BlendFactor, dst:BlendFactor) {
+
+	}
+
+	public function setMatrix(view:Matrix4) {
+
+	}
+
+	public function setScissor(x:Float, y:Float, width:Float, height:Float) {
+
 	}
 
 	inline function get_info():String {

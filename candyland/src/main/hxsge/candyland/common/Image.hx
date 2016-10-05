@@ -1,5 +1,6 @@
 package hxsge.candyland.common;
 
+import hxsge.candyland.common.material.ITexture;
 import hxsge.memory.IDisposable;
 
 class Image implements IDisposable {

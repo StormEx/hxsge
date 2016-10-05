@@ -1,7 +1,13 @@
 package hxsge.candyland.platforms.stage3d;
 
 #if flash
-import hxsge.candyland.common.IGeometry;
+import hxsge.math.Matrix4;
+import hxsge.candyland.common.material.BlendFactor;
+import hxsge.candyland.common.TextureFormat;
+import hxsge.candyland.common.material.IShader;
+import hxsge.candyland.common.material.ITexture;
+import hxsge.candyland.common.geometry.VertexStructure;
+import hxsge.candyland.common.geometry.IGeometry;
 import flash.display3D.Context3DClearMask;
 import hxsge.candyland.common.AntialiasType;
 import flash.display3D.Context3DCompareMode;
@@ -20,6 +26,7 @@ import flash.display3D.Context3D;
 import flash.display.Stage3D;
 import hxsge.candyland.common.IRender;
 
+@:allow(hxsge.candyland.platforms.stage3d.Stage3dGeometry)
 class Stage3dRender implements IRender {
 	public var info(get, never):String;
 	public var isLost(get, never):Bool;
@@ -93,6 +100,10 @@ class Stage3dRender implements IRender {
 		_context3D.present();
 	}
 
+	public function drawIndexedTriangles(count:Int) {
+
+	}
+
 	public function resize(width:Int, height:Int) {
 		if(_context3D == null) {
 			return;
@@ -115,8 +126,40 @@ class Stage3dRender implements IRender {
 		configureBackBuffer();
 	}
 
-	public function createGeometry():IGeometry {
-		return new Stage3dGeometry(this);
+	public function createGeometry(vs:VertexStructure):IGeometry {
+		return new Stage3dGeometry(this, vs);
+	}
+
+	public function createTexture(width:Int, height:Int, format:TextureFormat):ITexture {
+		return null;
+	}
+
+	public function createShader():IShader {
+		return null;
+	}
+
+	public function setGeometry(geometry:IGeometry) {
+
+	}
+
+	public function setTexture(texture:ITexture, index:Int = 0) {
+
+	}
+
+	public function setShader(shader:IShader) {
+
+	}
+
+	public function setBlendMode(src:BlendFactor, dst:BlendFactor) {
+
+	}
+
+	public function setMatrix(view:Matrix4) {
+
+	}
+
+	public function setScissor(x:Float, y:Float, width:Float, height:Float) {
+
 	}
 
 	function configureBackBuffer() {
