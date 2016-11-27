@@ -1,5 +1,7 @@
 package hxsge.candyland.common;
 
+import hxsge.candyland.platforms.stage3d.Stage3dShaderExtension;
+import hxsge.core.utils.Color32;
 import hxsge.candyland.common.material.Material;
 import hxsge.candyland.common.material.ITexture;
 import hxsge.candyland.common.material.IShader;
@@ -27,7 +29,9 @@ class RenderManager {
 
 	var _render:IRender;
 
+	var _defaultShader:IShader;
 	var _blankTexture:ITexture;
+
 	var _cbOnReady:Void->Void;
 
 	var _currentShader:IShader;
@@ -43,16 +47,28 @@ class RenderManager {
 
 	public function new(device:IRender) {
 		_render = device;
+
+		initialized = new Signal0();
 	}
 
 	public function initialize() {
 		Debug.assert(isInitialized == false);
 
-		initialized = new Signal0();
+		isInitialized = true;
+		_blankTexture = createTexture(1, 1);
+		_blankTexture.fill(Color32.WHITE);
 
-		_render.initialized.add(onDriverInitialized);
+		_defaultShader = createShader();
+		_defaultShader.initialize(Stage3dShaderExtension.createShaderData(
+			"m44 op, va0, vc0\nmov v0, va1\nmov v1, va2\nmov v2, va3",
+			"tex ft0, v0, fs0 <2d, linear, nomip, clamp>\nmul oc, ft0, v1"
+		));
+
+//		_render.initialized.add(onDriverInitialized);
 		_render.restored.add(onDriverRestored);
-		_render.initialize();
+//		_render.initialize();
+
+		initialized.emit();
 	}
 
 	public function dispose() {
@@ -66,7 +82,7 @@ class RenderManager {
 		Debug.assert(_render != null && isInitialized);
 	}
 
-	public function clear(r:Float, g:Float, b:Float, a:Float):Void {
+	public function clear(r:Float, g:Float, b:Float, a:Float) {
 		guardInitializedState();
 
 		_render.clear(r, g, b, a);
@@ -130,11 +146,8 @@ class RenderManager {
 			try {
 				setMaterial(material);
 				setModelViewProjection();
-				setGeometry(geometry);
-
-				var triangles:Int = geometry.numTriangles;
-				_render.drawIndexedTriangles(triangles);
-				__trackDrawCall(triangles);
+				_render.drawGeometry(geometry);
+				__trackDrawCall(geometry.numTriangles);
 			}
 			catch(e:Dynamic) {
 				Debug.trace("[RenderManager]: Can't draw mesh...");
@@ -175,11 +188,14 @@ class RenderManager {
 		guardInitializedState();
 
 		Debug.assert(material != null);
-		Debug.assert(material.shader != null);
+//		Debug.assert(material.shader != null);
 
 		var shader = material.shader;
+		if(shader == null) {
+			shader = _defaultShader;
+		}
 		if(shader != _currentShader) {
-			_render.setShader(material.shader);
+			_render.setShader(shader);
 			_currentShader = shader;
 			_needToUploadMVP = true;
 		}
@@ -198,12 +214,6 @@ class RenderManager {
 		}
 	}
 
-	function setGeometry(geometry:IGeometry) {
-		guardInitializedState();
-
-		_render.setGeometry(geometry);
-	}
-
 	inline public function createGeometry(vertexStructure:VertexStructure):IGeometry {
 		return _render.createGeometry(vertexStructure);
 	}
@@ -220,7 +230,7 @@ class RenderManager {
 		if(flag) {
 			isInitialized = true;
 			_blankTexture = createTexture(1, 1);
-//			_blankTexture.fill(Color32.WHITE);
+			_blankTexture.fill(Color32.WHITE);
 
 			initialized.emit();
 		}

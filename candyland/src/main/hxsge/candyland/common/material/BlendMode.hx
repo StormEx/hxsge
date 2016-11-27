@@ -10,7 +10,7 @@ class BlendMode {
 	}
 
 	public static function createAlpha():BlendMode {
-		return createBlendMode(BlendFactor.SOURCE_ALPHA, BlendFactor.ONE_MINUS_SOURCE_ALPHA);
+		return createBlendMode(BlendFactor.ONE, BlendFactor.ONE_MINUS_SOURCE_ALPHA);
 	}
 
 	public static function createAdditive():BlendMode {

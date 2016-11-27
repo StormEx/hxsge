@@ -1,5 +1,9 @@
 package hxsge.examples.dataprovider;
 
+import hxsge.peachtree.nodes.ImageNode;
+import hxsge.candyland.common.material.IShader;
+import hxsge.candyland.platforms.stage3d.Stage3dShaderExtension;
+import hxsge.candyland.common.material.IShader;
 import flash.events.Event;
 import hxsge.peachtree.Peachtree;
 import hxsge.candyland.platforms.webgl.WebGLRender;
@@ -303,6 +307,13 @@ class DataProviderExample {
 			_render.resize(Lib.current.stage.fullScreenWidth, Lib.current.stage.fullScreenHeight);
 #end
 			_tree = new Peachtree(_render);
+			var node:ImageNode = new ImageNode();
+			var nn:ImageNode = new ImageNode();
+			nn.addChild(new ImageNode());
+			nn.addChild(new ImageNode());
+			nn.addChild(new ImageNode());
+			node.addChild(nn);
+			_tree.root.addChild(node);
 #if flash
 			Lib.current.addEventListener(Event.ENTER_FRAME, onFrame);
 #end
@@ -315,9 +326,7 @@ class DataProviderExample {
 		if(_color > 1) {
 			_color = 0;
 		}
-		_render.clear(0, 0, _color);
-		_render.begin();
-		_render.present();
+//		_render.clear(0, 0, _color);
 
 		_tree.update();
 	}

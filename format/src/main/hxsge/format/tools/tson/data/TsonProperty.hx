@@ -4,7 +4,7 @@ import hxsge.memory.Memory;
 import hxsge.photon.Signal;
 
 using hxsge.core.utils.ArrayTools;
-using hxsge.math.extentions.MathFloatExtention;
+using hxsge.math.extentions.MathFloatExtension;
 
 class TsonProperty {
 	public var type:TsonPropertyType;

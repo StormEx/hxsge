@@ -1,5 +1,6 @@
 package hxsge.peachtree.nodes;
 
+import hxsge.peachtree.nodes.SceneNode;
 import hxsge.math.Matrix2;
 
 class SceneNode {
@@ -25,6 +26,15 @@ class SceneNode {
 	var _children:Array<SceneNode> = [];
 
 	public function new() {
+	}
+
+	public function addChild(node:SceneNode, index:Int = -1) {
+		if(index == -1) {
+			_children.push(node);
+		}
+		else {
+			_children.insert(index, node);
+		}
 	}
 
 	function visit(flags:Int, renderer:Renderer) {

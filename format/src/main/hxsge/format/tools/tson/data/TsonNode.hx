@@ -13,7 +13,7 @@ import js.html.InputElement;
 
 using hxsge.core.utils.StringTools;
 using hxsge.format.tson.data.TsonValueTypeTools;
-using hxsge.math.extentions.MathFloatExtention;
+using hxsge.math.extentions.MathFloatExtension;
 using hxsge.core.utils.ArrayTools;
 using hxsge.loaders.utils.LoaderTools;
 

@@ -1,6 +1,6 @@
 package hxsge.math;
 
-abstract Matrix4(Array<Float>) from Array<Float> {
+abstract Matrix4(Array<Float>) from Array<Float> to Array<Float> {
 	inline public function new() {
 		this = new Array();
 		for(i in 0...16) {

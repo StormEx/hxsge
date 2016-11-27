@@ -41,6 +41,7 @@ class Stage3dGeometry implements IGeometry {
 	public function uploadIndices(bytes:Bytes, bytesLength:Int = 0, bytesOffset:Int = 0) {
 		resizeIndexBuffer(bytesLength);
 		_numTriangles = Std.int((bytesOffset + bytes.length) / 12);
+		_numTriangles = Std.int(bytesLength / 6);
 		indexBuffer.uploadFromByteArray(bytes.getData(), bytesOffset, 0, indexBytesLength >>> 1);
 	}
 
@@ -67,7 +68,7 @@ class Stage3dGeometry implements IGeometry {
 		}
 	}
 
-	inline function resizeVertexBuffer(size:Int) {
+	function resizeVertexBuffer(size:Int) {
 		if(size > vertexBytesAllocated) {
 			reallocVertexBuffer(size);
 		}
@@ -96,7 +97,7 @@ class Stage3dGeometry implements IGeometry {
 		}
 	}
 
-	inline function resizeIndexBuffer(size:Int) {
+	function resizeIndexBuffer(size:Int) {
 		if(size > indexBytesAllocated) {
 			reallocIndexBuffer(size);
 		}

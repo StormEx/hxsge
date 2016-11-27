@@ -10,6 +10,11 @@ class ImageNode extends SceneNode {
 	var _material:Material = null;
 	var _geometryData:Array<Float> = [];
 
+	var x:Int = Std.int(100 * Math.random());
+	var y:Int = Std.int(100 * Math.random());
+	var cx:Int = Std.int(100 * Math.random());
+	var cy:Int = Std.int(100 * Math.random());
+
 	public function new() {
 		super();
 
@@ -23,19 +28,21 @@ class ImageNode extends SceneNode {
 
 		updateGeometryData();
 
+		renderer.setState(_material, 4);
 		renderer.addQuad(_geometryData, _material);
 	}
 
 	function updateGeometryData() {
 		_geometryData = [
-			10, 310, 0, 1, 1, 1, 1, 1,
-			10, 10, 0, 0, 1, 1, 1, 1,
-			310, 10, 1, 0, 1, 1, 1, 1,
-			310, 310, 1, 1, 1, 1, 1, 1
+			x, y + cy, 0, 1,
+			x, y, 0, 0,
+			x + cx, y, 1, 0,
+			x + cx, y + cy, 1, 1
 		];
 	}
 
 	function updateMaterial() {
+
 	}
 
 	inline function get_image():Image {

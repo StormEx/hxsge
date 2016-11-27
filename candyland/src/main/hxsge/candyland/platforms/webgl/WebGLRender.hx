@@ -83,7 +83,7 @@ class WebGLRender implements IRender {
 
 	}
 
-	public function drawIndexedTriangles(count:Int) {
+	public function drawGeometry(geometry:IGeometry) {
 
 	}
 
@@ -101,10 +101,6 @@ class WebGLRender implements IRender {
 
 	public function createShader():IShader {
 		return null;
-	}
-
-	public function setGeometry(geometry:IGeometry) {
-
 	}
 
 	public function setTexture(texture:ITexture, index:Int = 0) {

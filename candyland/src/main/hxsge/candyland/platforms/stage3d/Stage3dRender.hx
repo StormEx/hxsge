@@ -1,6 +1,13 @@
 package hxsge.candyland.platforms.stage3d;
 
 #if flash
+import hxsge.candyland.common.geometry.VertexElement;
+import flash.geom.Matrix3D;
+import flash.display3D.Context3DProgramType;
+import flash.display3D.Context3DBlendFactor;
+import flash.display3D.Context3DVertexBufferFormat;
+import flash.display3D.VertexBuffer3D;
+import flash.display3D.IndexBuffer3D;
 import hxsge.math.Matrix4;
 import hxsge.candyland.common.material.BlendFactor;
 import hxsge.candyland.common.TextureFormat;
@@ -27,7 +34,11 @@ import flash.display.Stage3D;
 import hxsge.candyland.common.IRender;
 
 @:allow(hxsge.candyland.platforms.stage3d.Stage3dGeometry)
+@:allow(hxsge.candyland.platforms.stage3d.Stage3dShader)
+@:allow(hxsge.candyland.platforms.stage3d.Stage3dTexture)
 class Stage3dRender implements IRender {
+	static var MATRIX:Matrix3D = new Matrix3D();
+
 	public var info(get, never):String;
 	public var isLost(get, never):Bool;
 	public var antialias(default, set):AntialiasType = AntialiasType.NONE;
@@ -40,6 +51,8 @@ class Stage3dRender implements IRender {
 	var _contextTypes:Array<String> = ["baselineExtended", "baseline", "baselineConstrained"];
 	var _currentContextType:Int = 0;
 	var _mask:UInt = Context3DClearMask.ALL;
+
+	var _currentShader:IShader;
 
 	var _width:Int;
 	var _height:Int;
@@ -100,8 +113,23 @@ class Stage3dRender implements IRender {
 		_context3D.present();
 	}
 
-	public function drawIndexedTriangles(count:Int) {
+	public function drawGeometry(geometry:IGeometry) {
+		var geom:Stage3dGeometry = Std.instance(geometry, Stage3dGeometry);
+		var ib:IndexBuffer3D = geom.indexBuffer;
+		var vb:VertexBuffer3D = geom.vertexBuffer;
+		var vs = geometry.vertexStructure;
+		var stride:Int = vs.stride;
+		var shader:Stage3dShader = Std.instance(_currentShader, Stage3dShader);
 
+		if(shader != null) {
+			var attrs:Int = shader.vertexAttributeCount;
+			for(i in 0...attrs) {
+				var ve:VertexElement = vs.elements[i];
+				_context3D.setVertexBufferAt(i, vb, ve.offset >>> 2, Stage3DTypes.getVertexBufferFormat(ve.data));
+			}
+
+			_context3D.drawTriangles(ib, 0, geom.numTriangles);
+		}
 	}
 
 	public function resize(width:Int, height:Int) {
@@ -131,31 +159,36 @@ class Stage3dRender implements IRender {
 	}
 
 	public function createTexture(width:Int, height:Int, format:TextureFormat):ITexture {
-		return null;
+		return new Stage3dTexture(this, width, height, format);
 	}
 
 	public function createShader():IShader {
-		return null;
-	}
-
-	public function setGeometry(geometry:IGeometry) {
-
+		return new Stage3dShader(this);
 	}
 
 	public function setTexture(texture:ITexture, index:Int = 0) {
-
+		var tex:Stage3dTexture = Std.instance(texture, Stage3dTexture);
+		_context3D.setTextureAt(index, tex.impl);
 	}
 
 	public function setShader(shader:IShader) {
-
+		var val:Stage3dShader = Std.instance(shader, Stage3dShader);
+		_currentShader = val;
+		_context3D.setProgram(val.impl);
 	}
 
 	public function setBlendMode(src:BlendFactor, dst:BlendFactor) {
-
+		_context3D.setBlendFactors(Stage3DTypes.getBlendFactor(src), Stage3DTypes.getBlendFactor(dst));
 	}
 
 	public function setMatrix(view:Matrix4) {
-
+		var arr:Array<Float> = view;
+		var vec:Vector<Float> = new Vector(arr.length, true);
+		for(i in 0...arr.length) {
+			vec[i] = arr[i];
+		}
+		MATRIX.rawData = vec;
+		_context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, MATRIX, true);
 	}
 
 	public function setScissor(x:Float, y:Float, width:Float, height:Float) {
@@ -223,6 +256,8 @@ class Stage3dRender implements IRender {
 	function setup() {
 		_context3D = _stage3D.context3D;
 
+		_context3D.enableErrorChecking = true;
+
 		_context3D.setCulling(Context3DTriangleFace.NONE);
 		_context3D.setDepthTest(false, Context3DCompareMode.ALWAYS);
 	}
@@ -246,6 +281,7 @@ class Stage3dRender implements IRender {
 	}
 
 	function onContextRestored(e:Event) {
+		Debug.trace("Stage3D restored...");
 		setup();
 
 		restored.emit();
