@@ -1,6 +1,7 @@
 package hxsge.candyland.platforms.webgl;
 
 #if js
+import js.html.webgl.GL;
 import hxsge.math.Matrix4;
 import hxsge.candyland.common.material.BlendFactor;
 import hxsge.candyland.common.TextureFormat;
@@ -47,6 +48,7 @@ class WebGLRender implements IRender {
 	public function clear(r:Float = 0, g:Float = 0, b:Float = 0, a:Float = 1) {
 		if(_context != null) {
 			_context.clearColor(r, g, b, a);
+			_context.clear(GL.COLOR_BUFFER_BIT);
 		}
 	}
 
@@ -64,6 +66,10 @@ class WebGLRender implements IRender {
 
 			if(_context != null) {
 				Debug.trace("webgl context was created successfully");
+				Debug.trace(_context.getParameter(GL.VERSION));
+				Debug.trace(_context.getParameter(GL.SHADING_LANGUAGE_VERSION));
+				Debug.trace(_context.getParameter(GL.VENDOR));
+				_context.viewport(0, 0, 640, 480);
 			}
 			else {
 				Debug.trace("can't create webgl context: context is null");
@@ -80,7 +86,7 @@ class WebGLRender implements IRender {
 	}
 
 	public function present() {
-
+		_context.viewport(0, 0, 640, 480);
 	}
 
 	public function drawGeometry(geometry:IGeometry) {
@@ -88,19 +94,21 @@ class WebGLRender implements IRender {
 	}
 
 	public function resize(width:Int, height:Int) {
-
+		if(_context != null) {
+			_context.viewport(0, 0, width, height);
+		}
 	}
 
 	public function createGeometry(vs:VertexStructure):IGeometry {
-		return null;
+		return new WebGLGeometry(vs);
 	}
 
 	public function createTexture(width:Int, height:Int, format:TextureFormat):ITexture {
-		return null;
+		return new WebGLTexture(width, height, format);
 	}
 
 	public function createShader():IShader {
-		return null;
+		return new WebGLShader();
 	}
 
 	public function setTexture(texture:ITexture, index:Int = 0) {

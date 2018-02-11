@@ -4,7 +4,6 @@ import hxsge.peachtree.nodes.ImageNode;
 import hxsge.candyland.common.material.IShader;
 import hxsge.candyland.platforms.stage3d.Stage3dShaderExtension;
 import hxsge.candyland.common.material.IShader;
-import flash.events.Event;
 import hxsge.peachtree.Peachtree;
 import hxsge.candyland.platforms.webgl.WebGLRender;
 import hxsge.candyland.common.IRender;
@@ -61,6 +60,7 @@ import hxsge.core.log.Log;
 import hxsge.loaders.binary.js.NodeJsDataLoader;
 import hxsge.loaders.binary.js.JsDataLoader;
 import js.html.Uint8Array;
+import js.Browser;
 #end
 
 #if flash
@@ -71,6 +71,7 @@ import flash.display.Bitmap;
 import flash.display.MovieClip;
 import flash.Lib;
 import flash.display.Sprite;
+import flash.events.Event;
 #end
 
 using hxsge.core.utils.ArrayTools;
@@ -317,20 +318,29 @@ class DataProviderExample {
 #if flash
 			Lib.current.addEventListener(Event.ENTER_FRAME, onFrame);
 #end
+#if js
+			Browser.window.requestAnimationFrame(onFrame);
+#end
 		}
 	}
 
 #if flash
 	static function onFrame(e:Event) {
+#elseif js
+	static function onFrame(dt:Float):Void {
+		Browser.window.requestAnimationFrame(onFrame);
+		untyped __js__("console.log('memory: ' + window.performance.memory.totalJSHeapSize/(1024*1024));");
+#end
 		_color += 1/256;
 		if(_color > 1) {
 			_color = 0;
 		}
-//		_render.clear(0, 0, _color);
+		_render.clear(0, 0, _color);
 
+//#if flash
 		_tree.update();
+//#end
 	}
-#end
 
 	static var _prevMemory:Float = 0;
 	static function showMemory() {

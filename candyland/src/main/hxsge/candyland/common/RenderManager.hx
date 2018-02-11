@@ -59,10 +59,7 @@ class RenderManager {
 		_blankTexture.fill(Color32.WHITE);
 
 		_defaultShader = createShader();
-		_defaultShader.initialize(Stage3dShaderExtension.createShaderData(
-			"m44 op, va0, vc0\nmov v0, va1\nmov v1, va2\nmov v2, va3",
-			"tex ft0, v0, fs0 <2d, linear, nomip, clamp>\nmul oc, ft0, v1"
-		));
+		_defaultShader.initialize(null);
 
 //		_render.initialized.add(onDriverInitialized);
 		_render.restored.add(onDriverRestored);

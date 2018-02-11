@@ -25,6 +25,13 @@ class Stage3dShader implements IShader {
 	}
 
 	public function initialize(data:Bytes) {
+		if(data == null) {
+			data = Stage3dShaderExtension.createShaderData(
+				"m44 op, va0, vc0\nmov v0, va1\nmov v1, va2\nmov v2, va3",
+				"tex ft0, v0, fs0 <2d, linear, nomip, clamp>\nmul oc, ft0, v1"
+			);
+		}
+
 		var pos:Int = 0;
 		var size:Int = data.getInt32(0);
 		var vc:String = data.getString(4, size);

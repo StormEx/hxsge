@@ -1,6 +1,5 @@
 package hxsge.candyland.common.geometry;
 
-import flash.utils.ByteArray;
 import hxsge.core.debug.Debug;
 import hxsge.memory.IDisposable;
 import haxe.io.Bytes;
